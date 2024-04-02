@@ -14,20 +14,20 @@ import java.util.List;
 
 public class ExchangeRateService implements ExchangeRateRepository {
     private static final String FIND_ALL_QUERY = "SELECT * FROM ExchangeRates";
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM ExchangeRates WHERE ID=?";
-    private static final String FIND_BY_CURRENCY_PAIR_QUERY = "SELECT * FROM ExchangeRates WHERE BaseCurrencyId=? AND TargetCurrencyId=?";
-    private static final String SAVE_QUERY = "INSERT INTO ExchangeRates (BaseCurrencyId, TargetCurrencyId, Rate) VALUES (?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE ExchangeRates SET BaseCurrencyId=?, TargetCurrencyId=?, Rate=? WHERE ID=?";
-    private static final String DELETE_QUERY = "DELETE FROM ExchangeRates WHERE ID=?";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM ExchangeRates WHERE id=?";
+    private static final String FIND_BY_CURRENCY_PAIR_QUERY = "SELECT * FROM ExchangeRates WHERE baseCurrencyId=? AND targetCurrencyId=?";
+    private static final String SAVE_QUERY = "INSERT INTO ExchangeRates (baseCurrencyId, targetCurrencyId, rate) VALUES (?, ?, ?)";
+    private static final String UPDATE_QUERY = "UPDATE ExchangeRates SET baseCurrencyId=?, targetCurrencyId=?, rate=? WHERE id=?";
+    private static final String DELETE_QUERY = "DELETE FROM ExchangeRates WHERE id=?";
 
     private ExchangeRateDTO mapResultSetToExchangeRate(ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt("ID");
-        int baseCurrencyId = resultSet.getInt("BaseCurrencyId");
-        int targetCurrencyId = resultSet.getInt("TargetCurrencyId");
-        BigDecimal rate = resultSet.getBigDecimal("Rate");
+        int id = resultSet.getInt("id");
+        int baseCurrencyId = resultSet.getInt("baseCurrencyId");
+        int targetCurrencyId = resultSet.getInt("targetCurrencyId");
+        BigDecimal rate = resultSet.getBigDecimal("rate");
 
         ExchangeRateDTO exchangeRate = new ExchangeRateDTO(baseCurrencyId, targetCurrencyId, rate);
-        exchangeRate.setID(id);
+        exchangeRate.setId(id);
         return exchangeRate;
     }
 
@@ -102,7 +102,7 @@ public class ExchangeRateService implements ExchangeRateRepository {
             statement.setInt(1, exchangeRate.getBaseCurrencyId());
             statement.setInt(2, exchangeRate.getTargetCurrencyId());
             statement.setBigDecimal(3, exchangeRate.getRate());
-            statement.setInt(4, exchangeRate.getID());
+            statement.setInt(4, exchangeRate.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -113,7 +113,7 @@ public class ExchangeRateService implements ExchangeRateRepository {
     public void delete(ExchangeRateDTO exchangeRate) {
         try (Connection connection = ConnectionDB.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
-            statement.setInt(1, exchangeRate.getID());
+            statement.setInt(1, exchangeRate.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

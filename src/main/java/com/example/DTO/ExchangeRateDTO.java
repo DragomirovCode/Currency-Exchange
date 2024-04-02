@@ -3,46 +3,46 @@ package com.example.DTO;
 import java.math.BigDecimal;
 
 public class ExchangeRateDTO {
-    private int ID;
-    private int BaseCurrencyId;
-    private int TargetCurrencyId;
-    private BigDecimal Rate;
+    private int id;
+    private int baseCurrencyId;
+    private int targetCurrencyId;
+    private BigDecimal rate;
 
     public ExchangeRateDTO(int baseCurrencyId, int targetCurrencyId, BigDecimal rate) {
-        BaseCurrencyId = baseCurrencyId;
-        TargetCurrencyId = targetCurrencyId;
-        Rate = rate;
+        this.baseCurrencyId = baseCurrencyId;
+        this.targetCurrencyId = targetCurrencyId;
+        this.rate = rate;
     }
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getBaseCurrencyId() {
-        return BaseCurrencyId;
+        return baseCurrencyId;
     }
 
     public void setBaseCurrencyId(int baseCurrencyId) {
-        BaseCurrencyId = baseCurrencyId;
+        this.baseCurrencyId = baseCurrencyId;
     }
 
     public int getTargetCurrencyId() {
-        return TargetCurrencyId;
+        return targetCurrencyId;
     }
 
     public void setTargetCurrencyId(int targetCurrencyId) {
-        TargetCurrencyId = targetCurrencyId;
+        this.targetCurrencyId = targetCurrencyId;
     }
 
     public BigDecimal getRate() {
-        return Rate;
+        return rate;
     }
 
     public void setRate(BigDecimal rate) {
-        Rate = rate;
+        this.rate = rate;
     }
 }
