@@ -1,7 +1,7 @@
 package com.example.services;
 
-import com.example.DTO.CurrencyDTO;
-import com.example.DAO.CurrencyDAO;
+import com.example.dto.CurrencyDTO;
+import com.example.dao.CurrencyDAO;
 
 import java.util.List;
 

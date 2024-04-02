@@ -1,6 +1,6 @@
-package com.example.DAO;
+package com.example.dao;
 
-import com.example.DTO.CurrencyDTO;
+import com.example.dto.CurrencyDTO;
 import com.example.repositories.CurrencyRepository;
 import com.example.util.ConnectionDB;
 

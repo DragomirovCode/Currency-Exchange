@@ -1,6 +1,6 @@
 package com.example.repositories;
 
-import com.example.DTO.CurrencyDTO;
+import com.example.dto.CurrencyDTO;
 
 import java.util.List;
 

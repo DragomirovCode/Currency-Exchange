@@ -1,6 +1,6 @@
-package com.example.DAO;
+package com.example.dao;
 
-import com.example.DTO.ExchangeRateDTO;
+import com.example.dto.ExchangeRateDTO;
 import com.example.repositories.ExchangeRateRepository;
 import com.example.util.ConnectionDB;
 
