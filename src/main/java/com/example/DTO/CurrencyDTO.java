@@ -1,46 +1,46 @@
 package com.example.DTO;
 
 public class CurrencyDTO {
-    private int ID;
-    private String Code;
-    private String FullName;
-    private String Sign;
+    private int id;
+    private String code;
+    private String fullName;
+    private String sign;
 
     public CurrencyDTO(String code, String fullName, String sign) {
-        Code = code;
-        FullName = fullName;
-        Sign = sign;
+        this.code = code;
+        this.fullName = fullName;
+        this.sign = sign;
     }
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCode() {
-        return Code;
+        return code;
     }
 
     public void setCode(String code) {
-        Code = code;
+        this.code = code;
     }
 
     public String getFullName() {
-        return FullName;
+        return fullName;
     }
 
     public void setFullName(String fullName) {
-        FullName = fullName;
+        this.fullName = fullName;
     }
 
     public String getSign() {
-        return Sign;
+        return sign;
     }
 
     public void setSign(String sign) {
-        Sign = sign;
+        this.sign = sign;
     }
 }

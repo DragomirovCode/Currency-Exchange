@@ -13,19 +13,19 @@ import java.util.List;
 
 public class CurrencyService implements CurrencyRepository {
     private static final String FIND_ALL_QUERY = "SELECT * FROM Currencies";
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM Currencies WHERE ID=?";
-    private static final String FIND_BY_CODE_QUERY = "SELECT * FROM Currencies WHERE Code=?";
-    private static final String SAVE_QUERY = "INSERT INTO Currencies (Code, FullName, Sign) VALUES (?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE Currencies SET Code=?, FullName=?, Sign=? WHERE ID=?";
-    private static final String DELETE_QUERY = "DELETE FROM Currencies WHERE ID=?";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM Currencies WHERE id=?";
+    private static final String FIND_BY_CODE_QUERY = "SELECT * FROM Currencies WHERE code=?";
+    private static final String SAVE_QUERY = "INSERT INTO Currencies (code, fullName, sign) VALUES (?, ?, ?)";
+    private static final String UPDATE_QUERY = "UPDATE Currencies SET code=?, fullName=?, sign=? WHERE id=?";
+    private static final String DELETE_QUERY = "DELETE FROM Currencies WHERE id=?";
     private CurrencyDTO mapResultSetToCurrency(ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt("ID");
-        String code = resultSet.getString("Code");
-        String fullName = resultSet.getString("FullName");
-        String sign = resultSet.getString("Sign");
+        int id = resultSet.getInt("id");
+        String code = resultSet.getString("code");
+        String fullName = resultSet.getString("fullName");
+        String sign = resultSet.getString("sign");
 
         CurrencyDTO currency = new CurrencyDTO(code, fullName, sign);
-        currency.setID(id);
+        currency.setId(id);
         return currency;
     }
 
@@ -99,7 +99,7 @@ public class CurrencyService implements CurrencyRepository {
             statement.setString(1, currency.getCode());
             statement.setString(2, currency.getFullName());
             statement.setString(3, currency.getSign());
-            statement.setInt(4, currency.getID()); // Устанавливаем ID валюты для обновления
+            statement.setInt(4, currency.getId()); // Устанавливаем ID валюты для обновления
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -110,7 +110,7 @@ public class CurrencyService implements CurrencyRepository {
     public void delete(CurrencyDTO currency) {
         try (Connection connection = ConnectionDB.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
-            statement.setInt(1, currency.getID()); // Устанавливаем ID валюты для удаления
+            statement.setInt(1, currency.getId()); // Устанавливаем ID валюты для удаления
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
