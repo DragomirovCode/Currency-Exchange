@@ -1,14 +1,20 @@
 package com.example.dto;
 
+import com.google.gson.annotations.SerializedName;
+
 public class CurrencyDTO {
+    @SerializedName("id")
     private int id;
-    private String code;
+    @SerializedName("name")
     private String fullName;
+    @SerializedName("code")
+    private String code;
+    @SerializedName("sign")
     private String sign;
 
-    public CurrencyDTO(String code, String fullName, String sign) {
-        this.code = code;
+    public CurrencyDTO(String fullName,String code, String sign) {
         this.fullName = fullName;
+        this.code = code;
         this.sign = sign;
     }
 

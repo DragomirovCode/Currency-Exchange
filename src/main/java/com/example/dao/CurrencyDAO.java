@@ -21,11 +21,11 @@ public class CurrencyDAO implements CurrencyRepository {
 
     private CurrencyDTO mapResultSetToCurrency(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
-        String code = resultSet.getString("code");
         String fullName = resultSet.getString("fullName");
+        String code = resultSet.getString("code");
         String sign = resultSet.getString("sign");
 
-        CurrencyDTO currency = new CurrencyDTO(code, fullName, sign);
+        CurrencyDTO currency = new CurrencyDTO(fullName,code, sign);
         currency.setId(id);
         return currency;
     }
