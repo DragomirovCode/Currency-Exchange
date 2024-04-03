@@ -5,12 +5,12 @@
          version="5.0">
 
     <servlet>
-        <servlet-name>CurrencyServlet</servlet-name>
+        <servlet-name>GetAllCurrenciesServlet</servlet-name>
         <servlet-class>com.example.servlets.GetAllCurrenciesServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>CurrencyServlet</servlet-name>
+        <servlet-name>GetAllCurrenciesServlet</servlet-name>
         <url-pattern>/currency/*</url-pattern>
     </servlet-mapping>
 
