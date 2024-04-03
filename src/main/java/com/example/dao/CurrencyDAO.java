@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CurrencyDAO implements CurrencyRepository {
-    private static final String FIND_ALL_QUERY = "SELECT * FROM Currencies";
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM Currencies WHERE id=?";
-    private static final String FIND_BY_CODE_QUERY = "SELECT * FROM Currencies WHERE code=?";
-    private static final String SAVE_QUERY = "INSERT INTO Currencies (code, fullName, sign) VALUES (?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE Currencies SET code=?, fullName=?, sign=? WHERE id=?";
-    private static final String DELETE_QUERY = "DELETE FROM Currencies WHERE id=?";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM Currency";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM Currency WHERE id=?";
+    private static final String FIND_BY_CODE_QUERY = "SELECT * FROM Currency WHERE code=?";
+    private static final String SAVE_QUERY = "INSERT INTO Currency (code, fullName, sign) VALUES (?, ?, ?)";
+    private static final String UPDATE_QUERY = "UPDATE Currency SET code=?, fullName=?, sign=? WHERE id=?";
+    private static final String DELETE_QUERY = "DELETE FROM Currency WHERE id=?";
 
     private CurrencyDTO mapResultSetToCurrency(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
