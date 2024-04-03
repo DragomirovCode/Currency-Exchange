@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 public class ConnectionDB {
-    private static final String URL = "jdbc:sqlite:./src/main/resources/db/database.db";
+    private static final String URL = "jdbc:sqlite::resource:db/database.db";
     private static Connection connection;
 
     // Приватный конструктор, чтобы предотвратить создание экземпляров класса
