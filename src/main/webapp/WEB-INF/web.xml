@@ -9,8 +9,18 @@
         <servlet-class>com.example.servlets.GetAllCurrenciesServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>GetCurrencyByIdServlet</servlet-name>
+        <servlet-class>com.example.servlets.GetCurrencyByIdServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>GetAllCurrenciesServlet</servlet-name>
+        <url-pattern>/currency</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>GetCurrencyByIdServlet</servlet-name>
         <url-pattern>/currency/*</url-pattern>
     </servlet-mapping>
 
