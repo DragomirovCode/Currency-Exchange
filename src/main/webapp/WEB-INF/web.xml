@@ -6,7 +6,7 @@
 
     <servlet>
         <servlet-name>CurrencyServlet</servlet-name>
-        <servlet-class>com.example.servlets.CurrencyServlet</servlet-class>
+        <servlet-class>com.example.servlets.GetAllCurrenciesServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

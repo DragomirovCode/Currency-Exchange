@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-public class CurrencyServlet extends HttpServlet {
+public class GetAllCurrenciesServlet extends HttpServlet {
     private CurrencyService currencyService;
 
     @Override
