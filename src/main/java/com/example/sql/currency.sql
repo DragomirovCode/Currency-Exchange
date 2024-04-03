@@ -1,15 +1,15 @@
 CREATE TABLE Currency (
                           id INTEGER PRIMARY KEY AUTOINCREMENT,
-                          code VARCHAR,
                           fullName VARCHAR,
+                          code VARCHAR,
                           sign VARCHAR
 );
 
 
 
-INSERT INTO Currency (code, fullName, sign) VALUES
-                                                ('USD', 'United States Dollar', '$'),
-                                                ('EUR', 'Euro', '€'),
-                                                ('GBP', 'British Pound Sterling', '£'),
-                                                ('JPY', 'Japanese Yen', '¥');
+INSERT INTO Currency (fullName,code, sign) VALUES
+                                                ('United States Dollar', 'USD', '$'),
+                                                ('Euro', 'EUR', '€'),
+                                                ('British Pound Sterling', 'GBP', '£'),
+                                                ('Japanese Yen','JPY', '¥');
 
