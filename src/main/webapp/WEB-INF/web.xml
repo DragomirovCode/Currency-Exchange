@@ -19,6 +19,11 @@
         <servlet-class>com.example.servlets.PostCurrenciesServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>GetAllExchangeRatesServlet</servlet-name>
+        <servlet-class>com.example.servlets.GetAllExchangeRatesServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>GetAllCurrenciesServlet</servlet-name>
         <url-pattern>/currency</url-pattern>
@@ -32,6 +37,11 @@
     <servlet-mapping>
         <servlet-name>PostCurrenciesServlet</servlet-name>
         <url-pattern>/currencies</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>GetAllExchangeRatesServlet</servlet-name>
+        <url-pattern>/exchangeRates</url-pattern>
     </servlet-mapping>
 
 </web-app>

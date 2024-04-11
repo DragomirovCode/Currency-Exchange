@@ -9,8 +9,8 @@ import java.util.List;
 public class ExchangeRateService  {
    private final ExchangeRateDAO exchangeRateDAO;
 
-    public ExchangeRateService(ExchangeRateDAO exchangeRateDAO) {
-        this.exchangeRateDAO = exchangeRateDAO;
+    public ExchangeRateService() {
+        this.exchangeRateDAO = new ExchangeRateDAO();
     }
 
     public List<ExchangeRateDTO> findAll(){

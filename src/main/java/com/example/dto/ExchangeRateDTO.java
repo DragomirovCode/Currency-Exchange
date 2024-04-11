@@ -1,11 +1,15 @@
 package com.example.dto;
 
 import java.math.BigDecimal;
-
+import com.google.gson.annotations.SerializedName;
 public class ExchangeRateDTO {
+    @SerializedName("id")
     private int id;
+    @SerializedName("baseCurrencyId")
     private int baseCurrencyId;
+    @SerializedName("targetCurrencyId")
     private int targetCurrencyId;
+    @SerializedName("rate")
     private BigDecimal rate;
 
     public ExchangeRateDTO(int baseCurrencyId, int targetCurrencyId, BigDecimal rate) {
