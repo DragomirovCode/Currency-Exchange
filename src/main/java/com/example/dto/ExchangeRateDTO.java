@@ -1,18 +1,20 @@
 package com.example.dto;
 
 import java.math.BigDecimal;
+
+import com.example.services.CurrencyService;
 import com.google.gson.annotations.SerializedName;
 public class ExchangeRateDTO {
     @SerializedName("id")
     private int id;
     @SerializedName("baseCurrencyId")
-    private int baseCurrencyId;
+    private CurrencyDTO baseCurrencyId;
     @SerializedName("targetCurrencyId")
-    private int targetCurrencyId;
+    private CurrencyDTO targetCurrencyId;
     @SerializedName("rate")
     private BigDecimal rate;
 
-    public ExchangeRateDTO(int baseCurrencyId, int targetCurrencyId, BigDecimal rate) {
+    public ExchangeRateDTO(CurrencyDTO baseCurrencyId, CurrencyDTO targetCurrencyId, BigDecimal rate) {
         this.baseCurrencyId = baseCurrencyId;
         this.targetCurrencyId = targetCurrencyId;
         this.rate = rate;
@@ -26,19 +28,19 @@ public class ExchangeRateDTO {
         this.id = id;
     }
 
-    public int getBaseCurrencyId() {
+    public CurrencyDTO getBaseCurrencyId() {
         return baseCurrencyId;
     }
 
-    public void setBaseCurrencyId(int baseCurrencyId) {
+    public void setBaseCurrencyId(CurrencyDTO baseCurrencyId) {
         this.baseCurrencyId = baseCurrencyId;
     }
 
-    public int getTargetCurrencyId() {
+    public CurrencyDTO getTargetCurrencyId() {
         return targetCurrencyId;
     }
 
-    public void setTargetCurrencyId(int targetCurrencyId) {
+    public void setTargetCurrencyId(CurrencyDTO targetCurrencyId) {
         this.targetCurrencyId = targetCurrencyId;
     }
 

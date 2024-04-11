@@ -1,7 +1,9 @@
 package com.example.dao;
 
+import com.example.dto.CurrencyDTO;
 import com.example.dto.ExchangeRateDTO;
 import com.example.repositories.ExchangeRateRepository;
+import com.example.services.CurrencyService;
 import com.example.util.ConnectionDB;
 
 import java.math.BigDecimal;
@@ -19,6 +21,11 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
     private static final String SAVE_QUERY = "INSERT INTO ExchangeRates (baseCurrencyId, targetCurrencyId, rate) VALUES (?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE ExchangeRates SET baseCurrencyId=?, targetCurrencyId=?, rate=? WHERE id=?";
     private static final String DELETE_QUERY = "DELETE FROM ExchangeRates WHERE id=?";
+    private final CurrencyService currencyService;
+
+    public ExchangeRateDAO() {
+        this.currencyService = new CurrencyService();
+    }
 
     private ExchangeRateDTO mapResultSetToExchangeRate(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
@@ -26,7 +33,10 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
         int targetCurrencyId = resultSet.getInt("targetCurrencyId");
         BigDecimal rate = resultSet.getBigDecimal("rate");
 
-        ExchangeRateDTO exchangeRate = new ExchangeRateDTO(baseCurrencyId, targetCurrencyId, rate);
+        CurrencyDTO baseCurrency =  currencyService.findById(baseCurrencyId);
+        CurrencyDTO targetCurrency = currencyService.findById(targetCurrencyId);
+
+        ExchangeRateDTO exchangeRate = new ExchangeRateDTO(baseCurrency, targetCurrency, rate);
         exchangeRate.setId(id);
         return exchangeRate;
     }
@@ -86,8 +96,8 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
     public void save(ExchangeRateDTO exchangeRate) {
         try (Connection connection = ConnectionDB.getConnection();
              PreparedStatement statement = connection.prepareStatement(SAVE_QUERY)) {
-            statement.setInt(1, exchangeRate.getBaseCurrencyId());
-            statement.setInt(2, exchangeRate.getTargetCurrencyId());
+            statement.setInt(1, exchangeRate.getBaseCurrencyId().getId());
+            statement.setInt(2, exchangeRate.getTargetCurrencyId().getId());
             statement.setBigDecimal(3, exchangeRate.getRate());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -99,8 +109,8 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
     public void update(ExchangeRateDTO exchangeRate) {
         try (Connection connection = ConnectionDB.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
-            statement.setInt(1, exchangeRate.getBaseCurrencyId());
-            statement.setInt(2, exchangeRate.getTargetCurrencyId());
+            statement.setInt(1, exchangeRate.getBaseCurrencyId().getId());
+            statement.setInt(2, exchangeRate.getTargetCurrencyId().getId());
             statement.setBigDecimal(3, exchangeRate.getRate());
             statement.setInt(4, exchangeRate.getId());
             statement.executeUpdate();
