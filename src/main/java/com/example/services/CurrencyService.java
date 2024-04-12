@@ -3,6 +3,7 @@ package com.example.services;
 import com.example.dto.CurrencyDTO;
 import com.example.dao.CurrencyDAO;
 
+import java.sql.Connection;
 import java.util.List;
 
 public class CurrencyService {
@@ -16,8 +17,8 @@ public class CurrencyService {
         return currencyDAO.findAll();
     }
 
-    public CurrencyDTO findById(int id) {
-        return currencyDAO.findById(id);
+    public CurrencyDTO findById(int id, Connection connection) {
+        return currencyDAO.findById(id, connection);
     }
 
     public CurrencyDTO findByCode(String code) {
