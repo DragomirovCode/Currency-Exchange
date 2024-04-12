@@ -33,22 +33,8 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
         int targetCurrencyId = resultSet.getInt("targetCurrencyId");
         BigDecimal rate = resultSet.getBigDecimal("rate");
 
-        System.out.println("baseCurrencyId: " + baseCurrencyId);
-        System.out.println("targetCurrencyId: " + targetCurrencyId);
-
         CurrencyDTO baseCurrency = currencyService.findById(baseCurrencyId, connection);
         CurrencyDTO targetCurrency = currencyService.findById(targetCurrencyId, connection);
-
-        System.out.println("baseCurrency: " + baseCurrency);
-        System.out.println("targetCurrency: " + targetCurrency);
-
-        if (baseCurrency == null) {
-            System.out.println("baseCurrency РАВЕН НУЛЛ!!!!!!!!!");
-        }
-
-        if (targetCurrency == null) {
-            System.out.println("targetCurrency РАВЕН НУЛЛ!!!!!!!!!!!!");
-        }
 
         ExchangeRateDTO exchangeRate = new ExchangeRateDTO(baseCurrency, targetCurrency, rate);
         exchangeRate.setId(id);
