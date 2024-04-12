@@ -24,6 +24,11 @@
         <servlet-class>com.example.servlets.GetAllExchangeRatesServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>GetExchangeRatesByIdServlet</servlet-name>
+        <servlet-class>com.example.servlets.GetExchangeRatesByIdServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>GetAllCurrenciesServlet</servlet-name>
         <url-pattern>/currency</url-pattern>
@@ -42,6 +47,11 @@
     <servlet-mapping>
         <servlet-name>GetAllExchangeRatesServlet</servlet-name>
         <url-pattern>/exchangeRates</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>GetExchangeRatesByIdServlet</servlet-name>
+        <url-pattern>/exchangeRate/*</url-pattern>
     </servlet-mapping>
 
 </web-app>
