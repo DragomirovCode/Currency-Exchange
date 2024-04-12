@@ -66,7 +66,7 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    exchangeRate = mapResultSetToExchangeRate(resultSet);
+                    exchangeRate = mapResultSetToExchangeRate(resultSet, connection);
                 }
             }
         } catch (SQLException e) {
@@ -84,7 +84,7 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
             statement.setInt(2, targetCurrencyId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    exchangeRate = mapResultSetToExchangeRate(resultSet);
+                    exchangeRate = mapResultSetToExchangeRate(resultSet, connection);
                 }
             }
         } catch (SQLException e) {
