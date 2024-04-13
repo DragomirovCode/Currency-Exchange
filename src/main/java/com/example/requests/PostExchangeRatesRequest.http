@@ -1,0 +1,5 @@
+POST http://localhost:8080/exchangeRates
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+
+baseCurrencyCode=JPY&targetCurrencyCode=EUR&rate=0.32
