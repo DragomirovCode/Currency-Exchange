@@ -2,13 +2,16 @@ package com.example.servlets;
 
 import com.example.dto.CurrencyDTO;
 import com.example.services.CurrencyService;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import com.google.gson.Gson;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebServlet(name = "GetCurrencyByIdServlet", urlPatterns = "/currency/*")
 public class GetCurrencyByIdServlet extends HttpServlet {
     private CurrencyService currencyService;
 

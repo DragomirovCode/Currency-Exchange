@@ -5,12 +5,14 @@ import com.example.dto.ExchangeRateDTO;
 import com.example.services.CurrencyService;
 import com.example.services.ExchangeRateService;
 import com.google.gson.Gson;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebServlet(name = "GetExchangeRatesByCurrencyPairServlet", urlPatterns = "/exchangeRate/*")
 public class GetExchangeRatesByCurrencyPairServlet extends HttpServlet {
     private ExchangeRateService exchangeRateService;
     private CurrencyService currencyService;
