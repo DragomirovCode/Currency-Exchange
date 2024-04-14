@@ -1,17 +1,15 @@
 package com.example.servlets;
 
 import com.example.services.CurrencyService;
+import com.example.util.BaseServletUtils;
+import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
-import com.google.gson.Gson;
-
 import java.io.IOException;
 
-@WebServlet(name = "GetAllCurrenciesServlet", urlPatterns = "/currency")
-public class GetAllCurrenciesServlet extends HttpServlet {
+@WebServlet(name = "GetAllCurrenciesServlet", urlPatterns = "/currencies")
+public class GetAllCurrenciesServlet extends BaseServletUtils {
     private CurrencyService currencyService;
 
     @Override
@@ -25,8 +23,12 @@ public class GetAllCurrenciesServlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
 
         Gson gson = new Gson();
-        String json = gson.toJson(currencyService.findAll());
-        resp.getWriter().write(json);
-        resp.setStatus(HttpServletResponse.SC_OK);
+        try {
+            String json = gson.toJson(currencyService.findAll());
+            resp.getWriter().write(json);
+            resp.setStatus(HttpServletResponse.SC_OK);
+        } catch (Exception e) {
+            handleException(resp, e, "База данных недоступна");
+        }
     }
 }
