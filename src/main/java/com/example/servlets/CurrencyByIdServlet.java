@@ -12,7 +12,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 
 /**
- * doGet: Получение конкретной валюты.
+ * @doGet: Получение конкретной валюты.
  */
 @WebServlet(name = "CurrencyByIdServlet", urlPatterns = "/currency/*")
 public class CurrencyByIdServlet extends BaseServletUtils {

@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 /**
- * doGet: Получение списка всех обменных курсов.
- * doPost: Добавление нового обменного курса в базу.
+ * @doGet: Получение списка всех обменных курсов.
+ * @doPost: Добавление нового обменного курса в базу.
  */
 @WebServlet(name = "ExchangeRateListAndCreateServlet", urlPatterns = "/exchangeRates")
 public class ExchangeRateListAndCreateServlet extends BaseServletUtils {

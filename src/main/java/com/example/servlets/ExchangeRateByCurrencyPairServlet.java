@@ -14,8 +14,8 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 /**
- * doGet: Получение конкретного обменного курса.
- * doPost: Обновление существующего в базе обменного курса.
+ * @doGet: Получение конкретного обменного курса.
+ * @doPost: Обновление существующего в базе обменного курса.
  */
 @WebServlet(name = "ExchangeRateByCurrencyPairServlet", urlPatterns = "/exchangeRate/*")
 public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
