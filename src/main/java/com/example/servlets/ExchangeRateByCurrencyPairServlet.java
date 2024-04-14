@@ -89,9 +89,9 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
                 return;
             }
 
-            double rate;
+            BigDecimal rate;
             try {
-                rate = Double.parseDouble(rateString);
+                rate = new BigDecimal(rateString);
             } catch (NumberFormatException e) {
                 resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return;
@@ -114,7 +114,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
                 return;
             }
 
-            existingExchangeRate.setRate(BigDecimal.valueOf(rate));
+            existingExchangeRate.setRate(rate);
             exchangeRateService.update(existingExchangeRate);
 
             Gson gson = new Gson();
