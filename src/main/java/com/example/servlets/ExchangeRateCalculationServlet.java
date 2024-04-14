@@ -14,8 +14,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-@WebServlet(name = "GetExchangeCalculationServlet", urlPatterns = "/exchange")
-public class GetExchangeCalculationServlet extends HttpServlet {
+@WebServlet(name = "ExchangeRateCalculationServlet", urlPatterns = "/exchange")
+public class ExchangeRateCalculationServlet extends HttpServlet {
     private ExchangeRateService exchangeRateService;
     private CurrencyService currencyService;
 
