@@ -72,6 +72,13 @@ public class ExchangeRateListAndCreateServlet extends BaseServletUtils {
                 return;
             }
 
+            ExchangeRateDTO existingExchangeRate = exchangeRateService.findByCurrencyPair(baseCurrency.getId(),
+                    targetCurrency.getId());
+            if (existingExchangeRate != null) {
+                resp.setStatus(HttpServletResponse.SC_CONFLICT);
+                return;
+            }
+
             ExchangeRateDTO exchangeRate = new ExchangeRateDTO(baseCurrency, targetCurrency, rate);
             exchangeRateService.save(exchangeRate);
 
