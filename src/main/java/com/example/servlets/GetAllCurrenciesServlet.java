@@ -16,7 +16,6 @@ public class GetAllCurrenciesServlet extends HttpServlet {
 
     @Override
     public void init() {
-        // Здесь вы можете инициализировать ваш сервис, например:
         currencyService = new CurrencyService();
     }
 
