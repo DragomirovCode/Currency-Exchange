@@ -14,8 +14,8 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-@WebServlet(name = "GetAllExchangeRatesServletAndPostExchangeRatesServlet", urlPatterns = "/exchangeRates")
-public class GetAllExchangeRatesServletAndPostExchangeRatesServlet extends HttpServlet {
+@WebServlet(name = "ExchangeRateListAndCreateServlet", urlPatterns = "/exchangeRates")
+public class ExchangeRateListAndCreateServlet extends HttpServlet {
     private ExchangeRateService exchangeRateService;
     private CurrencyService currencyService;
 
