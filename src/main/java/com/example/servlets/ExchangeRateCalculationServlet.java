@@ -71,7 +71,8 @@ public class ExchangeRateCalculationServlet extends BaseServletUtils {
             CurrencyDTO baseCurrency = exchangeRate.getBaseCurrencyId();
             CurrencyDTO targetCurrency = exchangeRate.getTargetCurrencyId();
 
-            CalculationDTO calculationDTO = new CalculationDTO(baseCurrency, targetCurrency, exchangeRate.getRate(), amount, convertedAmount);
+            CalculationDTO calculationDTO = new CalculationDTO(baseCurrency, targetCurrency, exchangeRate.getRate(),
+                    amount, convertedAmount);
 
             String jsonResponse = new Gson().toJson(calculationDTO);
 
