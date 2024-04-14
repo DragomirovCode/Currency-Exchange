@@ -30,8 +30,8 @@ public class ExchangeRateListAndCreateServlet extends BaseServletUtils {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
 
-        Gson gson = new Gson();
         try {
+            Gson gson = new Gson();
             String json = gson.toJson(exchangeRateService.findAll());
             resp.getWriter().write(json);
             resp.setStatus(HttpServletResponse.SC_OK);
@@ -45,7 +45,6 @@ public class ExchangeRateListAndCreateServlet extends BaseServletUtils {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
 
-        Gson gson = new Gson();
         try {
             String baseCurrencyCode = req.getParameter("baseCurrencyCode");
             String targetCurrencyCode = req.getParameter("targetCurrencyCode");
@@ -82,6 +81,7 @@ public class ExchangeRateListAndCreateServlet extends BaseServletUtils {
             ExchangeRateDTO exchangeRate = new ExchangeRateDTO(baseCurrency, targetCurrency, rate);
             exchangeRateService.save(exchangeRate);
 
+            Gson gson = new Gson();
             String json = gson.toJson(exchangeRate);
             resp.getWriter().write(json);
             resp.setStatus(HttpServletResponse.SC_CREATED);

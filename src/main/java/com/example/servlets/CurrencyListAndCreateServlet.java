@@ -23,8 +23,8 @@ public class CurrencyListAndCreateServlet extends BaseServletUtils {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
 
-        Gson gson = new Gson();
         try {
+            Gson gson = new Gson();
             String json = gson.toJson(currencyService.findAll());
             resp.getWriter().write(json);
             resp.setStatus(HttpServletResponse.SC_OK);
@@ -38,7 +38,6 @@ public class CurrencyListAndCreateServlet extends BaseServletUtils {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
 
-        Gson gson = new Gson();
         try {
             String name = req.getParameter("name");
             String code = req.getParameter("code");
@@ -58,8 +57,8 @@ public class CurrencyListAndCreateServlet extends BaseServletUtils {
             CurrencyDTO newCurrency = new CurrencyDTO(name, code, sign);
             currencyService.save(newCurrency);
 
+            Gson gson = new Gson();
             String json = gson.toJson(newCurrency);
-
             resp.getWriter().write(json);
             resp.setStatus(HttpServletResponse.SC_CREATED);
         } catch (Exception e) {
