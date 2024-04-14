@@ -30,51 +30,55 @@ public class ExchangeRateCalculationServlet extends BaseServletUtils {
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
 
-        String fromCurrencyCode = req.getParameter("from");
-        String toCurrencyCode = req.getParameter("to");
-        String amountString = req.getParameter("amount");
-
-        if (fromCurrencyCode == null || toCurrencyCode == null || amountString == null) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
-
-        BigDecimal amount;
         try {
-            amount = new BigDecimal(amountString);
-        } catch (NumberFormatException e) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
+            String fromCurrencyCode = req.getParameter("from");
+            String toCurrencyCode = req.getParameter("to");
+            String amountString = req.getParameter("amount");
+
+            if (fromCurrencyCode == null || toCurrencyCode == null || amountString == null) {
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+
+            BigDecimal amount;
+            try {
+                amount = new BigDecimal(amountString);
+            } catch (NumberFormatException e) {
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+
+            CurrencyDTO fromCurrency = currencyService.findByCode(fromCurrencyCode);
+            CurrencyDTO toCurrency = currencyService.findByCode(toCurrencyCode);
+
+            if (fromCurrency == null || toCurrency == null) {
+                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+
+            int fromCurrencyId = fromCurrency.getId();
+            int toCurrencyId = toCurrency.getId();
+
+            ExchangeRateDTO exchangeRate = exchangeRateService.findByCurrencyPair(fromCurrencyId, toCurrencyId);
+
+            if (exchangeRate == null) {
+                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+
+            BigDecimal convertedAmount = amount.multiply(exchangeRate.getRate());
+
+            CurrencyDTO baseCurrency = exchangeRate.getBaseCurrencyId();
+            CurrencyDTO targetCurrency = exchangeRate.getTargetCurrencyId();
+
+            CalculationDTO calculationDTO = new CalculationDTO(baseCurrency, targetCurrency, exchangeRate.getRate(), amount, convertedAmount);
+
+            String jsonResponse = new Gson().toJson(calculationDTO);
+
+            resp.getWriter().write(jsonResponse);
+            resp.setStatus(HttpServletResponse.SC_OK);
+        } catch (Exception e) {
+            handleException(resp, e, "База данных недоступна");
         }
-
-        CurrencyDTO fromCurrency = currencyService.findByCode(fromCurrencyCode);
-        CurrencyDTO toCurrency = currencyService.findByCode(toCurrencyCode);
-
-        if (fromCurrency == null || toCurrency == null) {
-            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return;
-        }
-
-        int fromCurrencyId = fromCurrency.getId();
-        int toCurrencyId = toCurrency.getId();
-
-        ExchangeRateDTO exchangeRate = exchangeRateService.findByCurrencyPair(fromCurrencyId, toCurrencyId);
-
-        if (exchangeRate == null) {
-            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return;
-        }
-
-        BigDecimal convertedAmount = amount.multiply(exchangeRate.getRate());
-
-        CurrencyDTO baseCurrency = exchangeRate.getBaseCurrencyId();
-        CurrencyDTO targetCurrency = exchangeRate.getTargetCurrencyId();
-
-        CalculationDTO calculationDTO = new CalculationDTO(baseCurrency, targetCurrency, exchangeRate.getRate(), amount, convertedAmount);
-
-        String jsonResponse = new Gson().toJson(calculationDTO);
-
-        resp.getWriter().write(jsonResponse);
-        resp.setStatus(HttpServletResponse.SC_OK);
     }
 }
