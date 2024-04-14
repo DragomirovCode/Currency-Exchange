@@ -13,8 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-@WebServlet(name = "GetExchangeRatesByCurrencyPairServletAndPatchExchangeRateServlet", urlPatterns = "/exchangeRate/*")
-public class GetExchangeRatesByCurrencyPairServletAndPatchExchangeRateServlet extends HttpServlet {
+@WebServlet(name = "ExchangeRateByCurrencyPairServlet", urlPatterns = "/exchangeRate/*")
+public class ExchangeRateByCurrencyPairServlet extends HttpServlet {
     private ExchangeRateService exchangeRateService;
     private CurrencyService currencyService;
 
