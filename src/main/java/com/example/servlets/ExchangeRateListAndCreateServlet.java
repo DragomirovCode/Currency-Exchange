@@ -31,9 +31,13 @@ public class ExchangeRateListAndCreateServlet extends BaseServletUtils {
         resp.setCharacterEncoding("UTF-8");
 
         Gson gson = new Gson();
-        String json = gson.toJson(exchangeRateService.findAll());
-        resp.getWriter().write(json);
-        resp.setStatus(HttpServletResponse.SC_OK);
+        try {
+            String json = gson.toJson(exchangeRateService.findAll());
+            resp.getWriter().write(json);
+            resp.setStatus(HttpServletResponse.SC_OK);
+        } catch (Exception e) {
+            handleException(resp, e, "База данных недоступна");
+        }
     }
 
     @Override
@@ -42,37 +46,40 @@ public class ExchangeRateListAndCreateServlet extends BaseServletUtils {
         resp.setCharacterEncoding("UTF-8");
 
         Gson gson = new Gson();
-
-        String baseCurrencyCode = req.getParameter("baseCurrencyCode");
-        String targetCurrencyCode = req.getParameter("targetCurrencyCode");
-        String rateString = req.getParameter("rate");
-
-        if (baseCurrencyCode == null || targetCurrencyCode == null || rateString == null) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
-
-        BigDecimal rate;
         try {
-            rate = new BigDecimal(rateString);
-        } catch (NumberFormatException e) {
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
+            String baseCurrencyCode = req.getParameter("baseCurrencyCode");
+            String targetCurrencyCode = req.getParameter("targetCurrencyCode");
+            String rateString = req.getParameter("rate");
+
+            if (baseCurrencyCode == null || targetCurrencyCode == null || rateString == null) {
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+
+            BigDecimal rate;
+            try {
+                rate = new BigDecimal(rateString);
+            } catch (NumberFormatException e) {
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+
+            CurrencyDTO baseCurrency = currencyService.findByCode(baseCurrencyCode);
+            CurrencyDTO targetCurrency = currencyService.findByCode(targetCurrencyCode);
+
+            if (baseCurrency == null || targetCurrency == null) {
+                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
+
+            ExchangeRateDTO exchangeRate = new ExchangeRateDTO(baseCurrency, targetCurrency, rate);
+            exchangeRateService.save(exchangeRate);
+
+            String json = gson.toJson(exchangeRate);
+            resp.getWriter().write(json);
+            resp.setStatus(HttpServletResponse.SC_CREATED);
+        } catch (Exception e) {
+            handleException(resp, e, "База данных недоступна");
         }
-
-        CurrencyDTO baseCurrency = currencyService.findByCode(baseCurrencyCode);
-        CurrencyDTO targetCurrency = currencyService.findByCode(targetCurrencyCode);
-
-        if (baseCurrency == null || targetCurrency == null) {
-            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return;
-        }
-
-        ExchangeRateDTO exchangeRate = new ExchangeRateDTO(baseCurrency, targetCurrency, rate);
-        exchangeRateService.save(exchangeRate);
-
-        String json = gson.toJson(exchangeRate);
-        resp.getWriter().write(json);
-        resp.setStatus(HttpServletResponse.SC_CREATED);
     }
 }
