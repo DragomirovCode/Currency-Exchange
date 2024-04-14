@@ -4,8 +4,8 @@ import com.example.dto.CurrencyDTO;
 import com.example.dto.ExchangeRateDTO;
 import com.example.services.CurrencyService;
 import com.example.services.ExchangeRateService;
+import com.example.util.BaseServletUtils;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 @WebServlet(name = "ExchangeRateListAndCreateServlet", urlPatterns = "/exchangeRates")
-public class ExchangeRateListAndCreateServlet extends HttpServlet {
+public class ExchangeRateListAndCreateServlet extends BaseServletUtils {
     private ExchangeRateService exchangeRateService;
     private CurrencyService currencyService;
 
