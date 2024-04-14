@@ -11,8 +11,8 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 
-@WebServlet(name = "GetCurrencyByIdServlet", urlPatterns = "/currency/*")
-public class GetCurrencyByIdServlet extends HttpServlet {
+@WebServlet(name = "CurrencyByIdServlet", urlPatterns = "/currency/*")
+public class CurrencyByIdServlet extends HttpServlet {
     private CurrencyService currencyService;
 
     @Override
