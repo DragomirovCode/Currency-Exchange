@@ -21,7 +21,6 @@ public class ExchangeRateListAndCreateServlet extends HttpServlet {
 
     @Override
     public void init() {
-        // Здесь вы можете инициализировать ваш сервис, например:
         exchangeRateService = new ExchangeRateService();
         currencyService = new CurrencyService();
     }
@@ -48,7 +47,6 @@ public class ExchangeRateListAndCreateServlet extends HttpServlet {
         String targetCurrencyCode = req.getParameter("targetCurrencyCode");
         String rateString = req.getParameter("rate");
 
-        // Проверка наличия всех полей формы
         if (baseCurrencyCode == null || targetCurrencyCode == null || rateString == null) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
@@ -62,21 +60,17 @@ public class ExchangeRateListAndCreateServlet extends HttpServlet {
             return;
         }
 
-        // Поиск валют в базе данных
         CurrencyDTO baseCurrency = currencyService.findByCode(baseCurrencyCode);
         CurrencyDTO targetCurrency = currencyService.findByCode(targetCurrencyCode);
 
-        // Проверка наличия обеих валют в базе данных
         if (baseCurrency == null || targetCurrency == null) {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return;
         }
 
-        // Создание нового объекта ExchangeRateDTO и сохранение его в базу данных
         ExchangeRateDTO exchangeRate = new ExchangeRateDTO(baseCurrency, targetCurrency, rate);
         exchangeRateService.save(exchangeRate);
 
-        // Отправка ответа клиенту
         String json = gson.toJson(exchangeRate);
         resp.getWriter().write(json);
         resp.setStatus(HttpServletResponse.SC_CREATED);
