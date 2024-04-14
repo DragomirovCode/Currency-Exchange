@@ -9,6 +9,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * doGet: Получение списка валют.
+ * doPost: Добавление новой валюты в базу.
+ */
 @WebServlet(name = "CurrencyListAndCreateServlet", urlPatterns = "/currencies")
 public class CurrencyListAndCreateServlet extends BaseServletUtils {
     private CurrencyService currencyService;

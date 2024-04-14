@@ -14,6 +14,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+/**
+ * doGet: Расчёт перевода определённого количества средств из одной валюты в другую.
+ */
 @WebServlet(name = "ExchangeRateCalculationServlet", urlPatterns = "/exchange")
 public class ExchangeRateCalculationServlet extends BaseServletUtils {
     private ExchangeRateService exchangeRateService;
