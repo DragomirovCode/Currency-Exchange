@@ -65,6 +65,9 @@ public class ExchangeRateByCurrencyPairServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+
         String pathInfo = req.getPathInfo();
         if (pathInfo == null || pathInfo.isEmpty() || pathInfo.equals("/")) {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -111,8 +114,6 @@ public class ExchangeRateByCurrencyPairServlet extends HttpServlet {
 
         Gson gson = new Gson();
         String json = gson.toJson(existingExchangeRate);
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
         resp.getWriter().write(json);
         resp.setStatus(HttpServletResponse.SC_OK);
     }
