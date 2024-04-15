@@ -48,13 +48,13 @@ public class CurrencyListAndCreateServlet extends BaseServletUtils {
             String sign = req.getParameter("sign");
 
             if (name == null || code == null || sign == null) {
-                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                http400Errors(resp, "Отсутствует нужное поле формы");
                 return;
             }
 
             CurrencyDTO existingCurrency = currencyService.findByCode(code);
             if (existingCurrency != null) {
-                resp.setStatus(HttpServletResponse.SC_CONFLICT);
+                http409Errors(resp, "Валюта с таким кодом уже существует");
                 return;
             }
 
