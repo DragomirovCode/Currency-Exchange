@@ -11,4 +11,14 @@ public abstract class BaseServletUtils extends HttpServlet {
         resp.getWriter().write(errorResponse);
         e.printStackTrace();
     }
+    protected void http400Errors(HttpServletResponse resp, String errorMessage) throws IOException{
+        resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        String errorResponse = "{\"message\": \"" + errorMessage + "\"}";
+        resp.getWriter().write(errorResponse);
+    }
+    protected void http404Errors(HttpServletResponse resp, String errorMessage) throws IOException{
+        resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+        String errorResponse = "{\"message\": \"" + errorMessage + "\"}";
+        resp.getWriter().write(errorResponse);
+    }
 }

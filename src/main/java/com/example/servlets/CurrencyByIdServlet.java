@@ -33,14 +33,14 @@ public class CurrencyByIdServlet extends BaseServletUtils {
             String currencyCode = pathInfo.substring(1);
 
             if (currencyCode.isEmpty()) {
-                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                http400Errors(resp,"Код валюты отсутствует в адресе");
                 return;
             }
 
             CurrencyDTO currency = currencyService.findByCode(currencyCode);
 
             if (currency == null) {
-                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                http404Errors(resp, "Валюта не найдена");
                 return;
             }
 
