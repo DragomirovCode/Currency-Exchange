@@ -39,7 +39,7 @@ public class ExchangeRateCalculationServlet extends BaseServletUtils {
             String amountString = req.getParameter("amount");
 
             if (fromCurrencyCode == null || toCurrencyCode == null || amountString == null) {
-                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                http400Errors(resp, "Отсутствует нужное поле формы");
                 return;
             }
 
@@ -47,7 +47,7 @@ public class ExchangeRateCalculationServlet extends BaseServletUtils {
             try {
                 amount = new BigDecimal(amountString);
             } catch (NumberFormatException e) {
-                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                http404Errors(resp, "Не правильный формат");
                 return;
             }
 
@@ -55,7 +55,7 @@ public class ExchangeRateCalculationServlet extends BaseServletUtils {
             CurrencyDTO toCurrency = currencyService.findByCode(toCurrencyCode);
 
             if (fromCurrency == null || toCurrency == null) {
-                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                http404Errors(resp, "Валютная пара отсутствует в базе данных");
                 return;
             }
 
@@ -65,7 +65,7 @@ public class ExchangeRateCalculationServlet extends BaseServletUtils {
             ExchangeRateDTO exchangeRate = exchangeRateService.findByCurrencyPair(fromCurrencyId, toCurrencyId);
 
             if (exchangeRate == null) {
-                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                http404Errors(resp, "Валютная пара отсутствует в базе данных");
                 return;
             }
 
