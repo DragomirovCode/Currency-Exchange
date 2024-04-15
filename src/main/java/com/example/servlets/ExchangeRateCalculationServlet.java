@@ -82,7 +82,7 @@ public class ExchangeRateCalculationServlet extends BaseServletUtils {
             resp.getWriter().write(jsonResponse);
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
-            handleException(resp, e, "База данных недоступна");
+            http500Errors(resp, e, "База данных недоступна");
         }
     }
 }

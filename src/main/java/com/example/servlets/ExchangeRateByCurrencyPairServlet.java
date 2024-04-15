@@ -67,7 +67,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
             resp.getWriter().write(json);
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
-            handleException(resp, e, "База данных недоступна");
+            http500Errors(resp, e, "База данных недоступна");
         }
     }
 
@@ -126,7 +126,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
             resp.getWriter().write(json);
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
-            handleException(resp, e, "База данных недоступна");
+            http500Errors(resp, e, "База данных недоступна");
         }
     }
 }
