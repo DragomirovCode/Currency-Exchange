@@ -55,7 +55,7 @@ public class ExchangeRateListAndCreateServlet extends BaseServletUtils {
             String rateString = req.getParameter("rate");
 
             if (baseCurrencyCode == null || targetCurrencyCode == null || rateString == null) {
-                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                http400Errors(resp, "Отсутствует нужное поле формы");
                 return;
             }
 
@@ -63,7 +63,7 @@ public class ExchangeRateListAndCreateServlet extends BaseServletUtils {
             try {
                 rate = new BigDecimal(rateString);
             } catch (NumberFormatException e) {
-                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                http400Errors(resp, "Не правильный формат");
                 return;
             }
 
@@ -71,14 +71,14 @@ public class ExchangeRateListAndCreateServlet extends BaseServletUtils {
             CurrencyDTO targetCurrency = currencyService.findByCode(targetCurrencyCode);
 
             if (baseCurrency == null || targetCurrency == null) {
-                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                http404Errors(resp, "Одна (или обе) валюта из валютной пары не существует в БД");
                 return;
             }
 
             ExchangeRateDTO existingExchangeRate = exchangeRateService.findByCurrencyPair(baseCurrency.getId(),
                     targetCurrency.getId());
             if (existingExchangeRate != null) {
-                resp.setStatus(HttpServletResponse.SC_CONFLICT);
+                http409Errors(resp, "Валютная пара с таким кодом уже существует");
                 return;
             }
 
