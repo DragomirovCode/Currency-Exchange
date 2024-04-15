@@ -97,7 +97,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
             try {
                 rate = new BigDecimal(rateString);
             } catch (NumberFormatException e) {
-                http404Errors(resp, "Не правильный формат");
+                http400Errors(resp, "Не правильный формат");
                 return;
             }
 

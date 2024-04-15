@@ -47,7 +47,7 @@ public class ExchangeRateCalculationServlet extends BaseServletUtils {
             try {
                 amount = new BigDecimal(amountString);
             } catch (NumberFormatException e) {
-                http404Errors(resp, "Не правильный формат");
+                http400Errors(resp, "Не правильный формат");
                 return;
             }
 
