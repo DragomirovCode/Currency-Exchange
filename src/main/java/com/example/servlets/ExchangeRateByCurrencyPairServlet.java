@@ -36,7 +36,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
         try {
             String pathInfo = req.getPathInfo();
             if (pathInfo == null || pathInfo.isEmpty() || pathInfo.equals("/")) {
-                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                http400Errors(resp, "Коды валют пары отсутствуют в адресе");
                 return;
             }
 
@@ -48,7 +48,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
             CurrencyDTO targetCurrency = currencyService.findByCode(targetCurrencyCode);
 
             if (baseCurrency == null || targetCurrency == null) {
-                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                http404Errors(resp, "Обменный курс для пары не найден");
                 return;
             }
 
@@ -58,7 +58,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
             ExchangeRateDTO exchangeRate = exchangeRateService.findByCurrencyPair(baseCurrencyId, targetCurrencyId);
 
             if (exchangeRate == null) {
-                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                http404Errors(resp, "Обменный курс для пары не найден");
                 return;
             }
 
@@ -79,7 +79,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
         try {
             String pathInfo = req.getPathInfo();
             if (pathInfo == null || pathInfo.isEmpty() || pathInfo.equals("/")) {
-                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                http400Errors(resp, "Отсутствует нужное поле формы");
                 return;
             }
 
@@ -89,7 +89,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
 
             String rateString = req.getParameter("rate");
             if (rateString == null) {
-                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                http400Errors(resp, "Отсутствует нужное поле формы");
                 return;
             }
 
@@ -97,7 +97,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
             try {
                 rate = new BigDecimal(rateString);
             } catch (NumberFormatException e) {
-                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                http404Errors(resp, "Не правильный формат");
                 return;
             }
 
@@ -105,7 +105,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
             CurrencyDTO targetCurrency = currencyService.findByCode(targetCurrencyCode);
 
             if (baseCurrency == null || targetCurrency == null) {
-                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                http404Errors(resp, "Валютная пара отсутствует в базе данных");
                 return;
             }
 
@@ -114,7 +114,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
 
             ExchangeRateDTO existingExchangeRate = exchangeRateService.findByCurrencyPair(baseCurrencyId, targetCurrencyId);
             if (existingExchangeRate == null) {
-                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                http404Errors(resp, "Валютная пара отсутствует в базе данных");
                 return;
             }
 
