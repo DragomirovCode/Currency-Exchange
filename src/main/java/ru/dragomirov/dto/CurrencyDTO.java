@@ -1,7 +1,11 @@
 package ru.dragomirov.dto;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class CurrencyDTO {
     @SerializedName("id")
     private int id;
@@ -15,38 +19,6 @@ public class CurrencyDTO {
     public CurrencyDTO(String fullName,String code, String sign) {
         this.fullName = fullName;
         this.code = code;
-        this.sign = sign;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getSign() {
-        return sign;
-    }
-
-    public void setSign(String sign) {
         this.sign = sign;
     }
 }
