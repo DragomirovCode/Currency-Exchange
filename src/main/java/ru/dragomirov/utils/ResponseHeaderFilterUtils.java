@@ -15,7 +15,7 @@ public class ResponseHeaderFilterUtils implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletResponse httpResponse = (HttpServletResponse) servletRequest;
+        HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
         httpResponse.setContentType("application/json");
         httpResponse.setCharacterEncoding("UTF-8");
 
