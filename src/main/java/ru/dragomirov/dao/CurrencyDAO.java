@@ -19,7 +19,7 @@ public class CurrencyDAO implements CurrencyRepository {
     private static final String UPDATE_QUERY = "UPDATE Currency SET code=?, fullName=?, sign=? WHERE id=?";
     private static final String DELETE_QUERY = "DELETE FROM Currency WHERE id=?";
 
-    private CurrencyDTO mapResultSetToCurrency(ResultSet resultSet, Connection connection) throws SQLException {
+    private CurrencyDTO mapResultSetToCurrency(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
         String fullName = resultSet.getString("fullName");
         String code = resultSet.getString("code");
@@ -37,7 +37,7 @@ public class CurrencyDAO implements CurrencyRepository {
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
-                CurrencyDTO currency = mapResultSetToCurrency(resultSet, connection);
+                CurrencyDTO currency = mapResultSetToCurrency(resultSet);
                 currencies.add(currency);
             }
         } catch (SQLException e) {
@@ -53,7 +53,7 @@ public class CurrencyDAO implements CurrencyRepository {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    currency = mapResultSetToCurrency(resultSet, connection);
+                    currency = mapResultSetToCurrency(resultSet);
                 }
             }
         } catch (SQLException e) {
@@ -70,7 +70,7 @@ public class CurrencyDAO implements CurrencyRepository {
             statement.setString(1, code);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    currency = mapResultSetToCurrency(resultSet, connection);
+                    currency = mapResultSetToCurrency(resultSet);
                 }
             }
         } catch (SQLException e) {
