@@ -1,8 +1,8 @@
-package com.example.services;
+package ru.dragomirov.services;
 
 
-import com.example.dao.ExchangeRateDAO;
-import com.example.dto.ExchangeRateDTO;
+import ru.dragomirov.dao.ExchangeRateDAO;
+import ru.dragomirov.dto.ExchangeRateDTO;
 
 import java.util.List;
 

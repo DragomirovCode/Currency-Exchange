@@ -1,8 +1,8 @@
-package com.example.servlets;
+package ru.dragomirov.servlets;
 
-import com.example.dto.CurrencyDTO;
-import com.example.services.CurrencyService;
-import com.example.util.BaseServletUtils;
+import ru.dragomirov.dto.CurrencyDTO;
+import ru.dragomirov.services.CurrencyService;
+import ru.dragomirov.util.BaseServletUtils;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

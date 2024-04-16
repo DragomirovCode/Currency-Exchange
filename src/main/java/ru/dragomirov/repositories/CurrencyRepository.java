@@ -1,6 +1,6 @@
-package com.example.repositories;
+package ru.dragomirov.repositories;
 
-import com.example.dto.CurrencyDTO;
+import ru.dragomirov.dto.CurrencyDTO;
 
 import java.sql.Connection;
 import java.util.List;

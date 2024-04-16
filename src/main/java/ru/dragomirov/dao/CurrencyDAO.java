@@ -1,8 +1,8 @@
-package com.example.dao;
+package ru.dragomirov.dao;
 
-import com.example.dto.CurrencyDTO;
-import com.example.repositories.CurrencyRepository;
-import com.example.util.ConnectionDB;
+import ru.dragomirov.dto.CurrencyDTO;
+import ru.dragomirov.repositories.CurrencyRepository;
+import ru.dragomirov.util.ConnectionDB;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

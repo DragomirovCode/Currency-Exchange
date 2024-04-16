@@ -1,10 +1,10 @@
-package com.example.servlets;
+package ru.dragomirov.servlets;
 
-import com.example.dto.CurrencyDTO;
-import com.example.dto.ExchangeRateDTO;
-import com.example.services.CurrencyService;
-import com.example.services.ExchangeRateService;
-import com.example.util.BaseServletUtils;
+import ru.dragomirov.dto.CurrencyDTO;
+import ru.dragomirov.dto.ExchangeRateDTO;
+import ru.dragomirov.services.CurrencyService;
+import ru.dragomirov.services.ExchangeRateService;
+import ru.dragomirov.util.BaseServletUtils;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

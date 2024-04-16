@@ -1,7 +1,7 @@
-package com.example.services;
+package ru.dragomirov.services;
 
-import com.example.dto.CurrencyDTO;
-import com.example.dao.CurrencyDAO;
+import ru.dragomirov.dto.CurrencyDTO;
+import ru.dragomirov.dao.CurrencyDAO;
 
 import java.sql.Connection;
 import java.util.List;

@@ -1,10 +1,10 @@
-package com.example.dao;
+package ru.dragomirov.dao;
 
-import com.example.dto.CurrencyDTO;
-import com.example.dto.ExchangeRateDTO;
-import com.example.repositories.ExchangeRateRepository;
-import com.example.services.CurrencyService;
-import com.example.util.ConnectionDB;
+import ru.dragomirov.dto.CurrencyDTO;
+import ru.dragomirov.dto.ExchangeRateDTO;
+import ru.dragomirov.repositories.ExchangeRateRepository;
+import ru.dragomirov.services.CurrencyService;
+import ru.dragomirov.util.ConnectionDB;
 
 import java.math.BigDecimal;
 import java.sql.Connection;

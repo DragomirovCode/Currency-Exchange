@@ -1,8 +1,7 @@
-package com.example.dto;
+package ru.dragomirov.dto;
 
 import java.math.BigDecimal;
 
-import com.example.services.CurrencyService;
 import com.google.gson.annotations.SerializedName;
 public class ExchangeRateDTO {
     @SerializedName("id")

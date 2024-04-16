@@ -1,6 +1,6 @@
-package com.example.repositories;
+package ru.dragomirov.repositories;
 
-import com.example.dto.ExchangeRateDTO;
+import ru.dragomirov.dto.ExchangeRateDTO;
 
 import java.util.List;
 
