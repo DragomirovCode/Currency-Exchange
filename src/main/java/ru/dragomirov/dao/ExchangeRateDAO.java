@@ -52,7 +52,7 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
                 exchangeRates.add(exchangeRate);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Произошла ошибка при выполнении метода 'findAll': " + e.getMessage());
         }
         return exchangeRates;
     }
@@ -70,7 +70,7 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Произошла ошибка при выполнении метода 'findById': " + e.getMessage());
         }
         return exchangeRate;
     }
@@ -88,7 +88,7 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Произошла ошибка при выполнении метода 'findByCurrencyPair': " + e.getMessage());
         }
         return exchangeRate;
     }
@@ -102,7 +102,7 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
             statement.setBigDecimal(3, exchangeRate.getRate());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Произошла ошибка при выполнении метода 'save': " + e.getMessage());
         }
     }
 
@@ -116,7 +116,7 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
             statement.setInt(4, exchangeRate.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Произошла ошибка при выполнении метода 'update': " + e.getMessage());
         }
     }
 
@@ -127,7 +127,7 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
             statement.setInt(1, exchangeRate.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Произошла ошибка при выполнении метода 'delete': " + e.getMessage());
         }
     }
 }
