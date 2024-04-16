@@ -93,21 +93,10 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
                 return;
             }
 
-            BigDecimal rate;
-            try {
-                rate = new BigDecimal(rateString);
-            } catch (NumberFormatException e) {
-                http400Errors(resp, "Не правильный формат");
-                return;
-            }
+            BigDecimal rate = parseBigDecimal(rateString);
 
             CurrencyDTO baseCurrency = currencyService.findByCode(baseCurrencyCode);
             CurrencyDTO targetCurrency = currencyService.findByCode(targetCurrencyCode);
-
-            if (baseCurrency == null || targetCurrency == null) {
-                http404Errors(resp, "Валютная пара отсутствует в базе данных");
-                return;
-            }
 
             int baseCurrencyId = baseCurrency.getId();
             int targetCurrencyId = targetCurrency.getId();

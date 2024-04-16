@@ -43,13 +43,7 @@ public class ExchangeRateCalculationServlet extends BaseServletUtils {
                 return;
             }
 
-            BigDecimal amount;
-            try {
-                amount = new BigDecimal(amountString);
-            } catch (NumberFormatException e) {
-                http400Errors(resp, "Не правильный формат");
-                return;
-            }
+            BigDecimal amount = parseBigDecimal(amountString);
 
             CurrencyDTO fromCurrency = currencyService.findByCode(fromCurrencyCode);
             CurrencyDTO toCurrency = currencyService.findByCode(toCurrencyCode);
