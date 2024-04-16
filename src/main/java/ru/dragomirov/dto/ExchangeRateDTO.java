@@ -11,10 +11,13 @@ import java.math.BigDecimal;
 public class ExchangeRateDTO {
     @SerializedName("id")
     private int id;
+
     @SerializedName("baseCurrencyId")
     private CurrencyDTO baseCurrencyId;
+
     @SerializedName("targetCurrencyId")
     private CurrencyDTO targetCurrencyId;
+
     @SerializedName("rate")
     private BigDecimal rate;
 

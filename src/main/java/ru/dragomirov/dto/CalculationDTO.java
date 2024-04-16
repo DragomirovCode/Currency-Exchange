@@ -11,12 +11,16 @@ import java.math.BigDecimal;
 public class CalculationDTO {
     @SerializedName("baseCurrency")
     private CurrencyDTO baseCurrency;
+
     @SerializedName("targetCurrency")
     private CurrencyDTO targetCurrency;
+
     @SerializedName("rate")
     private BigDecimal rate;
+
     @SerializedName("amount")
     private BigDecimal amount;
+
     @SerializedName("convertedAmount")
     private BigDecimal convertedAmount;
 

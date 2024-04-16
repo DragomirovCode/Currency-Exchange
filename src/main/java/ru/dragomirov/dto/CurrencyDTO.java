@@ -9,10 +9,13 @@ import lombok.Setter;
 public class CurrencyDTO {
     @SerializedName("id")
     private int id;
+
     @SerializedName("name")
     private String fullName;
+
     @SerializedName("code")
     private String code;
+
     @SerializedName("sign")
     private String sign;
 
