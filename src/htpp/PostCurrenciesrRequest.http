@@ -1,5 +1,0 @@
-POST http://localhost:8080/currencies
-Accept: application/json
-Content-Type: application/x-www-form-urlencoded
-
-name=YYY&code=YYY&sign=YYY

@@ -1,5 +1,0 @@
-POST http://localhost:8080/exchangeRate/JPYEUR
-Accept: application/json
-Content-Type: application/x-www-form-urlencoded
-
-rate=0.32

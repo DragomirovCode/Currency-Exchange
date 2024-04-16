@@ -1,2 +1,0 @@
-GET http://localhost:8080/exchange?from=JPY&to=EUR&amount=100
-Accept: application/json
