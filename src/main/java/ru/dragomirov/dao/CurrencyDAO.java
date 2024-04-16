@@ -2,7 +2,7 @@ package ru.dragomirov.dao;
 
 import ru.dragomirov.dto.CurrencyDTO;
 import ru.dragomirov.repositories.CurrencyRepository;
-import ru.dragomirov.util.ConnectionDB;
+import ru.dragomirov.utils.ConnectionDB;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

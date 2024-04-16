@@ -1,4 +1,4 @@
-package ru.dragomirov.util;
+package ru.dragomirov.utils;
 
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletResponse;

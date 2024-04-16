@@ -1,4 +1,4 @@
-package ru.dragomirov.util;
+package ru.dragomirov.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

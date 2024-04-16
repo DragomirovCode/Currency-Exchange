@@ -2,7 +2,7 @@ package ru.dragomirov.servlets;
 
 import ru.dragomirov.dto.CurrencyDTO;
 import ru.dragomirov.services.CurrencyService;
-import ru.dragomirov.util.BaseServletUtils;
+import ru.dragomirov.utils.BaseServletUtils;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;

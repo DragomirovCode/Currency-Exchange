@@ -5,7 +5,7 @@ import ru.dragomirov.dto.CurrencyDTO;
 import ru.dragomirov.dto.ExchangeRateDTO;
 import ru.dragomirov.services.CurrencyService;
 import ru.dragomirov.services.ExchangeRateService;
-import ru.dragomirov.util.BaseServletUtils;
+import ru.dragomirov.utils.BaseServletUtils;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;

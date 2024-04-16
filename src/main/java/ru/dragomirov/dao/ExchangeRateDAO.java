@@ -4,7 +4,7 @@ import ru.dragomirov.dto.CurrencyDTO;
 import ru.dragomirov.dto.ExchangeRateDTO;
 import ru.dragomirov.repositories.ExchangeRateRepository;
 import ru.dragomirov.services.CurrencyService;
-import ru.dragomirov.util.ConnectionDB;
+import ru.dragomirov.utils.ConnectionDB;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
