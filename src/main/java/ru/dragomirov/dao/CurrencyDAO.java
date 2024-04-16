@@ -41,7 +41,7 @@ public class CurrencyDAO implements CurrencyRepository {
                 currencies.add(currency);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Произошла ошибка при выполнении метода 'findAll': " + e.getMessage());
         }
         return currencies;
     }
@@ -57,7 +57,7 @@ public class CurrencyDAO implements CurrencyRepository {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Произошла ошибка при выполнении метода 'findById': " + e.getMessage());
         }
         return currency;
     }
@@ -74,7 +74,7 @@ public class CurrencyDAO implements CurrencyRepository {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Произошла ошибка при выполнении метода 'findByCode': " + e.getMessage());
         }
         return currency;
     }
@@ -88,7 +88,7 @@ public class CurrencyDAO implements CurrencyRepository {
             statement.setString(3, currency.getSign());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Произошла ошибка при выполнении метода 'save': " + e.getMessage());
         }
     }
 
@@ -102,7 +102,7 @@ public class CurrencyDAO implements CurrencyRepository {
             statement.setInt(4, currency.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Произошла ошибка при выполнении метода 'update': " + e.getMessage());
         }
     }
 
@@ -113,7 +113,7 @@ public class CurrencyDAO implements CurrencyRepository {
             statement.setInt(1, currency.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.err.println("Произошла ошибка при выполнении метода 'delete': " + e.getMessage());
         }
     }
 }
