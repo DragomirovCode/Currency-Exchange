@@ -3,6 +3,7 @@ package ru.dragomirov.utils;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 public abstract class BaseServletUtils extends HttpServlet {
     protected void http400Errors(HttpServletResponse resp, String errorMessage) throws IOException{
@@ -25,5 +26,14 @@ public abstract class BaseServletUtils extends HttpServlet {
         String errorResponse = "{\"message\": \"" + errorMessage + "\"}";
         resp.getWriter().write(errorResponse);
         e.printStackTrace();
+    }
+    protected BigDecimal parseBigDecimal(String string) {
+        BigDecimal rate = null;
+        try {
+            rate = new BigDecimal(string);
+        } catch (NumberFormatException e) {
+            System.err.println("Произошла ошибка при выполнении метода 'parseBigDecimal': " + e.getMessage());
+        }
+        return rate;
     }
 }
