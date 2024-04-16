@@ -3,12 +3,12 @@ package ru.dragomirov.utils;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-public class ConnectionDB {
+public class ConnectionUtils {
     private static final String URL = "jdbc:sqlite::resource:db/database.db";
     private static Connection connection;
 
     // Приватный конструктор, чтобы предотвратить создание экземпляров класса
-    private ConnectionDB() {}
+    private ConnectionUtils() {}
     public synchronized static Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             try {

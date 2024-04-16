@@ -2,7 +2,7 @@ package ru.dragomirov.dao;
 
 import ru.dragomirov.dto.CurrencyDTO;
 import ru.dragomirov.repositories.CurrencyRepository;
-import ru.dragomirov.utils.ConnectionDB;
+import ru.dragomirov.utils.ConnectionUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,7 +33,7 @@ public class CurrencyDAO implements CurrencyRepository {
     @Override
     public List<CurrencyDTO> findAll() {
         List<CurrencyDTO> currencies = new ArrayList<>();
-        try (Connection connection = ConnectionDB.getConnection();
+        try (Connection connection = ConnectionUtils.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
@@ -65,7 +65,7 @@ public class CurrencyDAO implements CurrencyRepository {
     @Override
     public CurrencyDTO findByCode(String code) {
         CurrencyDTO currency = null;
-        try (Connection connection = ConnectionDB.getConnection();
+        try (Connection connection = ConnectionUtils.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_BY_CODE_QUERY)) {
             statement.setString(1, code);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -81,7 +81,7 @@ public class CurrencyDAO implements CurrencyRepository {
 
     @Override
     public void save(CurrencyDTO currency) {
-        try (Connection connection = ConnectionDB.getConnection();
+        try (Connection connection = ConnectionUtils.getConnection();
              PreparedStatement statement = connection.prepareStatement(SAVE_QUERY)) {
             statement.setString(1, currency.getCode());
             statement.setString(2, currency.getFullName());
@@ -94,7 +94,7 @@ public class CurrencyDAO implements CurrencyRepository {
 
     @Override
     public void update(CurrencyDTO currency) {
-        try (Connection connection = ConnectionDB.getConnection();
+        try (Connection connection = ConnectionUtils.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
             statement.setString(1, currency.getCode());
             statement.setString(2, currency.getFullName());
@@ -108,7 +108,7 @@ public class CurrencyDAO implements CurrencyRepository {
 
     @Override
     public void delete(CurrencyDTO currency) {
-        try (Connection connection = ConnectionDB.getConnection();
+        try (Connection connection = ConnectionUtils.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
             statement.setInt(1, currency.getId());
             statement.executeUpdate();
