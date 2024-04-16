@@ -36,8 +36,4 @@ public abstract class BaseServletUtils extends HttpServlet {
         }
         return rate;
     }
-    protected void setResponseHeaders(HttpServletResponse resp) {
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-    }
 }

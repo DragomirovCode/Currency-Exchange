@@ -25,8 +25,6 @@ public class CurrencyListAndCreateServlet extends BaseServletUtils {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        setResponseHeaders(resp);
-
         try {
             Gson gson = new Gson();
             String json = gson.toJson(currencyService.findAll());
@@ -39,8 +37,6 @@ public class CurrencyListAndCreateServlet extends BaseServletUtils {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        setResponseHeaders(resp);
-
         try {
             String name = req.getParameter("name");
             String code = req.getParameter("code");

@@ -25,8 +25,6 @@ public class CurrencyByIdServlet extends BaseServletUtils {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        setResponseHeaders(resp);
-
         try {
             String pathInfo = req.getPathInfo();
             String currencyCode = pathInfo.substring(1);

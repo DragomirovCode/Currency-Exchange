@@ -30,8 +30,6 @@ public class ExchangeRateCalculationServlet extends BaseServletUtils {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        setResponseHeaders(resp);
-
         try {
             String fromCurrencyCode = req.getParameter("from");
             String toCurrencyCode = req.getParameter("to");

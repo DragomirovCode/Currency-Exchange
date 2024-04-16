@@ -30,8 +30,6 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        setResponseHeaders(resp);
-
         try {
             String pathInfo = req.getPathInfo();
             if (pathInfo == null || pathInfo.isEmpty() || pathInfo.equals("/")) {
@@ -72,8 +70,6 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        setResponseHeaders(resp);
-
         try {
             String pathInfo = req.getPathInfo();
             if (pathInfo == null || pathInfo.isEmpty() || pathInfo.equals("/")) {
