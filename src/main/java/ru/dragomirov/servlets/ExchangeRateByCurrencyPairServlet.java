@@ -30,8 +30,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
+        setResponseHeaders(resp);
 
         try {
             String pathInfo = req.getPathInfo();
@@ -73,8 +72,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
+        setResponseHeaders(resp);
 
         try {
             String pathInfo = req.getPathInfo();

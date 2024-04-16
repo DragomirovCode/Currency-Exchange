@@ -31,8 +31,7 @@ public class ExchangeRateListAndCreateServlet extends BaseServletUtils {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
+        setResponseHeaders(resp);
 
         try {
             Gson gson = new Gson();
@@ -46,8 +45,7 @@ public class ExchangeRateListAndCreateServlet extends BaseServletUtils {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
+        setResponseHeaders(resp);
 
         try {
             String baseCurrencyCode = req.getParameter("baseCurrencyCode");
