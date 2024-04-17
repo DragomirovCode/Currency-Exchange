@@ -1,4 +1,4 @@
-package ru.dragomirov.utils;
+package ru.dragomirov.config;
 
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
@@ -6,7 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebFilter("/*")
-public class ResponseHeaderFilterUtils implements Filter {
+public class ResponseHeaderFilterConfig implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
