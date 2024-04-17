@@ -2,7 +2,7 @@ package ru.dragomirov.servlets;
 
 import ru.dragomirov.models.Currency;
 import ru.dragomirov.services.CurrencyService;
-import ru.dragomirov.utils.BaseServletUtils;
+import ru.dragomirov.commons.BaseServlet;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,7 +15,7 @@ import java.io.IOException;
  * @doPost: Добавление новой валюты в базу.
  */
 @WebServlet(name = "CurrencyListAndCreateServlet", urlPatterns = "/currencies")
-public class CurrencyListAndCreateServlet extends BaseServletUtils {
+public class CurrencyListAndCreateServlet extends BaseServlet {
     private CurrencyService currencyService;
 
     @Override

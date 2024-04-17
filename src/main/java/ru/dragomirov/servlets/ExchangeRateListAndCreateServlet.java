@@ -4,7 +4,7 @@ import ru.dragomirov.models.Currency;
 import ru.dragomirov.models.ExchangeRate;
 import ru.dragomirov.services.CurrencyService;
 import ru.dragomirov.services.ExchangeRateService;
-import ru.dragomirov.utils.BaseServletUtils;
+import ru.dragomirov.commons.BaseServlet;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,7 +19,7 @@ import java.math.BigDecimal;
  * @doPost: Добавление нового обменного курса в базу.
  */
 @WebServlet(name = "ExchangeRateListAndCreateServlet", urlPatterns = "/exchangeRates")
-public class ExchangeRateListAndCreateServlet extends BaseServletUtils {
+public class ExchangeRateListAndCreateServlet extends BaseServlet {
     private ExchangeRateService exchangeRateService;
     private CurrencyService currencyService;
 

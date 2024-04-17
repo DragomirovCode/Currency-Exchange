@@ -2,7 +2,7 @@ package ru.dragomirov.servlets;
 
 import ru.dragomirov.models.Currency;
 import ru.dragomirov.services.CurrencyService;
-import ru.dragomirov.utils.BaseServletUtils;
+import ru.dragomirov.commons.BaseServlet;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,7 +15,7 @@ import java.io.IOException;
  * @doGet: Получение конкретной валюты.
  */
 @WebServlet(name = "CurrencyByIdServlet", urlPatterns = "/currency/*")
-public class CurrencyByIdServlet extends BaseServletUtils {
+public class CurrencyByIdServlet extends BaseServlet {
     private CurrencyService currencyService;
 
     @Override

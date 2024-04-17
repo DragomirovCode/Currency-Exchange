@@ -5,7 +5,7 @@ import ru.dragomirov.models.Currency;
 import ru.dragomirov.models.ExchangeRate;
 import ru.dragomirov.services.CurrencyService;
 import ru.dragomirov.services.ExchangeRateService;
-import ru.dragomirov.utils.BaseServletUtils;
+import ru.dragomirov.commons.BaseServlet;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ import java.math.BigDecimal;
  * @doGet: Расчёт перевода определённого количества средств из одной валюты в другую.
  */
 @WebServlet(name = "ExchangeRateCalculationServlet", urlPatterns = "/exchange")
-public class ExchangeRateCalculationServlet extends BaseServletUtils {
+public class ExchangeRateCalculationServlet extends BaseServlet {
     private ExchangeRateService exchangeRateService;
     private CurrencyService currencyService;
 

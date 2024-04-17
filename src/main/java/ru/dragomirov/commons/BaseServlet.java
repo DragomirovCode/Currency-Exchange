@@ -1,11 +1,11 @@
-package ru.dragomirov.utils;
+package ru.dragomirov.commons;
 
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 
-public abstract class BaseServletUtils extends HttpServlet {
+public abstract class BaseServlet extends HttpServlet {
     protected void http400Errors(HttpServletResponse resp, String errorMessage) throws IOException{
         resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         String errorResponse = "{\"message\": \"" + errorMessage + "\"}";
