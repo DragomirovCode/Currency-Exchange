@@ -92,6 +92,11 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
             Currency baseCurrency = currencyService.findByCode(baseCurrencyCode);
             Currency targetCurrency = currencyService.findByCode(targetCurrencyCode);
 
+            if (baseCurrency == null || targetCurrency == null){
+                http404Errors(resp, "Одна из валют отсутствует в базе данных");
+                return;
+            }
+
             int baseCurrencyId = baseCurrency.getId();
             int targetCurrencyId = targetCurrency.getId();
 
