@@ -1,6 +1,6 @@
 package ru.dragomirov.services;
 
-import ru.dragomirov.dto.CurrencyDTO;
+import ru.dragomirov.models.Currency;
 import ru.dragomirov.dao.CurrencyDAO;
 
 import java.sql.Connection;
@@ -13,27 +13,27 @@ public class CurrencyService {
         this.currencyDAO = new CurrencyDAO();
     }
 
-    public List<CurrencyDTO> findAll() {
+    public List<Currency> findAll() {
         return currencyDAO.findAll();
     }
 
-    public CurrencyDTO findById(int id, Connection connection) {
+    public Currency findById(int id, Connection connection) {
         return currencyDAO.findById(id, connection);
     }
 
-    public CurrencyDTO findByCode(String code) {
+    public Currency findByCode(String code) {
         return currencyDAO.findByCode(code);
     }
 
-    public void save(CurrencyDTO currency) {
+    public void save(Currency currency) {
         currencyDAO.save(currency);
     }
 
-    public void update(CurrencyDTO currency) {
+    public void update(Currency currency) {
         currencyDAO.update(currency);
     }
 
-    public void delete(CurrencyDTO currency) {
+    public void delete(Currency currency) {
         currencyDAO.delete(currency);
     }
 }

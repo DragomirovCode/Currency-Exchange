@@ -1,4 +1,4 @@
-package ru.dragomirov.dto;
+package ru.dragomirov.models;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CurrencyDTO {
+public class Currency {
     @SerializedName("id")
     private int id;
 
@@ -19,7 +19,7 @@ public class CurrencyDTO {
     @SerializedName("sign")
     private String sign;
 
-    public CurrencyDTO(String fullName,String code, String sign) {
+    public Currency(String fullName, String code, String sign) {
         this.fullName = fullName;
         this.code = code;
         this.sign = sign;

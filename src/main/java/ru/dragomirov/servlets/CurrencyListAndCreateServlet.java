@@ -1,6 +1,6 @@
 package ru.dragomirov.servlets;
 
-import ru.dragomirov.dto.CurrencyDTO;
+import ru.dragomirov.models.Currency;
 import ru.dragomirov.services.CurrencyService;
 import ru.dragomirov.utils.BaseServletUtils;
 import com.google.gson.Gson;
@@ -47,13 +47,13 @@ public class CurrencyListAndCreateServlet extends BaseServletUtils {
                 return;
             }
 
-            CurrencyDTO existingCurrency = currencyService.findByCode(code);
+            Currency existingCurrency = currencyService.findByCode(code);
             if (existingCurrency != null) {
                 http409Errors(resp, "Валюта с таким кодом уже существует");
                 return;
             }
 
-            CurrencyDTO newCurrency = new CurrencyDTO(name, code, sign);
+            Currency newCurrency = new Currency(name, code, sign);
             currencyService.save(newCurrency);
 
             Gson gson = new Gson();

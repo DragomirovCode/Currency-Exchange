@@ -1,4 +1,4 @@
-package ru.dragomirov.dto;
+package ru.dragomirov.models;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
@@ -8,12 +8,12 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-public class CalculationDTO {
+public class Calculation {
     @SerializedName("baseCurrency")
-    private CurrencyDTO baseCurrency;
+    private Currency baseCurrency;
 
     @SerializedName("targetCurrency")
-    private CurrencyDTO targetCurrency;
+    private Currency targetCurrency;
 
     @SerializedName("rate")
     private BigDecimal rate;
@@ -24,8 +24,8 @@ public class CalculationDTO {
     @SerializedName("convertedAmount")
     private BigDecimal convertedAmount;
 
-    public CalculationDTO(CurrencyDTO baseCurrency, CurrencyDTO targetCurrency,
-                          BigDecimal rate, BigDecimal amount, BigDecimal convertedAmount) {
+    public Calculation(Currency baseCurrency, Currency targetCurrency,
+                       BigDecimal rate, BigDecimal amount, BigDecimal convertedAmount) {
         this.baseCurrency = baseCurrency;
         this.targetCurrency = targetCurrency;
         this.rate = rate;

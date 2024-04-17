@@ -1,14 +1,14 @@
 package ru.dragomirov.repositories;
 
-import ru.dragomirov.dto.ExchangeRateDTO;
+import ru.dragomirov.models.ExchangeRate;
 
 import java.util.List;
 
 public interface ExchangeRateRepository {
-    List<ExchangeRateDTO> findAll();
-    ExchangeRateDTO findById(int id);
-    ExchangeRateDTO findByCurrencyPair(int baseCurrencyCode, int targetCurrencyCode);
-    void save(ExchangeRateDTO exchangeRate);
-    void update(ExchangeRateDTO exchangeRate);
-    void delete(ExchangeRateDTO exchangeRate);
+    List<ExchangeRate> findAll();
+    ExchangeRate findById(int id);
+    ExchangeRate findByCurrencyPair(int baseCurrencyCode, int targetCurrencyCode);
+    void save(ExchangeRate exchangeRate);
+    void update(ExchangeRate exchangeRate);
+    void delete(ExchangeRate exchangeRate);
 }

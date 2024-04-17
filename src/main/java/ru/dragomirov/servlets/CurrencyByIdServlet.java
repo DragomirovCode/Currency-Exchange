@@ -1,6 +1,6 @@
 package ru.dragomirov.servlets;
 
-import ru.dragomirov.dto.CurrencyDTO;
+import ru.dragomirov.models.Currency;
 import ru.dragomirov.services.CurrencyService;
 import ru.dragomirov.utils.BaseServletUtils;
 import jakarta.servlet.annotation.WebServlet;
@@ -34,7 +34,7 @@ public class CurrencyByIdServlet extends BaseServletUtils {
                 return;
             }
 
-            CurrencyDTO currency = currencyService.findByCode(currencyCode);
+            Currency currency = currencyService.findByCode(currencyCode);
 
             if (currency == null) {
                 http404Errors(resp, "Валюта не найдена");

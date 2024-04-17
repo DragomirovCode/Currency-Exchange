@@ -2,7 +2,7 @@ package ru.dragomirov.services;
 
 
 import ru.dragomirov.dao.ExchangeRateDAO;
-import ru.dragomirov.dto.ExchangeRateDTO;
+import ru.dragomirov.models.ExchangeRate;
 
 import java.util.List;
 
@@ -13,27 +13,27 @@ public class ExchangeRateService  {
         this.exchangeRateDAO = new ExchangeRateDAO();
     }
 
-    public List<ExchangeRateDTO> findAll(){
+    public List<ExchangeRate> findAll(){
         return exchangeRateDAO.findAll();
     }
 
-    public ExchangeRateDTO findById(int id){
+    public ExchangeRate findById(int id){
         return exchangeRateDAO.findById(id);
     }
 
-    public ExchangeRateDTO findByCurrencyPair(int baseCurrencyId, int targetCurrencyId){
+    public ExchangeRate findByCurrencyPair(int baseCurrencyId, int targetCurrencyId){
         return exchangeRateDAO.findByCurrencyPair(baseCurrencyId, targetCurrencyId);
     }
 
-    public void save(ExchangeRateDTO exchangeRate){
+    public void save(ExchangeRate exchangeRate){
         exchangeRateDAO.save(exchangeRate);
     }
 
-    public void update(ExchangeRateDTO exchangeRate){
+    public void update(ExchangeRate exchangeRate){
         exchangeRateDAO.update(exchangeRate);
     }
 
-    public void delete(ExchangeRateDTO exchangeRate){
+    public void delete(ExchangeRate exchangeRate){
         exchangeRateDAO.delete(exchangeRate);
     }
 }

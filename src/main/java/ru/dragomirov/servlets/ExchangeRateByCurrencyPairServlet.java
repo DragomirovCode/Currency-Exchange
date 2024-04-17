@@ -1,7 +1,7 @@
 package ru.dragomirov.servlets;
 
-import ru.dragomirov.dto.CurrencyDTO;
-import ru.dragomirov.dto.ExchangeRateDTO;
+import ru.dragomirov.models.Currency;
+import ru.dragomirov.models.ExchangeRate;
 import ru.dragomirov.services.CurrencyService;
 import ru.dragomirov.services.ExchangeRateService;
 import ru.dragomirov.utils.BaseServletUtils;
@@ -41,8 +41,8 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
             String baseCurrencyCode = currencyPair.substring(0, 3);
             String targetCurrencyCode = currencyPair.substring(3);
 
-            CurrencyDTO baseCurrency = currencyService.findByCode(baseCurrencyCode);
-            CurrencyDTO targetCurrency = currencyService.findByCode(targetCurrencyCode);
+            Currency baseCurrency = currencyService.findByCode(baseCurrencyCode);
+            Currency targetCurrency = currencyService.findByCode(targetCurrencyCode);
 
             if (baseCurrency == null || targetCurrency == null) {
                 http404Errors(resp, "Обменный курс для пары не найден");
@@ -52,7 +52,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
             int baseCurrencyId = baseCurrency.getId();
             int targetCurrencyId = targetCurrency.getId();
 
-            ExchangeRateDTO exchangeRate = exchangeRateService.findByCurrencyPair(baseCurrencyId, targetCurrencyId);
+            ExchangeRate exchangeRate = exchangeRateService.findByCurrencyPair(baseCurrencyId, targetCurrencyId);
 
             if (exchangeRate == null) {
                 http404Errors(resp, "Обменный курс для пары не найден");
@@ -89,13 +89,13 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServletUtils {
 
             BigDecimal rate = parseBigDecimal(rateString);
 
-            CurrencyDTO baseCurrency = currencyService.findByCode(baseCurrencyCode);
-            CurrencyDTO targetCurrency = currencyService.findByCode(targetCurrencyCode);
+            Currency baseCurrency = currencyService.findByCode(baseCurrencyCode);
+            Currency targetCurrency = currencyService.findByCode(targetCurrencyCode);
 
             int baseCurrencyId = baseCurrency.getId();
             int targetCurrencyId = targetCurrency.getId();
 
-            ExchangeRateDTO existingExchangeRate = exchangeRateService.findByCurrencyPair(baseCurrencyId, targetCurrencyId);
+            ExchangeRate existingExchangeRate = exchangeRateService.findByCurrencyPair(baseCurrencyId, targetCurrencyId);
             if (existingExchangeRate == null) {
                 http404Errors(resp, "Валютная пара отсутствует в базе данных");
                 return;

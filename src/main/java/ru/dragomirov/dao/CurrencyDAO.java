@@ -1,6 +1,6 @@
 package ru.dragomirov.dao;
 
-import ru.dragomirov.dto.CurrencyDTO;
+import ru.dragomirov.models.Currency;
 import ru.dragomirov.repositories.CurrencyRepository;
 import ru.dragomirov.utils.ConnectionUtils;
 
@@ -19,25 +19,25 @@ public class CurrencyDAO implements CurrencyRepository {
     private static final String UPDATE_QUERY = "UPDATE Currency SET code=?, fullName=?, sign=? WHERE id=?";
     private static final String DELETE_QUERY = "DELETE FROM Currency WHERE id=?";
 
-    private CurrencyDTO mapResultSetToCurrency(ResultSet resultSet) throws SQLException {
+    private Currency mapResultSetToCurrency(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
         String fullName = resultSet.getString("fullName");
         String code = resultSet.getString("code");
         String sign = resultSet.getString("sign");
 
-        CurrencyDTO currency = new CurrencyDTO(fullName,code, sign);
+        Currency currency = new Currency(fullName,code, sign);
         currency.setId(id);
         return currency;
     }
 
     @Override
-    public List<CurrencyDTO> findAll() {
-        List<CurrencyDTO> currencies = new ArrayList<>();
+    public List<Currency> findAll() {
+        List<Currency> currencies = new ArrayList<>();
         try (Connection connection = ConnectionUtils.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
-                CurrencyDTO currency = mapResultSetToCurrency(resultSet);
+                Currency currency = mapResultSetToCurrency(resultSet);
                 currencies.add(currency);
             }
         } catch (SQLException e) {
@@ -47,8 +47,8 @@ public class CurrencyDAO implements CurrencyRepository {
     }
 
     @Override
-    public CurrencyDTO findById(int id, Connection connection) {
-        CurrencyDTO currency = null;
+    public Currency findById(int id, Connection connection) {
+        Currency currency = null;
         try (PreparedStatement statement = connection.prepareStatement(FIND_BY_ID_QUERY)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -63,8 +63,8 @@ public class CurrencyDAO implements CurrencyRepository {
     }
 
     @Override
-    public CurrencyDTO findByCode(String code) {
-        CurrencyDTO currency = null;
+    public Currency findByCode(String code) {
+        Currency currency = null;
         try (Connection connection = ConnectionUtils.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_BY_CODE_QUERY)) {
             statement.setString(1, code);
@@ -80,7 +80,7 @@ public class CurrencyDAO implements CurrencyRepository {
     }
 
     @Override
-    public void save(CurrencyDTO currency) {
+    public void save(Currency currency) {
         try (Connection connection = ConnectionUtils.getConnection();
              PreparedStatement statement = connection.prepareStatement(SAVE_QUERY)) {
             statement.setString(1, currency.getCode());
@@ -93,7 +93,7 @@ public class CurrencyDAO implements CurrencyRepository {
     }
 
     @Override
-    public void update(CurrencyDTO currency) {
+    public void update(Currency currency) {
         try (Connection connection = ConnectionUtils.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
             statement.setString(1, currency.getCode());
@@ -107,7 +107,7 @@ public class CurrencyDAO implements CurrencyRepository {
     }
 
     @Override
-    public void delete(CurrencyDTO currency) {
+    public void delete(Currency currency) {
         try (Connection connection = ConnectionUtils.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
             statement.setInt(1, currency.getId());

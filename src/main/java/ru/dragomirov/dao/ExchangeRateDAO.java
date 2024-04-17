@@ -1,7 +1,7 @@
 package ru.dragomirov.dao;
 
-import ru.dragomirov.dto.CurrencyDTO;
-import ru.dragomirov.dto.ExchangeRateDTO;
+import ru.dragomirov.models.Currency;
+import ru.dragomirov.models.ExchangeRate;
 import ru.dragomirov.repositories.ExchangeRateRepository;
 import ru.dragomirov.services.CurrencyService;
 import ru.dragomirov.utils.ConnectionUtils;
@@ -27,28 +27,28 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
         this.currencyService = new CurrencyService();
     }
 
-    private ExchangeRateDTO mapResultSetToExchangeRate(ResultSet resultSet, Connection connection) throws SQLException {
+    private ExchangeRate mapResultSetToExchangeRate(ResultSet resultSet, Connection connection) throws SQLException {
         int id = resultSet.getInt("id");
         int baseCurrencyId = resultSet.getInt("baseCurrencyId");
         int targetCurrencyId = resultSet.getInt("targetCurrencyId");
         BigDecimal rate = resultSet.getBigDecimal("rate");
 
-        CurrencyDTO baseCurrency = currencyService.findById(baseCurrencyId, connection);
-        CurrencyDTO targetCurrency = currencyService.findById(targetCurrencyId, connection);
+        Currency baseCurrency = currencyService.findById(baseCurrencyId, connection);
+        Currency targetCurrency = currencyService.findById(targetCurrencyId, connection);
 
-        ExchangeRateDTO exchangeRate = new ExchangeRateDTO(baseCurrency, targetCurrency, rate);
+        ExchangeRate exchangeRate = new ExchangeRate(baseCurrency, targetCurrency, rate);
         exchangeRate.setId(id);
         return exchangeRate;
     }
 
     @Override
-    public List<ExchangeRateDTO> findAll() {
-        List<ExchangeRateDTO> exchangeRates = new ArrayList<>();
+    public List<ExchangeRate> findAll() {
+        List<ExchangeRate> exchangeRates = new ArrayList<>();
         try (Connection connection = ConnectionUtils.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
-                ExchangeRateDTO exchangeRate = mapResultSetToExchangeRate(resultSet, connection);
+                ExchangeRate exchangeRate = mapResultSetToExchangeRate(resultSet, connection);
                 exchangeRates.add(exchangeRate);
             }
         } catch (SQLException e) {
@@ -59,8 +59,8 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
 
 
     @Override
-    public ExchangeRateDTO findById(int id) {
-        ExchangeRateDTO exchangeRate = null;
+    public ExchangeRate findById(int id) {
+        ExchangeRate exchangeRate = null;
         try (Connection connection = ConnectionUtils.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_BY_ID_QUERY)) {
             statement.setInt(1, id);
@@ -76,8 +76,8 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
     }
 
     @Override
-    public ExchangeRateDTO findByCurrencyPair(int baseCurrencyId, int targetCurrencyId) {
-        ExchangeRateDTO exchangeRate = null;
+    public ExchangeRate findByCurrencyPair(int baseCurrencyId, int targetCurrencyId) {
+        ExchangeRate exchangeRate = null;
         try (Connection connection = ConnectionUtils.getConnection();
              PreparedStatement statement = connection.prepareStatement(FIND_BY_CURRENCY_PAIR_QUERY)) {
             statement.setInt(1, baseCurrencyId);
@@ -94,7 +94,7 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
     }
 
     @Override
-    public void save(ExchangeRateDTO exchangeRate) {
+    public void save(ExchangeRate exchangeRate) {
         try (Connection connection = ConnectionUtils.getConnection();
              PreparedStatement statement = connection.prepareStatement(SAVE_QUERY)) {
             statement.setInt(1, exchangeRate.getBaseCurrencyId().getId());
@@ -107,7 +107,7 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
     }
 
     @Override
-    public void update(ExchangeRateDTO exchangeRate) {
+    public void update(ExchangeRate exchangeRate) {
         try (Connection connection = ConnectionUtils.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
             statement.setInt(1, exchangeRate.getBaseCurrencyId().getId());
@@ -121,7 +121,7 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
     }
 
     @Override
-    public void delete(ExchangeRateDTO exchangeRate) {
+    public void delete(ExchangeRate exchangeRate) {
         try (Connection connection = ConnectionUtils.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
             statement.setInt(1, exchangeRate.getId());

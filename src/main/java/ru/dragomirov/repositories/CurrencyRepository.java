@@ -1,15 +1,15 @@
 package ru.dragomirov.repositories;
 
-import ru.dragomirov.dto.CurrencyDTO;
+import ru.dragomirov.models.Currency;
 
 import java.sql.Connection;
 import java.util.List;
 
 public interface CurrencyRepository {
-    List<CurrencyDTO> findAll();
-    CurrencyDTO findById(int id, Connection connection);
-    CurrencyDTO findByCode(String code);
-    void save(CurrencyDTO currency);
-    void update(CurrencyDTO currency);
-    void delete(CurrencyDTO currency);
+    List<Currency> findAll();
+    Currency findById(int id, Connection connection);
+    Currency findByCode(String code);
+    void save(Currency currency);
+    void update(Currency currency);
+    void delete(Currency currency);
 }

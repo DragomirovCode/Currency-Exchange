@@ -1,7 +1,7 @@
 package ru.dragomirov.servlets;
 
-import ru.dragomirov.dto.CurrencyDTO;
-import ru.dragomirov.dto.ExchangeRateDTO;
+import ru.dragomirov.models.Currency;
+import ru.dragomirov.models.ExchangeRate;
 import ru.dragomirov.services.CurrencyService;
 import ru.dragomirov.services.ExchangeRateService;
 import ru.dragomirov.utils.BaseServletUtils;
@@ -61,22 +61,22 @@ public class ExchangeRateListAndCreateServlet extends BaseServletUtils {
                 return;
             }
 
-            CurrencyDTO baseCurrency = currencyService.findByCode(baseCurrencyCode);
-            CurrencyDTO targetCurrency = currencyService.findByCode(targetCurrencyCode);
+            Currency baseCurrency = currencyService.findByCode(baseCurrencyCode);
+            Currency targetCurrency = currencyService.findByCode(targetCurrencyCode);
 
             if (baseCurrency == null || targetCurrency == null) {
                 http404Errors(resp, "Одна (или обе) валюта из валютной пары не существует в БД");
                 return;
             }
 
-            ExchangeRateDTO existingExchangeRate = exchangeRateService.findByCurrencyPair(baseCurrency.getId(),
+            ExchangeRate existingExchangeRate = exchangeRateService.findByCurrencyPair(baseCurrency.getId(),
                     targetCurrency.getId());
             if (existingExchangeRate != null) {
                 http409Errors(resp, "Валютная пара с таким кодом уже существует");
                 return;
             }
 
-            ExchangeRateDTO exchangeRate = new ExchangeRateDTO(baseCurrency, targetCurrency, rate);
+            ExchangeRate exchangeRate = new ExchangeRate(baseCurrency, targetCurrency, rate);
             exchangeRateService.save(exchangeRate);
 
             Gson gson = new Gson();

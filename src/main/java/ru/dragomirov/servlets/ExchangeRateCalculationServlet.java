@@ -1,8 +1,8 @@
 package ru.dragomirov.servlets;
 
-import ru.dragomirov.dto.CalculationDTO;
-import ru.dragomirov.dto.CurrencyDTO;
-import ru.dragomirov.dto.ExchangeRateDTO;
+import ru.dragomirov.models.Calculation;
+import ru.dragomirov.models.Currency;
+import ru.dragomirov.models.ExchangeRate;
 import ru.dragomirov.services.CurrencyService;
 import ru.dragomirov.services.ExchangeRateService;
 import ru.dragomirov.utils.BaseServletUtils;
@@ -42,8 +42,8 @@ public class ExchangeRateCalculationServlet extends BaseServletUtils {
 
             BigDecimal amount = parseBigDecimal(amountString);
 
-            CurrencyDTO fromCurrency = currencyService.findByCode(fromCurrencyCode);
-            CurrencyDTO toCurrency = currencyService.findByCode(toCurrencyCode);
+            Currency fromCurrency = currencyService.findByCode(fromCurrencyCode);
+            Currency toCurrency = currencyService.findByCode(toCurrencyCode);
 
             if (fromCurrency == null || toCurrency == null) {
                 http404Errors(resp, "Валютная пара отсутствует в базе данных");
@@ -53,7 +53,7 @@ public class ExchangeRateCalculationServlet extends BaseServletUtils {
             int fromCurrencyId = fromCurrency.getId();
             int toCurrencyId = toCurrency.getId();
 
-            ExchangeRateDTO exchangeRate = exchangeRateService.findByCurrencyPair(fromCurrencyId, toCurrencyId);
+            ExchangeRate exchangeRate = exchangeRateService.findByCurrencyPair(fromCurrencyId, toCurrencyId);
 
             if (exchangeRate == null) {
                 http404Errors(resp, "Валютная пара отсутствует в базе данных");
@@ -62,13 +62,13 @@ public class ExchangeRateCalculationServlet extends BaseServletUtils {
 
             BigDecimal convertedAmount = amount.multiply(exchangeRate.getRate());
 
-            CurrencyDTO baseCurrency = exchangeRate.getBaseCurrencyId();
-            CurrencyDTO targetCurrency = exchangeRate.getTargetCurrencyId();
+            Currency baseCurrency = exchangeRate.getBaseCurrencyId();
+            Currency targetCurrency = exchangeRate.getTargetCurrencyId();
 
-            CalculationDTO calculationDTO = new CalculationDTO(baseCurrency, targetCurrency, exchangeRate.getRate(),
+            Calculation calculation = new Calculation(baseCurrency, targetCurrency, exchangeRate.getRate(),
                     amount, convertedAmount);
 
-            String jsonResponse = new Gson().toJson(calculationDTO);
+            String jsonResponse = new Gson().toJson(calculation);
 
             resp.getWriter().write(jsonResponse);
             resp.setStatus(HttpServletResponse.SC_OK);
