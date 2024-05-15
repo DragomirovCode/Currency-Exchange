@@ -39,16 +39,6 @@ public class CurrencyDAO implements CurrencyRepository {
         return currency;
     }
 
-    public void closeConnection() {
-        if (this.connection != null) {
-            try {
-                this.connection.close();
-            } catch (SQLException e) {
-                System.err.println("Произошла ошибка при закрытии подключения: " + e.getMessage());
-            }
-        }
-    }
-
     @Override
     public List<Currency> findAll() {
         List<Currency> currencies = new ArrayList<>();
