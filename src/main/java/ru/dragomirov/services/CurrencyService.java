@@ -4,6 +4,7 @@ import ru.dragomirov.models.Currency;
 import ru.dragomirov.dao.CurrencyDAO;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 public class CurrencyService {
@@ -17,8 +18,8 @@ public class CurrencyService {
         return currencyDAO.findAll();
     }
 
-    public Currency findById(int id, Connection connection) {
-        return currencyDAO.findById(id, connection);
+    public Currency findById(int id) {
+        return currencyDAO.findById(id);
     }
 
     public Currency findByCode(String code) {
