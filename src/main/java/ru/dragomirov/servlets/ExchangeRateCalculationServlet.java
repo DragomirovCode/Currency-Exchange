@@ -62,8 +62,8 @@ public class ExchangeRateCalculationServlet extends BaseServlet {
 
             BigDecimal convertedAmount = amount.multiply(exchangeRate.getRate());
 
-            Currency baseCurrency = exchangeRate.getBaseCurrencyId();
-            Currency targetCurrency = exchangeRate.getTargetCurrencyId();
+            Currency baseCurrency = exchangeRate.getBaseCurrency();
+            Currency targetCurrency = exchangeRate.getTargetCurrency();
 
             Calculation calculation = new Calculation(baseCurrency, targetCurrency, exchangeRate.getRate(),
                     amount, convertedAmount);

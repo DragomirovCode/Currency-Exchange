@@ -1,6 +1,5 @@
 package ru.dragomirov.models;
 
-import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,15 +10,15 @@ import java.math.BigDecimal;
 public class ExchangeRate {
     private int id;
 
-    private Currency baseCurrencyId;
+    private Currency baseCurrency;
 
-    private Currency targetCurrencyId;
+    private Currency targetCurrency;
 
     private BigDecimal rate;
 
-    public ExchangeRate(Currency baseCurrencyId, Currency targetCurrencyId, BigDecimal rate) {
-        this.baseCurrencyId = baseCurrencyId;
-        this.targetCurrencyId = targetCurrencyId;
+    public ExchangeRate(Currency baseCurrency, Currency targetCurrency, BigDecimal rate) {
+        this.baseCurrency = baseCurrency;
+        this.targetCurrency = targetCurrency;
         this.rate = rate;
     }
 }
