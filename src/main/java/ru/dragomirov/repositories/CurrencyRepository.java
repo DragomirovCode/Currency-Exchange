@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CurrencyRepository {
     List<Currency> findAll();
-    Currency findById(int id, Connection connection);
+    Currency findById(int id);
     Currency findByCode(String code);
     void save(Currency currency);
     void update(Currency currency);
