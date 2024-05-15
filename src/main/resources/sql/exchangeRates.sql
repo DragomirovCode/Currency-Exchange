@@ -1,8 +1,8 @@
 CREATE TABLE ExchangeRates (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    baseCurrencyId INTEGER,
-    targetCurrencyId INTEGER,
-    rate DECIMAL(6),
-    FOREIGN KEY (baseCurrencyId) REFERENCES currency(id),
-    FOREIGN KEY (targetCurrencyId) REFERENCES currency(id)
+    ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    BaseCurrencyId INTEGER,
+    TargetCurrencyId INTEGER,
+    Rate DECIMAL(6),
+    FOREIGN KEY (BaseCurrencyId) REFERENCES currency(ID),
+    FOREIGN KEY (TargetCurrencyId) REFERENCES currency(ID)
 );
