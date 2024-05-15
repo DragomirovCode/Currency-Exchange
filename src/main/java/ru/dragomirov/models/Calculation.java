@@ -9,19 +9,10 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class Calculation {
-    @SerializedName("baseCurrency")
     private Currency baseCurrency;
-
-    @SerializedName("targetCurrency")
     private Currency targetCurrency;
-
-    @SerializedName("rate")
     private BigDecimal rate;
-
-    @SerializedName("amount")
     private BigDecimal amount;
-
-    @SerializedName("convertedAmount")
     private BigDecimal convertedAmount;
 
     public Calculation(Currency baseCurrency, Currency targetCurrency,

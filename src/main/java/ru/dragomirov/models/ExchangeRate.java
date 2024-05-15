@@ -9,16 +9,12 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class ExchangeRate {
-    @SerializedName("id")
     private int id;
 
-    @SerializedName("baseCurrencyId")
     private Currency baseCurrencyId;
 
-    @SerializedName("targetCurrencyId")
     private Currency targetCurrencyId;
 
-    @SerializedName("rate")
     private BigDecimal rate;
 
     public ExchangeRate(Currency baseCurrencyId, Currency targetCurrencyId, BigDecimal rate) {
