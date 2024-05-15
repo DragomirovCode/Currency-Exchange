@@ -41,7 +41,7 @@ public class CurrencyDAO implements CurrencyRepository {
                 currencies.add(currency);
             }
         } catch (SQLException e) {
-            System.err.println("Произошла ошибка при выполнении метода 'findAll': " + e.getMessage());
+            System.err.println("Произошла ошибка при выполнении метода 'findAll' (CurrencyDAO): " + e.getMessage());
         }
         return currencies;
     }
@@ -57,7 +57,7 @@ public class CurrencyDAO implements CurrencyRepository {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Произошла ошибка при выполнении метода 'findById': " + e.getMessage());
+            System.err.println("Произошла ошибка при выполнении метода 'findById' (CurrencyDAO): " + e.getMessage());
         }
         return currency;
     }
@@ -74,7 +74,7 @@ public class CurrencyDAO implements CurrencyRepository {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Произошла ошибка при выполнении метода 'findByCode': " + e.getMessage());
+            System.err.println("Произошла ошибка при выполнении метода 'findByCode' (CurrencyDAO): " + e.getMessage());
         }
         return currency;
     }
@@ -88,7 +88,7 @@ public class CurrencyDAO implements CurrencyRepository {
             statement.setString(3, currency.getSign());
             statement.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Произошла ошибка при выполнении метода 'save': " + e.getMessage());
+            System.err.println("Произошла ошибка при выполнении метода 'save' (CurrencyDAO): " + e.getMessage());
         }
     }
 
@@ -102,7 +102,7 @@ public class CurrencyDAO implements CurrencyRepository {
             statement.setInt(4, currency.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Произошла ошибка при выполнении метода 'update': " + e.getMessage());
+            System.err.println("Произошла ошибка при выполнении метода 'update' (CurrencyDAO): " + e.getMessage());
         }
     }
 
@@ -113,7 +113,7 @@ public class CurrencyDAO implements CurrencyRepository {
             statement.setInt(1, currency.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("Произошла ошибка при выполнении метода 'delete': " + e.getMessage());
+            System.err.println("Произошла ошибка при выполнении метода 'delete' (CurrencyDAO): " + e.getMessage());
         }
     }
 }
