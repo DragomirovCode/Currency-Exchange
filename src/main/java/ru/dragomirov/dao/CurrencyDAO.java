@@ -18,6 +18,15 @@ public class CurrencyDAO implements CurrencyRepository {
     private static final String SAVE_QUERY = "INSERT INTO Currency (Code, FullName, Sign) VALUES (?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE Currency SET Code=?, FullName=?, Sign=? WHERE ID=?";
     private static final String DELETE_QUERY = "DELETE FROM Currency WHERE ID=?";
+    private final Connection connection;
+
+    public CurrencyDAO() {
+        try {
+            this.connection = ConnectionUtils.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private Currency mapResultSetToCurrency(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("ID");
@@ -30,11 +39,20 @@ public class CurrencyDAO implements CurrencyRepository {
         return currency;
     }
 
+    public void closeConnection() {
+        if (this.connection != null) {
+            try {
+                this.connection.close();
+            } catch (SQLException e) {
+                System.err.println("Произошла ошибка при закрытии подключения: " + e.getMessage());
+            }
+        }
+    }
+
     @Override
     public List<Currency> findAll() {
         List<Currency> currencies = new ArrayList<>();
-        try (Connection connection = ConnectionUtils.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY);
+        try (PreparedStatement statement = this.connection.prepareStatement(FIND_ALL_QUERY);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 Currency currency = mapResultSetToCurrency(resultSet);
@@ -47,9 +65,9 @@ public class CurrencyDAO implements CurrencyRepository {
     }
 
     @Override
-    public Currency findById(int id, Connection connection) {
+    public Currency findById(int id) {
         Currency currency = null;
-        try (PreparedStatement statement = connection.prepareStatement(FIND_BY_ID_QUERY)) {
+        try (PreparedStatement statement = this.connection.prepareStatement(FIND_BY_ID_QUERY)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -65,8 +83,7 @@ public class CurrencyDAO implements CurrencyRepository {
     @Override
     public Currency findByCode(String code) {
         Currency currency = null;
-        try (Connection connection = ConnectionUtils.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_BY_CODE_QUERY)) {
+        try (PreparedStatement statement = this.connection.prepareStatement(FIND_BY_CODE_QUERY)) {
             statement.setString(1, code);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -81,8 +98,7 @@ public class CurrencyDAO implements CurrencyRepository {
 
     @Override
     public void save(Currency currency) {
-        try (Connection connection = ConnectionUtils.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SAVE_QUERY)) {
+        try (PreparedStatement statement = this.connection.prepareStatement(SAVE_QUERY)) {
             statement.setString(1, currency.getCode());
             statement.setString(2, currency.getFullName());
             statement.setString(3, currency.getSign());
@@ -94,8 +110,7 @@ public class CurrencyDAO implements CurrencyRepository {
 
     @Override
     public void update(Currency currency) {
-        try (Connection connection = ConnectionUtils.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
+        try (PreparedStatement statement = this.connection.prepareStatement(UPDATE_QUERY)) {
             statement.setString(1, currency.getCode());
             statement.setString(2, currency.getFullName());
             statement.setString(3, currency.getSign());
@@ -108,8 +123,7 @@ public class CurrencyDAO implements CurrencyRepository {
 
     @Override
     public void delete(Currency currency) {
-        try (Connection connection = ConnectionUtils.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
+        try (PreparedStatement statement = this.connection.prepareStatement(DELETE_QUERY)) {
             statement.setInt(1, currency.getId());
             statement.executeUpdate();
         } catch (SQLException e) {

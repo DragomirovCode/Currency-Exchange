@@ -22,19 +22,25 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
     private static final String UPDATE_QUERY = "UPDATE ExchangeRates SET BaseCurrencyId=?, TargetCurrencyId=?, Rate=? WHERE ID=?";
     private static final String DELETE_QUERY = "DELETE FROM ExchangeRates WHERE ID=?";
     private final CurrencyService currencyService;
+    private final Connection connection;
 
     public ExchangeRateDAO() {
-        this.currencyService = new CurrencyService();
+        try {
+            this.connection = ConnectionUtils.getConnection();
+            this.currencyService = new CurrencyService();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private ExchangeRate mapResultSetToExchangeRate(ResultSet resultSet, Connection connection) throws SQLException {
+    private ExchangeRate mapResultSetToExchangeRate(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("ID");
         int baseCurrencyId = resultSet.getInt("BaseCurrencyId");
         int targetCurrencyId = resultSet.getInt("TargetCurrencyId");
         BigDecimal rate = resultSet.getBigDecimal("Rate");
 
-        Currency baseCurrency = currencyService.findById(baseCurrencyId, connection);
-        Currency targetCurrency = currencyService.findById(targetCurrencyId, connection);
+        Currency baseCurrency = currencyService.findById(baseCurrencyId);
+        Currency targetCurrency = currencyService.findById(targetCurrencyId);
 
         ExchangeRate exchangeRate = new ExchangeRate(baseCurrency, targetCurrency, rate);
         exchangeRate.setId(id);
@@ -44,11 +50,10 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
     @Override
     public List<ExchangeRate> findAll() {
         List<ExchangeRate> exchangeRates = new ArrayList<>();
-        try (Connection connection = ConnectionUtils.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY);
+        try (PreparedStatement statement = this.connection.prepareStatement(FIND_ALL_QUERY);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
-                ExchangeRate exchangeRate = mapResultSetToExchangeRate(resultSet, connection);
+                ExchangeRate exchangeRate = mapResultSetToExchangeRate(resultSet);
                 exchangeRates.add(exchangeRate);
             }
         } catch (SQLException e) {
@@ -61,12 +66,11 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
     @Override
     public ExchangeRate findById(int id) {
         ExchangeRate exchangeRate = null;
-        try (Connection connection = ConnectionUtils.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_BY_ID_QUERY)) {
+        try (PreparedStatement statement = this.connection.prepareStatement(FIND_BY_ID_QUERY)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    exchangeRate = mapResultSetToExchangeRate(resultSet, connection);
+                    exchangeRate = mapResultSetToExchangeRate(resultSet);
                 }
             }
         } catch (SQLException e) {
@@ -78,13 +82,12 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
     @Override
     public ExchangeRate findByCurrencyPair(int baseCurrencyId, int targetCurrencyId) {
         ExchangeRate exchangeRate = null;
-        try (Connection connection = ConnectionUtils.getConnection();
-             PreparedStatement statement = connection.prepareStatement(FIND_BY_CURRENCY_PAIR_QUERY)) {
+        try (PreparedStatement statement = this.connection.prepareStatement(FIND_BY_CURRENCY_PAIR_QUERY)) {
             statement.setInt(1, baseCurrencyId);
             statement.setInt(2, targetCurrencyId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    exchangeRate = mapResultSetToExchangeRate(resultSet, connection);
+                    exchangeRate = mapResultSetToExchangeRate(resultSet);
                 }
             }
         } catch (SQLException e) {
@@ -95,8 +98,7 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
 
     @Override
     public void save(ExchangeRate exchangeRate) {
-        try (Connection connection = ConnectionUtils.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SAVE_QUERY)) {
+        try (PreparedStatement statement = this.connection.prepareStatement(SAVE_QUERY)) {
             statement.setInt(1, exchangeRate.getBaseCurrencyId().getId());
             statement.setInt(2, exchangeRate.getTargetCurrencyId().getId());
             statement.setBigDecimal(3, exchangeRate.getRate());
@@ -108,8 +110,7 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
 
     @Override
     public void update(ExchangeRate exchangeRate) {
-        try (Connection connection = ConnectionUtils.getConnection();
-             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
+        try (PreparedStatement statement = this.connection.prepareStatement(UPDATE_QUERY)) {
             statement.setInt(1, exchangeRate.getBaseCurrencyId().getId());
             statement.setInt(2, exchangeRate.getTargetCurrencyId().getId());
             statement.setBigDecimal(3, exchangeRate.getRate());
@@ -122,8 +123,7 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
 
     @Override
     public void delete(ExchangeRate exchangeRate) {
-        try (Connection connection = ConnectionUtils.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
+        try (PreparedStatement statement = this.connection.prepareStatement(DELETE_QUERY)) {
             statement.setInt(1, exchangeRate.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
