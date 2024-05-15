@@ -7,7 +7,7 @@ GET http://localhost:8080/exchangeRates
 Accept: application/json
 
 ### GetCurrencyByIdRequest
-GET http://localhost:8080/currency/EUR
+GET http://localhost:8080/currency/USD
 Accept: application/json
 
 ### GetExchangeCalculationRequest
@@ -23,7 +23,7 @@ GET http://localhost:8080/exchangeRate/USDEUR
 Accept: application/json
 
 ### PatchExchangeRatesRequest
-POST http://localhost:8080/exchangeRate/JPYEUR
+POST http://localhost:8080/exchangeRate/USDEUR
 Accept: application/json
 Content-Type: application/x-www-form-urlencoded
 
@@ -34,11 +34,11 @@ POST http://localhost:8080/currencies
 Accept: application/json
 Content-Type: application/x-www-form-urlencoded
 
-name=YYY&code=YYY&sign=YYY
+name=Euro&code=EUR&sign=€
 
 ### PostExchangeRatesRequest
 POST http://localhost:8080/exchangeRates
 Accept: application/json
 Content-Type: application/x-www-form-urlencoded
 
-baseCurrencyCode=JPY&targetCurrencyCode=EUR&rate=0.32
+baseCurrencyCode=EUR&targetCurrencyCode=EUR&rate=0.32
