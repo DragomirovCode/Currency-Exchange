@@ -13,17 +13,17 @@ import java.util.List;
 
 public class CurrencyDAO implements CurrencyRepository {
     private static final String FIND_ALL_QUERY = "SELECT * FROM Currency";
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM Currency WHERE id=?";
-    private static final String FIND_BY_CODE_QUERY = "SELECT * FROM Currency WHERE code=?";
-    private static final String SAVE_QUERY = "INSERT INTO Currency (code, fullName, sign) VALUES (?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE Currency SET code=?, fullName=?, sign=? WHERE id=?";
-    private static final String DELETE_QUERY = "DELETE FROM Currency WHERE id=?";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM Currency WHERE ID=?";
+    private static final String FIND_BY_CODE_QUERY = "SELECT * FROM Currency WHERE Code=?";
+    private static final String SAVE_QUERY = "INSERT INTO Currency (Code, FullName, Sign) VALUES (?, ?, ?)";
+    private static final String UPDATE_QUERY = "UPDATE Currency SET Code=?, FullName=?, Sign=? WHERE ID=?";
+    private static final String DELETE_QUERY = "DELETE FROM Currency WHERE ID=?";
 
     private Currency mapResultSetToCurrency(ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt("id");
-        String fullName = resultSet.getString("fullName");
-        String code = resultSet.getString("code");
-        String sign = resultSet.getString("sign");
+        int id = resultSet.getInt("ID");
+        String fullName = resultSet.getString("FullName");
+        String code = resultSet.getString("Code");
+        String sign = resultSet.getString("Sign");
 
         Currency currency = new Currency(fullName,code, sign);
         currency.setId(id);

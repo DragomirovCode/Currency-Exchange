@@ -16,11 +16,11 @@ import java.util.List;
 
 public class ExchangeRateDAO implements ExchangeRateRepository {
     private static final String FIND_ALL_QUERY = "SELECT * FROM ExchangeRates";
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM ExchangeRates WHERE id=?";
-    private static final String FIND_BY_CURRENCY_PAIR_QUERY = "SELECT * FROM ExchangeRates WHERE baseCurrencyId=? AND targetCurrencyId=?";
-    private static final String SAVE_QUERY = "INSERT INTO ExchangeRates (baseCurrencyId, targetCurrencyId, rate) VALUES (?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE ExchangeRates SET baseCurrencyId=?, targetCurrencyId=?, rate=? WHERE id=?";
-    private static final String DELETE_QUERY = "DELETE FROM ExchangeRates WHERE id=?";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM ExchangeRates WHERE ID=?";
+    private static final String FIND_BY_CURRENCY_PAIR_QUERY = "SELECT * FROM ExchangeRates WHERE BaseCurrencyId=? AND TargetCurrencyId=?";
+    private static final String SAVE_QUERY = "INSERT INTO ExchangeRates (BaseCurrencyId, TargetCurrencyId, Rate) VALUES (?, ?, ?)";
+    private static final String UPDATE_QUERY = "UPDATE ExchangeRates SET BaseCurrencyId=?, TargetCurrencyId=?, Rate=? WHERE ID=?";
+    private static final String DELETE_QUERY = "DELETE FROM ExchangeRates WHERE ID=?";
     private final CurrencyService currencyService;
 
     public ExchangeRateDAO() {
@@ -28,10 +28,10 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
     }
 
     private ExchangeRate mapResultSetToExchangeRate(ResultSet resultSet, Connection connection) throws SQLException {
-        int id = resultSet.getInt("id");
-        int baseCurrencyId = resultSet.getInt("baseCurrencyId");
-        int targetCurrencyId = resultSet.getInt("targetCurrencyId");
-        BigDecimal rate = resultSet.getBigDecimal("rate");
+        int id = resultSet.getInt("ID");
+        int baseCurrencyId = resultSet.getInt("BaseCurrencyId");
+        int targetCurrencyId = resultSet.getInt("TargetCurrencyId");
+        BigDecimal rate = resultSet.getBigDecimal("Rate");
 
         Currency baseCurrency = currencyService.findById(baseCurrencyId, connection);
         Currency targetCurrency = currencyService.findById(targetCurrencyId, connection);
