@@ -99,8 +99,8 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
     @Override
     public void save(ExchangeRate exchangeRate) {
         try (PreparedStatement statement = this.connection.prepareStatement(SAVE_QUERY)) {
-            statement.setInt(1, exchangeRate.getBaseCurrencyId().getId());
-            statement.setInt(2, exchangeRate.getTargetCurrencyId().getId());
+            statement.setInt(1, exchangeRate.getBaseCurrency().getId());
+            statement.setInt(2, exchangeRate.getTargetCurrency().getId());
             statement.setBigDecimal(3, exchangeRate.getRate());
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -111,8 +111,8 @@ public class ExchangeRateDAO implements ExchangeRateRepository {
     @Override
     public void update(ExchangeRate exchangeRate) {
         try (PreparedStatement statement = this.connection.prepareStatement(UPDATE_QUERY)) {
-            statement.setInt(1, exchangeRate.getBaseCurrencyId().getId());
-            statement.setInt(2, exchangeRate.getTargetCurrencyId().getId());
+            statement.setInt(1, exchangeRate.getBaseCurrency().getId());
+            statement.setInt(2, exchangeRate.getTargetCurrency().getId());
             statement.setBigDecimal(3, exchangeRate.getRate());
             statement.setInt(4, exchangeRate.getId());
             statement.executeUpdate();
