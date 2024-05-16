@@ -1,4 +1,6 @@
 package ru.dragomirov.dao;
 
-public interface CurrencyDAO {
+import ru.dragomirov.models.Currency;
+
+public interface CurrencyDAO extends CrudDAO<Currency, Integer> {
 }
