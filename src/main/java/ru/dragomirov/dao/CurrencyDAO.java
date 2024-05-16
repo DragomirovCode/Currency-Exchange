@@ -2,6 +2,9 @@ package ru.dragomirov.dao;
 
 import ru.dragomirov.models.Currency;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface CurrencyDAO extends CrudDAO<Currency, Integer> {
-    Currency findByCode(String code);
+    Optional<Currency> findByCode(String code);
 }
