@@ -104,11 +104,11 @@ public class JdbcExchangeRateDAO implements ExchangeRateDAO {
             statement.setBigDecimal(3, entity.getRate());
             statement.setInt(4, entity.getId());
             statement.executeUpdate();
-            return Optional.of(entity);
         } catch (SQLException e) {
             System.err.println("Произошла ошибка при выполнении метода 'update' (ExchangeRateDAO): " + e.getMessage());
             return Optional.empty();
         }
+        return Optional.of(entity);
     }
 
     @Override
