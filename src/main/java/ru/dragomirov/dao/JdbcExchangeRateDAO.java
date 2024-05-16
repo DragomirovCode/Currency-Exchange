@@ -2,8 +2,6 @@ package ru.dragomirov.dao;
 
 import ru.dragomirov.models.Currency;
 import ru.dragomirov.models.ExchangeRate;
-import ru.dragomirov.repositories.ExchangeRateRepository;
-import ru.dragomirov.services.CurrencyService;
 import ru.dragomirov.utils.ConnectionUtils;
 
 import java.math.BigDecimal;
@@ -13,21 +11,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-public class JdbcExchangeRateDAO implements ExchangeRateRepository {
+public class JdbcExchangeRateDAO implements ExchangeRateDAO {
     private static final String FIND_ALL_QUERY = "SELECT * FROM ExchangeRates";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM ExchangeRates WHERE ID=?";
     private static final String FIND_BY_CURRENCY_PAIR_QUERY = "SELECT * FROM ExchangeRates WHERE BaseCurrencyId=? AND TargetCurrencyId=?";
     private static final String SAVE_QUERY = "INSERT INTO ExchangeRates (BaseCurrencyId, TargetCurrencyId, Rate) VALUES (?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE ExchangeRates SET BaseCurrencyId=?, TargetCurrencyId=?, Rate=? WHERE ID=?";
     private static final String DELETE_QUERY = "DELETE FROM ExchangeRates WHERE ID=?";
-    private final CurrencyService currencyService;
+    private final JdbcCurrencyDAO jdbcCurrencyDAO;
     private final Connection connection;
 
     public JdbcExchangeRateDAO() {
         try {
             this.connection = ConnectionUtils.getConnection();
-            this.currencyService = new CurrencyService();
+            this.jdbcCurrencyDAO = new JdbcCurrencyDAO();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -39,12 +38,47 @@ public class JdbcExchangeRateDAO implements ExchangeRateRepository {
         int targetCurrencyId = resultSet.getInt("TargetCurrencyId");
         BigDecimal rate = resultSet.getBigDecimal("Rate");
 
-        Currency baseCurrency = currencyService.findById(baseCurrencyId);
-        Currency targetCurrency = currencyService.findById(targetCurrencyId);
+        Optional<Currency> baseCurrencyOpt = jdbcCurrencyDAO.findById(baseCurrencyId);
+        Optional<Currency> targetCurrencyOpt = jdbcCurrencyDAO.findById(targetCurrencyId);
 
-        ExchangeRate exchangeRate = new ExchangeRate(baseCurrency, targetCurrency, rate);
-        exchangeRate.setId(id);
-        return exchangeRate;
+        if (baseCurrencyOpt.isPresent() && targetCurrencyOpt.isPresent()) {
+            Currency baseCurrency = baseCurrencyOpt.get();
+            Currency targetCurrency = targetCurrencyOpt.get();
+            ExchangeRate exchangeRate = new ExchangeRate(baseCurrency, targetCurrency, rate);
+            exchangeRate.setId(id);
+            return exchangeRate;
+        } else {
+            throw new SQLException("Валюта не найдена");
+        }
+    }
+
+    @Override
+    public void save(ExchangeRate entity) {
+        try (PreparedStatement statement = this.connection.prepareStatement(SAVE_QUERY)) {
+            statement.setInt(1, entity.getBaseCurrency().getId());
+            statement.setInt(2, entity.getTargetCurrency().getId());
+            statement.setBigDecimal(3, entity.getRate());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Произошла ошибка при выполнении метода 'save' (ExchangeRateDAO): " + e.getMessage());
+        }
+    }
+
+    @Override
+    public Optional<ExchangeRate> findById(Integer id) {
+        ExchangeRate exchangeRate = null;
+        try (PreparedStatement statement = this.connection.prepareStatement(FIND_BY_ID_QUERY)) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    exchangeRate = mapResultSetToExchangeRate(resultSet);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Произошла ошибка при выполнении метода 'findById' (ExchangeRateDAO): " + e.getMessage());
+            return Optional.empty();
+        }
+        return Optional.ofNullable(exchangeRate);
     }
 
     @Override
@@ -57,77 +91,51 @@ public class JdbcExchangeRateDAO implements ExchangeRateRepository {
                 exchangeRates.add(exchangeRate);
             }
         } catch (SQLException e) {
-            System.err.println("Произошла ошибка при выполнении метода 'findAll' (JdbcExchangeRateDAO): " + e.getMessage());
+            System.err.println("Произошла ошибка при выполнении метода 'findAll' (ExchangeRateDAO): " + e.getMessage());
         }
         return exchangeRates;
     }
 
-
     @Override
-    public ExchangeRate findById(int id) {
-        ExchangeRate exchangeRate = null;
-        try (PreparedStatement statement = this.connection.prepareStatement(FIND_BY_ID_QUERY)) {
-            statement.setInt(1, id);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    exchangeRate = mapResultSetToExchangeRate(resultSet);
-                }
-            }
+    public Optional<ExchangeRate> update(ExchangeRate entity) {
+        try (PreparedStatement statement = this.connection.prepareStatement(UPDATE_QUERY)) {
+            statement.setInt(1, entity.getBaseCurrency().getId());
+            statement.setInt(2, entity.getTargetCurrency().getId());
+            statement.setBigDecimal(3, entity.getRate());
+            statement.setInt(4, entity.getId());
+            statement.executeUpdate();
+            return Optional.of(entity);
         } catch (SQLException e) {
-            System.err.println("Произошла ошибка при выполнении метода 'findById' (JdbcExchangeRateDAO): " + e.getMessage());
+            System.err.println("Произошла ошибка при выполнении метода 'update' (ExchangeRateDAO): " + e.getMessage());
+            return Optional.empty();
         }
-        return exchangeRate;
     }
 
     @Override
-    public ExchangeRate findByCurrencyPair(int baseCurrencyId, int targetCurrencyId) {
+    public void delete(Integer id) {
+        try (PreparedStatement statement = this.connection.prepareStatement(DELETE_QUERY)) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Произошла ошибка при выполнении метода 'delete' (ExchangeRateDAO): " + e.getMessage());
+        }
+    }
+
+    @Override
+    public Optional<ExchangeRate> findByCurrencyPair(int baseCurrencyCode, int targetCurrencyCode) {
         ExchangeRate exchangeRate = null;
         try (PreparedStatement statement = this.connection.prepareStatement(FIND_BY_CURRENCY_PAIR_QUERY)) {
-            statement.setInt(1, baseCurrencyId);
-            statement.setInt(2, targetCurrencyId);
+            statement.setInt(1, baseCurrencyCode);
+            statement.setInt(2, targetCurrencyCode);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     exchangeRate = mapResultSetToExchangeRate(resultSet);
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Произошла ошибка при выполнении метода 'findByCurrencyPair' (JdbcExchangeRateDAO): " + e.getMessage());
+            System.err.println("Произошла ошибка при выполнении метода 'findByCurrencyPair' (ExchangeRateDAO): " + e.getMessage());
+            return Optional.empty();
         }
-        return exchangeRate;
-    }
-
-    @Override
-    public void save(ExchangeRate exchangeRate) {
-        try (PreparedStatement statement = this.connection.prepareStatement(SAVE_QUERY)) {
-            statement.setInt(1, exchangeRate.getBaseCurrency().getId());
-            statement.setInt(2, exchangeRate.getTargetCurrency().getId());
-            statement.setBigDecimal(3, exchangeRate.getRate());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("Произошла ошибка при выполнении метода 'save' (JdbcExchangeRateDAO): " + e.getMessage());
-        }
-    }
-
-    @Override
-    public void update(ExchangeRate exchangeRate) {
-        try (PreparedStatement statement = this.connection.prepareStatement(UPDATE_QUERY)) {
-            statement.setInt(1, exchangeRate.getBaseCurrency().getId());
-            statement.setInt(2, exchangeRate.getTargetCurrency().getId());
-            statement.setBigDecimal(3, exchangeRate.getRate());
-            statement.setInt(4, exchangeRate.getId());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("Произошла ошибка при выполнении метода 'update' (JdbcExchangeRateDAO): " + e.getMessage());
-        }
-    }
-
-    @Override
-    public void delete(ExchangeRate exchangeRate) {
-        try (PreparedStatement statement = this.connection.prepareStatement(DELETE_QUERY)) {
-            statement.setInt(1, exchangeRate.getId());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            System.err.println("Произошла ошибка при выполнении метода 'delete' (JdbcExchangeRateDAO): " + e.getMessage());
-        }
+        return Optional.ofNullable(exchangeRate);
     }
 }
