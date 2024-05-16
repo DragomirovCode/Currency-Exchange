@@ -1,9 +1,9 @@
 package ru.dragomirov.servlets;
 
+import ru.dragomirov.dao.JdbcCurrencyDAO;
+import ru.dragomirov.dao.JdbcExchangeRateDAO;
 import ru.dragomirov.models.Currency;
 import ru.dragomirov.models.ExchangeRate;
-import ru.dragomirov.services.CurrencyService;
-import ru.dragomirov.services.ExchangeRateService;
 import ru.dragomirov.commons.BaseServlet;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Optional;
 
 /**
  * @doGet: Получение конкретного обменного курса.
@@ -19,13 +20,13 @@ import java.math.BigDecimal;
  */
 @WebServlet(name = "ExchangeRateByCurrencyPairServlet", urlPatterns = "/exchangeRate/*")
 public class ExchangeRateByCurrencyPairServlet extends BaseServlet {
-    private ExchangeRateService exchangeRateService;
-    private CurrencyService currencyService;
+    private JdbcExchangeRateDAO jdbcExchangeRateDAO;
+    private JdbcCurrencyDAO jdbcCurrencyDAO;
 
     @Override
     public void init() {
-        exchangeRateService = new ExchangeRateService();
-        currencyService = new CurrencyService();
+        this.jdbcExchangeRateDAO = new JdbcExchangeRateDAO();
+        this.jdbcCurrencyDAO = new JdbcCurrencyDAO();
     }
 
     @Override
@@ -41,20 +42,20 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServlet {
             String baseCurrencyCode = currencyPair.substring(0, 3);
             String targetCurrencyCode = currencyPair.substring(3);
 
-            Currency baseCurrency = currencyService.findByCode(baseCurrencyCode);
-            Currency targetCurrency = currencyService.findByCode(targetCurrencyCode);
+            Optional<Currency> baseCurrency = jdbcCurrencyDAO.findByCode(baseCurrencyCode);
+            Optional<Currency> targetCurrency = jdbcCurrencyDAO.findByCode(targetCurrencyCode);
 
-            if (baseCurrency == null || targetCurrency == null) {
+            if (baseCurrency.isEmpty() || targetCurrency.isEmpty()) {
                 http404Errors(resp, "Обменный курс для пары не найден");
                 return;
             }
 
-            int baseCurrencyId = baseCurrency.getId();
-            int targetCurrencyId = targetCurrency.getId();
+            int baseCurrencyId = baseCurrency.get().getId();
+            int targetCurrencyId = targetCurrency.get().getId();
 
-            ExchangeRate exchangeRate = exchangeRateService.findByCurrencyPair(baseCurrencyId, targetCurrencyId);
+            Optional<ExchangeRate> exchangeRate = jdbcExchangeRateDAO.findByCurrencyPair(baseCurrencyId, targetCurrencyId);
 
-            if (exchangeRate == null) {
+            if (exchangeRate.isEmpty()) {
                 http404Errors(resp, "Обменный курс для пары не найден");
                 return;
             }
@@ -89,25 +90,25 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServlet {
 
             BigDecimal rate = parseBigDecimal(rateString);
 
-            Currency baseCurrency = currencyService.findByCode(baseCurrencyCode);
-            Currency targetCurrency = currencyService.findByCode(targetCurrencyCode);
+            Optional<Currency> baseCurrency = jdbcCurrencyDAO.findByCode(baseCurrencyCode);
+            Optional<Currency> targetCurrency = jdbcCurrencyDAO.findByCode(targetCurrencyCode);
 
-            if (baseCurrency == null || targetCurrency == null){
+            if (baseCurrency.isEmpty() || targetCurrency.isEmpty()){
                 http404Errors(resp, "Одна из валют отсутствует в базе данных");
                 return;
             }
 
-            int baseCurrencyId = baseCurrency.getId();
-            int targetCurrencyId = targetCurrency.getId();
+            int baseCurrencyId = baseCurrency.get().getId();
+            int targetCurrencyId = targetCurrency.get().getId();
 
-            ExchangeRate existingExchangeRate = exchangeRateService.findByCurrencyPair(baseCurrencyId, targetCurrencyId);
-            if (existingExchangeRate == null) {
+            Optional<ExchangeRate> existingExchangeRate = jdbcExchangeRateDAO.findByCurrencyPair(baseCurrencyId, targetCurrencyId);
+            if (existingExchangeRate.isEmpty()) {
                 http404Errors(resp, "Валютная пара отсутствует в базе данных");
                 return;
             }
 
-            existingExchangeRate.setRate(rate);
-            exchangeRateService.update(existingExchangeRate);
+            existingExchangeRate.get().setRate(rate);
+            jdbcExchangeRateDAO.update(existingExchangeRate.get());
 
             Gson gson = new Gson();
             String json = gson.toJson(existingExchangeRate);

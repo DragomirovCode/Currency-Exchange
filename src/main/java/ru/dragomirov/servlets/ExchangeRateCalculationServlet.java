@@ -1,10 +1,10 @@
 package ru.dragomirov.servlets;
 
+import ru.dragomirov.dao.JdbcCurrencyDAO;
+import ru.dragomirov.dao.JdbcExchangeRateDAO;
 import ru.dragomirov.models.Calculation;
 import ru.dragomirov.models.Currency;
 import ru.dragomirov.models.ExchangeRate;
-import ru.dragomirov.services.CurrencyService;
-import ru.dragomirov.services.ExchangeRateService;
 import ru.dragomirov.commons.BaseServlet;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
@@ -13,19 +13,20 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Optional;
 
 /**
  * @doGet: Расчёт перевода определённого количества средств из одной валюты в другую.
  */
 @WebServlet(name = "ExchangeRateCalculationServlet", urlPatterns = "/exchange")
 public class ExchangeRateCalculationServlet extends BaseServlet {
-    private ExchangeRateService exchangeRateService;
-    private CurrencyService currencyService;
+    private JdbcExchangeRateDAO jdbcExchangeRateDAO;
+    private JdbcCurrencyDAO jdbcCurrencyDAO;
 
     @Override
     public void init() {
-        exchangeRateService = new ExchangeRateService();
-        currencyService = new CurrencyService();
+        this.jdbcExchangeRateDAO = new JdbcExchangeRateDAO();
+        this.jdbcCurrencyDAO = new JdbcCurrencyDAO();
     }
 
     @Override
@@ -42,30 +43,30 @@ public class ExchangeRateCalculationServlet extends BaseServlet {
 
             BigDecimal amount = parseBigDecimal(amountString);
 
-            Currency fromCurrency = currencyService.findByCode(fromCurrencyCode);
-            Currency toCurrency = currencyService.findByCode(toCurrencyCode);
+            Optional<Currency> fromCurrency = jdbcCurrencyDAO.findByCode(fromCurrencyCode);
+            Optional<Currency> toCurrency = jdbcCurrencyDAO.findByCode(toCurrencyCode);
 
-            if (fromCurrency == null || toCurrency == null) {
+            if (fromCurrency.isEmpty() || toCurrency.isEmpty()) {
                 http404Errors(resp, "Валютная пара отсутствует в базе данных");
                 return;
             }
 
-            int fromCurrencyId = fromCurrency.getId();
-            int toCurrencyId = toCurrency.getId();
+            int fromCurrencyId = fromCurrency.get().getId();
+            int toCurrencyId = toCurrency.get().getId();
 
-            ExchangeRate exchangeRate = exchangeRateService.findByCurrencyPair(fromCurrencyId, toCurrencyId);
+            Optional<ExchangeRate> exchangeRate = jdbcExchangeRateDAO.findByCurrencyPair(fromCurrencyId, toCurrencyId);
 
-            if (exchangeRate == null) {
+            if (exchangeRate.isEmpty()) {
                 http404Errors(resp, "Валютная пара отсутствует в базе данных");
                 return;
             }
 
-            BigDecimal convertedAmount = amount.multiply(exchangeRate.getRate());
+            BigDecimal convertedAmount = amount.multiply(exchangeRate.get().getRate());
 
-            Currency baseCurrency = exchangeRate.getBaseCurrency();
-            Currency targetCurrency = exchangeRate.getTargetCurrency();
+            Currency baseCurrency = exchangeRate.get().getBaseCurrency();
+            Currency targetCurrency = exchangeRate.get().getTargetCurrency();
 
-            Calculation calculation = new Calculation(baseCurrency, targetCurrency, exchangeRate.getRate(),
+            Calculation calculation = new Calculation(baseCurrency, targetCurrency, exchangeRate.get().getRate(),
                     amount, convertedAmount);
 
             String jsonResponse = new Gson().toJson(calculation);

@@ -1,7 +1,7 @@
 package ru.dragomirov.servlets;
 
+import ru.dragomirov.dao.JdbcCurrencyDAO;
 import ru.dragomirov.models.Currency;
-import ru.dragomirov.services.CurrencyService;
 import ru.dragomirov.commons.BaseServlet;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * @doGet: Получение списка валют.
@@ -16,18 +17,18 @@ import java.io.IOException;
  */
 @WebServlet(name = "CurrencyListAndCreateServlet", urlPatterns = "/currencies")
 public class CurrencyListAndCreateServlet extends BaseServlet {
-    private CurrencyService currencyService;
+    private JdbcCurrencyDAO jdbcCurrencyDAO;
 
     @Override
     public void init() {
-        currencyService = new CurrencyService();
+        this.jdbcCurrencyDAO = new JdbcCurrencyDAO();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             Gson gson = new Gson();
-            String json = gson.toJson(currencyService.findAll());
+            String json = gson.toJson(jdbcCurrencyDAO.findAll());
             resp.getWriter().write(json);
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
@@ -47,14 +48,14 @@ public class CurrencyListAndCreateServlet extends BaseServlet {
                 return;
             }
 
-            Currency existingCurrency = currencyService.findByCode(code);
-            if (existingCurrency != null) {
+            Optional<Currency> existingCurrency = jdbcCurrencyDAO.findByCode(code);
+            if (existingCurrency.isPresent()) {
                 http409Errors(resp, "Валюта с таким кодом уже существует");
                 return;
             }
 
             Currency newCurrency = new Currency(name, code, sign);
-            currencyService.save(newCurrency);
+            jdbcCurrencyDAO.save(newCurrency);
 
             Gson gson = new Gson();
             String json = gson.toJson(newCurrency);

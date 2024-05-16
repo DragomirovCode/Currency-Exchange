@@ -1,7 +1,7 @@
 package ru.dragomirov.servlets;
 
+import ru.dragomirov.dao.JdbcCurrencyDAO;
 import ru.dragomirov.models.Currency;
-import ru.dragomirov.services.CurrencyService;
 import ru.dragomirov.commons.BaseServlet;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,17 +10,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * @doGet: Получение конкретной валюты.
  */
 @WebServlet(name = "CurrencyByIdServlet", urlPatterns = "/currency/*")
 public class CurrencyByIdServlet extends BaseServlet {
-    private CurrencyService currencyService;
+    private JdbcCurrencyDAO jdbcCurrencyDAO;
 
     @Override
     public void init() {
-        currencyService = new CurrencyService();
+        this.jdbcCurrencyDAO = new JdbcCurrencyDAO();
     }
 
     @Override
@@ -34,9 +35,9 @@ public class CurrencyByIdServlet extends BaseServlet {
                 return;
             }
 
-            Currency currency = currencyService.findByCode(currencyCode);
+            Optional<Currency> currency = jdbcCurrencyDAO.findByCode(currencyCode);
 
-            if (currency == null) {
+            if (currency.isEmpty()) {
                 http404Errors(resp, "Валюта не найдена");
                 return;
             }
