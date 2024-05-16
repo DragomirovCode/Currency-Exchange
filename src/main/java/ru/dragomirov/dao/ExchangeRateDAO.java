@@ -1,4 +1,6 @@
 package ru.dragomirov.dao;
 
-public interface ExchangeRateDAO {
+import ru.dragomirov.models.ExchangeRate;
+
+public interface ExchangeRateDAO extends CrudDAO<ExchangeRate, Integer> {
 }
