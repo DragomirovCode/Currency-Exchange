@@ -23,8 +23,7 @@ GET http://localhost:8080/exchangeRate/USDEUR
 Accept: application/json
 
 ### PatchExchangeRatesRequest
-POST http://localhost:8080/exchangeRate/USDEUR
-Accept: application/json
+PATCH http://localhost:8080/exchangeRate/GBPAUD
 Content-Type: application/x-www-form-urlencoded
 
 rate=0.32
