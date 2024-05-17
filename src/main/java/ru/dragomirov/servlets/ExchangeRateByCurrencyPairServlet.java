@@ -17,7 +17,7 @@ import java.util.Optional;
 
 /**
  * @doGet: Получение конкретного обменного курса.
- * @doPost: Обновление существующего в базе обменного курса.
+ * @doPatch: Обновление существующего в базе обменного курса.
  */
 @WebServlet(name = "ExchangeRateByCurrencyPairServlet", urlPatterns = "/exchangeRate/*")
 public class ExchangeRateByCurrencyPairServlet extends BaseServlet {
