@@ -1,5 +1,6 @@
 package ru.dragomirov.servlets;
 
+import jakarta.servlet.ServletException;
 import ru.dragomirov.dao.JdbcCurrencyDAO;
 import ru.dragomirov.dao.JdbcExchangeRateDAO;
 import ru.dragomirov.models.Currency;
@@ -27,6 +28,15 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServlet {
     public void init() {
         this.jdbcExchangeRateDAO = new JdbcExchangeRateDAO();
         this.jdbcCurrencyDAO = new JdbcCurrencyDAO();
+    }
+
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (req.getMethod().equalsIgnoreCase("PATCH")){
+            doPatch(req, resp);
+        } else {
+            super.service(req, resp);
+        }
     }
 
     @Override
@@ -70,8 +80,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServlet {
     }
 
     //TODO: Ошибка, PATCH запрос не работает должным образом
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             String pathInfo = req.getPathInfo();
             if (pathInfo == null || pathInfo.isEmpty() || pathInfo.equals("/")) {
@@ -83,11 +92,13 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServlet {
             String baseCurrencyCode = currencyPair.substring(0, 3);
             String targetCurrencyCode = currencyPair.substring(3);
 
-            String rateString = req.getParameter("rate");
-            if (rateString == null) {
+            String parameter = req.getReader().readLine();
+            if (parameter == null) {
                 http400Errors(resp, "Отсутствует нужное поле формы");
                 return;
             }
+
+            String rateString = parameter.replace("rate=", "");
 
             BigDecimal rate = parseBigDecimal(rateString);
 
@@ -112,7 +123,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServlet {
             jdbcExchangeRateDAO.update(existingExchangeRate.get());
 
             Gson gson = new Gson();
-            String json = gson.toJson(existingExchangeRate);
+            String json = gson.toJson(existingExchangeRate.get());
             resp.getWriter().write(json);
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
