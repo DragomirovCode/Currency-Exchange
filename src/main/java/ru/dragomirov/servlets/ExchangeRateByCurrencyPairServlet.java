@@ -69,6 +69,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServlet {
         }
     }
 
+    //TODO: Ошибка, PATCH запрос не работает должным образом
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
