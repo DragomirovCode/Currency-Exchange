@@ -71,7 +71,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServlet {
             }
 
             Gson gson = new Gson();
-            String json = gson.toJson(exchangeRate);
+            String json = gson.toJson(exchangeRate.get());
             resp.getWriter().write(json);
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {

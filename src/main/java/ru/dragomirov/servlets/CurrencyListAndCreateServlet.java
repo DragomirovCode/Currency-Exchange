@@ -43,7 +43,7 @@ public class CurrencyListAndCreateServlet extends BaseServlet {
             String code = req.getParameter("code");
             String sign = req.getParameter("sign");
 
-            if (name == null || code == null || sign == null) {
+            if (name.isEmpty() || code.isEmpty() || sign.isEmpty()) {
                 http400Errors(resp, "Отсутствует нужное поле формы");
                 return;
             }

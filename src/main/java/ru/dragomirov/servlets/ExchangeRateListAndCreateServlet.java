@@ -49,7 +49,7 @@ public class ExchangeRateListAndCreateServlet extends BaseServlet {
             String targetCurrencyCode = req.getParameter("targetCurrencyCode");
             String rateString = req.getParameter("rate");
 
-            if (baseCurrencyCode == null || targetCurrencyCode == null || rateString == null) {
+            if (baseCurrencyCode.isEmpty() || targetCurrencyCode.isEmpty() || rateString.isEmpty()) {
                 http400Errors(resp, "Отсутствует нужное поле формы");
                 return;
             }

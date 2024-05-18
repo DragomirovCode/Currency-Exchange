@@ -36,7 +36,7 @@ public class ExchangeRateCalculationServlet extends BaseServlet {
             String toCurrencyCode = req.getParameter("to");
             String amountString = req.getParameter("amount");
 
-            if (fromCurrencyCode == null || toCurrencyCode == null || amountString == null) {
+            if (fromCurrencyCode.isEmpty() || toCurrencyCode.isEmpty() || amountString.isEmpty()) {
                 http400Errors(resp, "Отсутствует нужное поле формы");
                 return;
             }

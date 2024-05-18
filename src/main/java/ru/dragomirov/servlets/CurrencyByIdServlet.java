@@ -43,7 +43,7 @@ public class CurrencyByIdServlet extends BaseServlet {
             }
 
             Gson gson = new Gson();
-            String json = gson.toJson(currency);
+            String json = gson.toJson(currency.get());
             resp.getWriter().write(json);
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e){
