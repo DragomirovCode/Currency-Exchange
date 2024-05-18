@@ -1,0 +1,72 @@
+### GetAllExchangeRatesRequest
+### http200 - Успех
+GET http://localhost:8080/exchangeRates
+Accept: application/json
+
+### PostExchangeRatesRequest
+### http201 - Успех
+POST http://localhost:8080/exchangeRates
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+
+baseCurrencyCode=EUR&targetCurrencyCode=EUR&rate=0.32
+
+### PostExchangeRatesRequest
+### http400Errors - Отсутствует нужное поле формы
+POST http://localhost:8080/exchangeRates
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+
+baseCurrencyCode=EUR&targetCurrencyCode=&rate=0.32
+
+### PostExchangeRatesRequest
+### http404Errors - Одна (или обе) валюта из валютной пары не существует в БД
+POST http://localhost:8080/exchangeRates
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+
+baseCurrencyCode=EUR&targetCurrencyCode=Errors&rate=0.32
+
+### PostExchangeRatesRequest
+### http409Errors - Валютная пара с таким кодом уже существует | Доблировал код http201, чтобы показать явно
+POST http://localhost:8080/exchangeRates
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+
+baseCurrencyCode=EUR&targetCurrencyCode=EUR&rate=0.32
+
+### PatchExchangeRatesRequest
+### http200 - Успех
+PATCH http://localhost:8080/exchangeRate/USDEUR
+Content-Type: application/x-www-form-urlencoded
+
+rate=0.32
+
+### PatchExchangeRatesRequest
+### http400Errors - Отсутствует нужное поле формы
+PATCH http://localhost:8080/exchangeRate/USDEUR
+Content-Type: application/x-www-form-urlencoded
+
+rate=
+
+### PatchExchangeRatesRequest
+### http404Errors - Валзютная пара отсутствует в бае данных
+PATCH http://localhost:8080/exchangeRate/USDErrors
+Content-Type: application/x-www-form-urlencoded
+
+rate=0.32
+
+### GetExchangeCalculationRequest | AB
+### http200 - Успех
+GET http://localhost:8080/exchange?from=USD&to=EUR&amount=10
+Accept: application/json
+
+### GetExchangeCalculationRequest | AB
+### http400Errors - Отсутствует нужное поле формы
+GET http://localhost:8080/exchange?from=USD&to=EUR&amount=
+Accept: application/json
+
+### GetExchangeCalculationRequest | AB
+### http404Errors - Валютная пара отсутствует в базе данных
+GET http://localhost:8080/exchange?from=Errors&to=EUR&amount=100
+Accept: application/json
