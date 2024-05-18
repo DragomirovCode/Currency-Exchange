@@ -3,6 +3,21 @@
 GET http://localhost:8080/exchangeRates
 Accept: application/json
 
+### GetExchangeRatesByCurrencyPairRequest
+### http200 - Успех
+GET http://localhost:8080/exchangeRate/USDEUR
+Accept: application/json
+
+### GetExchangeRatesByCurrencyPairRequest
+### http400Errors - Коды валют пары отсутствуют в адресе
+GET http://localhost:8080/exchangeRate/
+Accept: application/json
+
+### GetExchangeRatesByCurrencyPairRequest
+### http404Errors - Обменный курс для пары не найден
+GET http://localhost:8080/exchangeRate/Errors
+Accept: application/json
+
 ### PostExchangeRatesRequest
 ### http201 - Успех
 POST http://localhost:8080/exchangeRates
