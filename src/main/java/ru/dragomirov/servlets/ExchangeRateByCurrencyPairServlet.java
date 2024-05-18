@@ -79,7 +79,6 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServlet {
         }
     }
 
-    //TODO: Ошибка, PATCH запрос не работает должным образом
     protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             String pathInfo = req.getPathInfo();
