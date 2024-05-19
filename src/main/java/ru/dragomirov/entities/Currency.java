@@ -1,6 +1,5 @@
 package ru.dragomirov.entities;
 
-import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,12 +7,8 @@ import lombok.Setter;
 @Setter
 public class Currency {
     private int id;
-
-    @SerializedName("name")
     private String fullName;
-
     private String code;
-
     private String sign;
 
     public Currency(String fullName, String code, String sign) {
