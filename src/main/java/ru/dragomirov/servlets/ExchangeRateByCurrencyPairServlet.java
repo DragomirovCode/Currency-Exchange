@@ -82,22 +82,19 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServlet {
     protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         try {
             String pathInfo = req.getPathInfo();
-            if (pathInfo == null || pathInfo.isEmpty() || pathInfo.equals("/")) {
-                http400Errors(resp, "Отсутствует нужное поле формы");
-                return;
-            }
 
             String currencyPair = pathInfo.substring(1);
             String baseCurrencyCode = currencyPair.substring(0, 3);
             String targetCurrencyCode = currencyPair.substring(3);
 
             String parameter = req.getReader().readLine();
-            if (parameter == null) {
+
+            String rateString = parameter.replace("rate=", "");
+
+            if (rateString.isEmpty()) {
                 http400Errors(resp, "Отсутствует нужное поле формы");
                 return;
             }
-
-            String rateString = parameter.replace("rate=", "");
 
             BigDecimal rate = parseBigDecimal(rateString);
 
@@ -105,7 +102,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServlet {
             Optional<Currency> targetCurrency = jdbcCurrencyDAO.findByCode(targetCurrencyCode);
 
             if (baseCurrency.isEmpty() || targetCurrency.isEmpty()){
-                http404Errors(resp, "Одна из валют отсутствует в базе данных");
+                http404Errors(resp, "Валютная пара отсутствует в базе данных");
                 return;
             }
 
