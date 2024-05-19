@@ -15,7 +15,7 @@ Accept: application/json
 
 ### GetCurrencyByIdRequest
 ### http404Errors - Валюта не найдена
-GET http://localhost:8080/currency/what
+GET http://localhost:8080/currency/Errors
 Accept: application/json
 
 ### PostCurrenciesrRequest
