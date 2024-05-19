@@ -1,24 +1,23 @@
 package ru.dragomirov.utils;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 public class ConnectionUtils {
     private static final String URL = "jdbc:sqlite::resource:db/database.db";
-    private static Connection connection;
+    private static final String DRIVER = "org.sqlite.JDBC";
+    private static final HikariDataSource HIKARI_DATA_SOURCE;
 
-    // Приватный конструктор, чтобы предотвратить создание экземпляров класса
-    private ConnectionUtils() {}
-    public synchronized static Connection getConnection() throws SQLException {
-        if (connection == null || connection.isClosed()) {
-            try {
-                Class.forName("org.sqlite.JDBC");
-                connection = DriverManager.getConnection(URL);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-                throw new SQLException("SQLite JDBC driver not found");
-            }
-        }
-        return connection;
+    static {
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(URL);
+        config.setDriverClassName(DRIVER);
+        HIKARI_DATA_SOURCE = new HikariDataSource(config);
+    }
+
+    public static Connection getConnection() throws SQLException {
+        return HIKARI_DATA_SOURCE.getConnection();
     }
 }
