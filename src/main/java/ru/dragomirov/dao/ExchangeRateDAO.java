@@ -1,6 +1,6 @@
 package ru.dragomirov.dao;
 
-import ru.dragomirov.models.ExchangeRate;
+import ru.dragomirov.entities.ExchangeRate;
 
 import java.util.Optional;
 

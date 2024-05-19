@@ -1,4 +1,4 @@
-package ru.dragomirov.models;
+package ru.dragomirov.entities;
 
 import lombok.Getter;
 import lombok.Setter;

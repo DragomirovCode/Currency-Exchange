@@ -2,8 +2,8 @@ package ru.dragomirov.servlets;
 
 import ru.dragomirov.dao.JdbcCurrencyDAO;
 import ru.dragomirov.dao.JdbcExchangeRateDAO;
-import ru.dragomirov.models.Currency;
-import ru.dragomirov.models.ExchangeRate;
+import ru.dragomirov.entities.Currency;
+import ru.dragomirov.entities.ExchangeRate;
 import ru.dragomirov.commons.BaseServlet;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;

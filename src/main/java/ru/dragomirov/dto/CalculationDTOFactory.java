@@ -1,6 +1,6 @@
 package ru.dragomirov.dto;
 
-import ru.dragomirov.models.Currency;
+import ru.dragomirov.entities.Currency;
 
 import java.math.BigDecimal;
 

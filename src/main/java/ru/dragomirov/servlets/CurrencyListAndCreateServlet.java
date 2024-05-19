@@ -1,7 +1,7 @@
 package ru.dragomirov.servlets;
 
 import ru.dragomirov.dao.JdbcCurrencyDAO;
-import ru.dragomirov.models.Currency;
+import ru.dragomirov.entities.Currency;
 import ru.dragomirov.commons.BaseServlet;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;

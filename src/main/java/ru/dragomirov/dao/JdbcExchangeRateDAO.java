@@ -1,7 +1,7 @@
 package ru.dragomirov.dao;
 
-import ru.dragomirov.models.Currency;
-import ru.dragomirov.models.ExchangeRate;
+import ru.dragomirov.entities.Currency;
+import ru.dragomirov.entities.ExchangeRate;
 import ru.dragomirov.utils.ConnectionUtils;
 
 import java.math.BigDecimal;
