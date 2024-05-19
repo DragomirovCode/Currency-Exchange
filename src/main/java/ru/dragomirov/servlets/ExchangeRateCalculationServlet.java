@@ -2,7 +2,8 @@ package ru.dragomirov.servlets;
 
 import ru.dragomirov.dao.JdbcCurrencyDAO;
 import ru.dragomirov.dao.JdbcExchangeRateDAO;
-import ru.dragomirov.models.Calculation;
+import ru.dragomirov.dto.CalculationDTO;
+import ru.dragomirov.dto.CalculationDTOFactory;
 import ru.dragomirov.models.Currency;
 import ru.dragomirov.models.ExchangeRate;
 import ru.dragomirov.commons.BaseServlet;
@@ -22,11 +23,13 @@ import java.util.Optional;
 public class ExchangeRateCalculationServlet extends BaseServlet {
     private JdbcExchangeRateDAO jdbcExchangeRateDAO;
     private JdbcCurrencyDAO jdbcCurrencyDAO;
+    private CalculationDTOFactory calculationDTOFactory;
 
     @Override
     public void init() {
         this.jdbcExchangeRateDAO = new JdbcExchangeRateDAO();
         this.jdbcCurrencyDAO = new JdbcCurrencyDAO();
+        this.calculationDTOFactory = new CalculationDTOFactory();
     }
 
     @Override
@@ -66,10 +69,11 @@ public class ExchangeRateCalculationServlet extends BaseServlet {
             Currency baseCurrency = exchangeRate.get().getBaseCurrency();
             Currency targetCurrency = exchangeRate.get().getTargetCurrency();
 
-            Calculation calculation = new Calculation(baseCurrency, targetCurrency, exchangeRate.get().getRate(),
+            CalculationDTO calculationDTO = calculationDTOFactory.createCalculationDTO(
+                    baseCurrency, targetCurrency, exchangeRate.get().getRate(),
                     amount, convertedAmount);
 
-            String jsonResponse = new Gson().toJson(calculation);
+            String jsonResponse = new Gson().toJson(calculationDTO);
 
             resp.getWriter().write(jsonResponse);
             resp.setStatus(HttpServletResponse.SC_OK);
