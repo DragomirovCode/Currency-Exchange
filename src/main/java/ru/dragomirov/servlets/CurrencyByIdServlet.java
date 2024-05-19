@@ -1,6 +1,7 @@
 package ru.dragomirov.servlets;
 
 import ru.dragomirov.dao.JdbcCurrencyDAO;
+import ru.dragomirov.dto.CurrencyDTO;
 import ru.dragomirov.entities.Currency;
 import ru.dragomirov.commons.BaseServlet;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import ru.dragomirov.utils.MappingUtils;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -42,8 +44,10 @@ public class CurrencyByIdServlet extends BaseServlet {
                 return;
             }
 
+            CurrencyDTO currencyDTO = MappingUtils.toDTO(currency.get());
+
             Gson gson = new Gson();
-            String json = gson.toJson(currency.get());
+            String json = gson.toJson(currencyDTO);
             resp.getWriter().write(json);
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e){
