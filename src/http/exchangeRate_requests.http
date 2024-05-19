@@ -65,7 +65,7 @@ Content-Type: application/x-www-form-urlencoded
 rate=
 
 ### PatchExchangeRatesRequest
-### http404Errors - Валзютная пара отсутствует в бае данных
+### http404Errors - Валютная пара отсутствует в базе данных
 PATCH http://localhost:8080/exchangeRate/USDErrors
 Content-Type: application/x-www-form-urlencoded
 
