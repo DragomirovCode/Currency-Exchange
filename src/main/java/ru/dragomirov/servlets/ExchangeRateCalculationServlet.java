@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ru.dragomirov.utils.BigDecimalUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -44,7 +45,7 @@ public class ExchangeRateCalculationServlet extends BaseServlet {
                 return;
             }
 
-            BigDecimal amount = parseBigDecimal(amountString);
+            BigDecimal amount = BigDecimalUtils.parseBigDecimal(amountString);
 
             Optional<Currency> fromCurrency = jdbcCurrencyDAO.findByCode(fromCurrencyCode);
             Optional<Currency> toCurrency = jdbcCurrencyDAO.findByCode(toCurrencyCode);

@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ru.dragomirov.utils.BigDecimalUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -98,7 +99,7 @@ public class ExchangeRateByCurrencyPairServlet extends BaseServlet {
                 return;
             }
 
-            BigDecimal rate = parseBigDecimal(rateString);
+            BigDecimal rate = BigDecimalUtils.parseBigDecimal(rateString);
 
             Optional<Currency> baseCurrency = jdbcCurrencyDAO.findByCode(baseCurrencyCode);
             Optional<Currency> targetCurrency = jdbcCurrencyDAO.findByCode(targetCurrencyCode);
