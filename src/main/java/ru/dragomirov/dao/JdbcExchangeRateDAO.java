@@ -15,11 +15,11 @@ import java.util.Optional;
 
 public class JdbcExchangeRateDAO implements ExchangeRateDAO {
     private static final String FIND_ALL_QUERY = "SELECT * FROM ExchangeRates";
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM ExchangeRates WHERE ID=?";
-    private static final String FIND_BY_CURRENCY_PAIR_QUERY = "SELECT * FROM ExchangeRates WHERE BaseCurrencyId=? AND TargetCurrencyId=?";
-    private static final String SAVE_QUERY = "INSERT INTO ExchangeRates (BaseCurrencyId, TargetCurrencyId, Rate) VALUES (?, ?, ?)";
-    private static final String UPDATE_QUERY = "UPDATE ExchangeRates SET BaseCurrencyId=?, TargetCurrencyId=?, Rate=? WHERE ID=?";
-    private static final String DELETE_QUERY = "DELETE FROM ExchangeRates WHERE ID=?";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM ExchangeRates WHERE id=?";
+    private static final String FIND_BY_CURRENCY_PAIR_QUERY = "SELECT * FROM ExchangeRates WHERE base_currency_id=? AND target_currency_id=?";
+    private static final String SAVE_QUERY = "INSERT INTO ExchangeRates (base_currency_id, target_currency_id, rate) VALUES (?, ?, ?)";
+    private static final String UPDATE_QUERY = "UPDATE ExchangeRates SET base_currency_id=?, target_currency_id=?, rate=? WHERE id=?";
+    private static final String DELETE_QUERY = "DELETE FROM ExchangeRates WHERE id=?";
     private final JdbcCurrencyDAO jdbcCurrencyDAO;
     private final Connection connection;
 
@@ -33,10 +33,10 @@ public class JdbcExchangeRateDAO implements ExchangeRateDAO {
     }
 
     private ExchangeRate mapResultSetToExchangeRate(ResultSet resultSet) throws SQLException {
-        int id = resultSet.getInt("ID");
-        int baseCurrencyId = resultSet.getInt("BaseCurrencyId");
-        int targetCurrencyId = resultSet.getInt("TargetCurrencyId");
-        BigDecimal rate = resultSet.getBigDecimal("Rate");
+        int id = resultSet.getInt("id");
+        int baseCurrencyId = resultSet.getInt("base_currency_id");
+        int targetCurrencyId = resultSet.getInt("target_currency_id");
+        BigDecimal rate = resultSet.getBigDecimal("rate");
 
         Optional<Currency> baseCurrencyOpt = jdbcCurrencyDAO.findById(baseCurrencyId);
         Optional<Currency> targetCurrencyOpt = jdbcCurrencyDAO.findById(targetCurrencyId);
