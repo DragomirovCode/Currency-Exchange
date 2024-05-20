@@ -43,7 +43,7 @@ public class CurrencyByIdServlet extends HttpErrorHandlingServlet {
                 return;
             }
 
-            CurrencyDTO currencyDTO = MappingUtils.toDTO(currency.get());
+            CurrencyDTO currencyDTO = MappingUtils.currencyToDTO(currency.get());
 
             Gson gson = new Gson();
             String json = gson.toJson(currencyDTO);
