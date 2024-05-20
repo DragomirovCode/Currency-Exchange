@@ -9,8 +9,8 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class CalculationDTO {
-    private Currency baseCurrency;
-    private Currency targetCurrency;
+    private CurrencyDTO baseCurrency;
+    private CurrencyDTO targetCurrency;
     private BigDecimal rate;
     private BigDecimal amount;
     private BigDecimal convertedAmount;
