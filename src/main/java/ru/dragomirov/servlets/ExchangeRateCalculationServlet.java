@@ -4,6 +4,7 @@ import ru.dragomirov.dao.JdbcCurrencyDAO;
 import ru.dragomirov.dao.JdbcExchangeRateDAO;
 import ru.dragomirov.dto.CalculationDTO;
 import ru.dragomirov.dto.CalculationDTOFactory;
+import ru.dragomirov.dto.CurrencyDTO;
 import ru.dragomirov.entities.Currency;
 import ru.dragomirov.entities.ExchangeRate;
 import com.google.gson.Gson;
@@ -11,6 +12,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.dragomirov.utils.BigDecimalUtils;
+import ru.dragomirov.utils.MappingUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -66,8 +68,8 @@ public class ExchangeRateCalculationServlet extends HttpErrorHandlingServlet {
 
             BigDecimal convertedAmount = amount.multiply(exchangeRate.get().getRate());
 
-            Currency baseCurrency = exchangeRate.get().getBaseCurrency();
-            Currency targetCurrency = exchangeRate.get().getTargetCurrency();
+            CurrencyDTO baseCurrency = MappingUtils.currencyToDTO(exchangeRate.get().getBaseCurrency());
+            CurrencyDTO targetCurrency = MappingUtils.currencyToDTO(exchangeRate.get().getTargetCurrency());
 
             CalculationDTO calculationDTO = calculationDTOFactory.createCalculationDTO(
                     baseCurrency, targetCurrency, exchangeRate.get().getRate(),

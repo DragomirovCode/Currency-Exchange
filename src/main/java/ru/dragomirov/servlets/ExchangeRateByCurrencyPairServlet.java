@@ -3,6 +3,7 @@ package ru.dragomirov.servlets;
 import jakarta.servlet.ServletException;
 import ru.dragomirov.dao.JdbcCurrencyDAO;
 import ru.dragomirov.dao.JdbcExchangeRateDAO;
+import ru.dragomirov.dto.ExchangeRateDTO;
 import ru.dragomirov.entities.Currency;
 import ru.dragomirov.entities.ExchangeRate;
 import com.google.gson.Gson;
@@ -10,6 +11,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ru.dragomirov.utils.BigDecimalUtils;
+import ru.dragomirov.utils.MappingUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -70,8 +72,10 @@ public class ExchangeRateByCurrencyPairServlet extends HttpErrorHandlingServlet 
                 return;
             }
 
+            ExchangeRateDTO exchangeRateDTO = MappingUtils.exchangeRateToDTO(exchangeRate.get());
+
             Gson gson = new Gson();
-            String json = gson.toJson(exchangeRate.get());
+            String json = gson.toJson(exchangeRateDTO);
             resp.getWriter().write(json);
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
@@ -120,8 +124,10 @@ public class ExchangeRateByCurrencyPairServlet extends HttpErrorHandlingServlet 
             existingExchangeRate.get().setRate(rate);
             jdbcExchangeRateDAO.update(existingExchangeRate.get());
 
+            ExchangeRateDTO exchangeRateDTO = MappingUtils.exchangeRateToDTO(existingExchangeRate.get());
+
             Gson gson = new Gson();
-            String json = gson.toJson(existingExchangeRate.get());
+            String json = gson.toJson(exchangeRateDTO);
             resp.getWriter().write(json);
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {

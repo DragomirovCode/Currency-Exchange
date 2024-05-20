@@ -32,7 +32,7 @@ public class CurrencyListAndCreateServlet extends HttpErrorHandlingServlet {
         try {
             List<Currency> currencyList = jdbcCurrencyDAO.findAll();
             List<CurrencyDTO> currencyDTOList = currencyList.stream()
-                    .map(MappingUtils::toDTO).collect(Collectors.toList());
+                    .map(MappingUtils::currencyToDTO).collect(Collectors.toList());
 
             Gson gson = new Gson();
             String json = gson.toJson(currencyDTOList);
@@ -66,7 +66,7 @@ public class CurrencyListAndCreateServlet extends HttpErrorHandlingServlet {
             Currency newCurrency = new Currency(name, code, sign);
             jdbcCurrencyDAO.save(newCurrency);
 
-            CurrencyDTO currencyDTO = MappingUtils.toDTO(newCurrency);
+            CurrencyDTO currencyDTO = MappingUtils.currencyToDTO(newCurrency);
 
             Gson gson = new Gson();
             String json = gson.toJson(currencyDTO);
