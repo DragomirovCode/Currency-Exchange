@@ -5,7 +5,7 @@ import ru.dragomirov.entities.Currency;
 import java.math.BigDecimal;
 
 public class CalculationDTOFactory {
-    public CalculationDTO createCalculationDTO(Currency baseCurrency, Currency targetCurrency,
+    public CalculationDTO createCalculationDTO(CurrencyDTO baseCurrency, CurrencyDTO targetCurrency,
                                                BigDecimal rate, BigDecimal amount, BigDecimal convertedAmount) {
         CalculationDTO calculationDTO = new CalculationDTO();
         calculationDTO.setBaseCurrency(baseCurrency);
