@@ -1,13 +1,13 @@
-package ru.dragomirov.commons;
+package ru.dragomirov.exceptions;
 
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-public class Http400ErrorHandler implements ErrorHandler {
+public class Http409ErrorHandler implements ErrorHandler{
     @Override
     public void httpErrors(HttpServletResponse resp, String errorMessage) throws IOException {
-        resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        resp.setStatus(HttpServletResponse.SC_CONFLICT);
         String errorResponse = "{\"message\": \"" + errorMessage + "\"}";
         resp.getWriter().write(errorResponse);
     }

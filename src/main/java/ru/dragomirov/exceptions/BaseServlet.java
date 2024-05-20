@@ -1,4 +1,4 @@
-package ru.dragomirov.commons;
+package ru.dragomirov.exceptions;
 
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletResponse;

@@ -3,7 +3,7 @@ package ru.dragomirov.servlets;
 import ru.dragomirov.dao.JdbcCurrencyDAO;
 import ru.dragomirov.dto.CurrencyDTO;
 import ru.dragomirov.entities.Currency;
-import ru.dragomirov.commons.BaseServlet;
+import ru.dragomirov.exceptions.BaseServlet;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;

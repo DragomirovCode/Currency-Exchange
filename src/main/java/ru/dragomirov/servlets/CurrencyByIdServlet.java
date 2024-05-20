@@ -3,7 +3,7 @@ package ru.dragomirov.servlets;
 import ru.dragomirov.dao.JdbcCurrencyDAO;
 import ru.dragomirov.dto.CurrencyDTO;
 import ru.dragomirov.entities.Currency;
-import ru.dragomirov.commons.BaseServlet;
+import ru.dragomirov.exceptions.BaseServlet;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,14 +33,14 @@ public class CurrencyByIdServlet extends BaseServlet {
             String currencyCode = pathInfo.substring(1);
 
             if (currencyCode.isEmpty()) {
-                http400Errors(resp,"Код валюты отсутствует в адресе");
+                handleError(400, resp,"Код валюты отсутствует в адресе");
                 return;
             }
 
             Optional<Currency> currency = jdbcCurrencyDAO.findByCode(currencyCode);
 
             if (currency.isEmpty()) {
-                http404Errors(resp, "Валюта не найдена");
+                handleError(404, resp, "Валюта не найдена");
                 return;
             }
 
@@ -51,7 +51,9 @@ public class CurrencyByIdServlet extends BaseServlet {
             resp.getWriter().write(json);
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e){
-            http500Errors(resp, e, "База данных недоступна");
+            System.err.println("Произошла ошибка: " + e.getMessage());
+            e.printStackTrace();
+            handleError(500, resp, "База данных недоступна");
         }
     }
 }
