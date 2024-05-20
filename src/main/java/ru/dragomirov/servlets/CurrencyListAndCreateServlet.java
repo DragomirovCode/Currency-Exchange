@@ -40,7 +40,9 @@ public class CurrencyListAndCreateServlet extends BaseServlet {
             resp.getWriter().write(json);
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
-            http500Errors(resp, e, "База данных недоступна");
+            System.err.println("Произошла ошибка: " + e.getMessage());
+            e.printStackTrace();
+            handleError(500, resp, "База данных недоступна");
         }
     }
 
@@ -52,13 +54,13 @@ public class CurrencyListAndCreateServlet extends BaseServlet {
             String sign = req.getParameter("sign");
 
             if (name.isEmpty() || code.isEmpty() || sign.isEmpty()) {
-                http400Errors(resp, "Отсутствует нужное поле формы");
+                handleError(400, resp, "Отсутствует нужное поле формы");
                 return;
             }
 
             Optional<Currency> existingCurrency = jdbcCurrencyDAO.findByCode(code);
             if (existingCurrency.isPresent()) {
-                http409Errors(resp, "Валюта с таким кодом уже существует");
+                handleError(409, resp, "Валюта с таким кодом уже существует");
                 return;
             }
 
@@ -72,7 +74,9 @@ public class CurrencyListAndCreateServlet extends BaseServlet {
             resp.getWriter().write(json);
             resp.setStatus(HttpServletResponse.SC_CREATED);
         } catch (Exception e) {
-            http500Errors(resp, e, "База данных недоступна");
+            System.err.println("Произошла ошибка: " + e.getMessage());
+            e.printStackTrace();
+            handleError(500, resp, "База данных недоступна");
         }
     }
 }

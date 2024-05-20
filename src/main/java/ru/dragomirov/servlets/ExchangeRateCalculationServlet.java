@@ -40,7 +40,7 @@ public class ExchangeRateCalculationServlet extends BaseServlet {
             String amountString = req.getParameter("amount");
 
             if (fromCurrencyCode.isEmpty() || toCurrencyCode.isEmpty() || amountString.isEmpty()) {
-                http400Errors(resp, "Отсутствует нужное поле формы");
+                handleError(400, resp, "Отсутствует нужное поле формы");
                 return;
             }
 
@@ -50,7 +50,7 @@ public class ExchangeRateCalculationServlet extends BaseServlet {
             Optional<Currency> toCurrency = jdbcCurrencyDAO.findByCode(toCurrencyCode);
 
             if (fromCurrency.isEmpty() || toCurrency.isEmpty()) {
-                http404Errors(resp, "Валютная пара отсутствует в базе данных");
+                handleError(404, resp, "Валютная пара отсутствует в базе данных");
                 return;
             }
 
@@ -60,7 +60,7 @@ public class ExchangeRateCalculationServlet extends BaseServlet {
             Optional<ExchangeRate> exchangeRate = jdbcExchangeRateDAO.findByCurrencyPair(fromCurrencyId, toCurrencyId);
 
             if (exchangeRate.isEmpty()) {
-                http404Errors(resp, "Валютная пара отсутствует в базе данных");
+                handleError(404, resp, "Валютная пара отсутствует в базе данных");
                 return;
             }
 
@@ -78,7 +78,9 @@ public class ExchangeRateCalculationServlet extends BaseServlet {
             resp.getWriter().write(jsonResponse);
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
-            http500Errors(resp, e, "База данных недоступна");
+            System.err.println("Произошла ошибка: " + e.getMessage());
+            e.printStackTrace();
+            handleError(500, resp, "База данных недоступна");
         }
     }
 }

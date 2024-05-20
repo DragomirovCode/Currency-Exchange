@@ -38,7 +38,9 @@ public class ExchangeRateListAndCreateServlet extends BaseServlet {
             resp.getWriter().write(json);
             resp.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
-            http500Errors(resp, e, "База данных недоступна");
+            System.err.println("Произошла ошибка: " + e.getMessage());
+            e.printStackTrace();
+            handleError(500, resp, "База данных недоступна");
         }
     }
 
@@ -50,7 +52,7 @@ public class ExchangeRateListAndCreateServlet extends BaseServlet {
             String rateString = req.getParameter("rate");
 
             if (baseCurrencyCode.isEmpty() || targetCurrencyCode.isEmpty() || rateString.isEmpty()) {
-                http400Errors(resp, "Отсутствует нужное поле формы");
+                handleError(400, resp, "Отсутствует нужное поле формы");
                 return;
             }
 
@@ -58,7 +60,7 @@ public class ExchangeRateListAndCreateServlet extends BaseServlet {
             try {
                 rate = new BigDecimal(rateString);
             } catch (NumberFormatException e) {
-                http400Errors(resp, "Не правильный формат");
+                handleError(400, resp, "Не правильный формат");
                 return;
             }
 
@@ -66,14 +68,14 @@ public class ExchangeRateListAndCreateServlet extends BaseServlet {
             Optional<Currency> targetCurrency = jdbcCurrencyDAO.findByCode(targetCurrencyCode);
 
             if (baseCurrency.isEmpty() || targetCurrency.isEmpty()) {
-                http404Errors(resp, "Одна (или обе) валюта из валютной пары не существует в БД");
+                handleError(404, resp, "Одна (или обе) валюта из валютной пары не существует в БД");
                 return;
             }
 
             Optional<ExchangeRate> existingExchangeRate = jdbcExchangeRateDAO.findByCurrencyPair(baseCurrency.get().getId(),
                     targetCurrency.get().getId());
             if (existingExchangeRate.isPresent()) {
-                http409Errors(resp, "Валютная пара с таким кодом уже существует");
+                handleError(409, resp, "Валютная пара с таким кодом уже существует");
                 return;
             }
 
@@ -85,7 +87,9 @@ public class ExchangeRateListAndCreateServlet extends BaseServlet {
             resp.getWriter().write(json);
             resp.setStatus(HttpServletResponse.SC_CREATED);
         } catch (Exception e) {
-            http500Errors(resp, e, "База данных недоступна");
+            System.err.println("Произошла ошибка: " + e.getMessage());
+            e.printStackTrace();
+            handleError(500, resp, "База данных недоступна");
         }
     }
 }
