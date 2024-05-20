@@ -2,7 +2,7 @@ package ru.dragomirov.servlets;
 
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletResponse;
-import ru.dragomirov.exceptions.*;
+import ru.dragomirov.errorhandling.*;
 
 import java.io.IOException;
 import java.util.HashMap;
