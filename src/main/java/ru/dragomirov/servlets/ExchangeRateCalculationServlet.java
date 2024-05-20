@@ -6,7 +6,6 @@ import ru.dragomirov.dto.CalculationDTO;
 import ru.dragomirov.dto.CalculationDTOFactory;
 import ru.dragomirov.entities.Currency;
 import ru.dragomirov.entities.ExchangeRate;
-import ru.dragomirov.exceptions.BaseServlet;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +20,7 @@ import java.util.Optional;
  * @doGet: Расчёт перевода определённого количества средств из одной валюты в другую.
  */
 @WebServlet(name = "ExchangeRateCalculationServlet", urlPatterns = "/exchange")
-public class ExchangeRateCalculationServlet extends BaseServlet {
+public class ExchangeRateCalculationServlet extends HttpErrorHandlingServlet {
     private JdbcExchangeRateDAO jdbcExchangeRateDAO;
     private JdbcCurrencyDAO jdbcCurrencyDAO;
     private CalculationDTOFactory calculationDTOFactory;

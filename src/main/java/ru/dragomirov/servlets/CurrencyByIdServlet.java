@@ -3,7 +3,6 @@ package ru.dragomirov.servlets;
 import ru.dragomirov.dao.JdbcCurrencyDAO;
 import ru.dragomirov.dto.CurrencyDTO;
 import ru.dragomirov.entities.Currency;
-import ru.dragomirov.exceptions.BaseServlet;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,7 +17,7 @@ import java.util.Optional;
  * @doGet: Получение конкретной валюты.
  */
 @WebServlet(name = "CurrencyByIdServlet", urlPatterns = "/currency/*")
-public class CurrencyByIdServlet extends BaseServlet {
+public class CurrencyByIdServlet extends HttpErrorHandlingServlet {
     private JdbcCurrencyDAO jdbcCurrencyDAO;
 
     @Override

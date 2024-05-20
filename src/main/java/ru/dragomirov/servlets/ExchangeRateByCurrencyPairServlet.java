@@ -5,7 +5,6 @@ import ru.dragomirov.dao.JdbcCurrencyDAO;
 import ru.dragomirov.dao.JdbcExchangeRateDAO;
 import ru.dragomirov.entities.Currency;
 import ru.dragomirov.entities.ExchangeRate;
-import ru.dragomirov.exceptions.BaseServlet;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +20,7 @@ import java.util.Optional;
  * @doPatch: Обновление существующего в базе обменного курса.
  */
 @WebServlet(name = "ExchangeRateByCurrencyPairServlet", urlPatterns = "/exchangeRate/*")
-public class ExchangeRateByCurrencyPairServlet extends BaseServlet {
+public class ExchangeRateByCurrencyPairServlet extends HttpErrorHandlingServlet {
     private JdbcExchangeRateDAO jdbcExchangeRateDAO;
     private JdbcCurrencyDAO jdbcCurrencyDAO;
 

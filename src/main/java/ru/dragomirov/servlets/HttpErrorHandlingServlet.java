@@ -1,12 +1,14 @@
-package ru.dragomirov.exceptions;
+package ru.dragomirov.servlets;
 
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletResponse;
+import ru.dragomirov.exceptions.*;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class BaseServlet extends HttpServlet {
+public abstract class HttpErrorHandlingServlet extends HttpServlet {
     private final Map<Integer, ErrorHandler> errorHandlers = new HashMap<>();
 
     {

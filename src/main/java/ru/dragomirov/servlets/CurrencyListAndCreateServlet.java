@@ -3,7 +3,6 @@ package ru.dragomirov.servlets;
 import ru.dragomirov.dao.JdbcCurrencyDAO;
 import ru.dragomirov.dto.CurrencyDTO;
 import ru.dragomirov.entities.Currency;
-import ru.dragomirov.exceptions.BaseServlet;
 import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
  * @doPost: Добавление новой валюты в базу.
  */
 @WebServlet(name = "CurrencyListAndCreateServlet", urlPatterns = "/currencies")
-public class CurrencyListAndCreateServlet extends BaseServlet {
+public class CurrencyListAndCreateServlet extends HttpErrorHandlingServlet {
     private JdbcCurrencyDAO jdbcCurrencyDAO;
 
     @Override

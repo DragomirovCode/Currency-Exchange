@@ -4,7 +4,6 @@ import ru.dragomirov.dao.JdbcCurrencyDAO;
 import ru.dragomirov.dao.JdbcExchangeRateDAO;
 import ru.dragomirov.entities.Currency;
 import ru.dragomirov.entities.ExchangeRate;
-import ru.dragomirov.exceptions.BaseServlet;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,7 +19,7 @@ import java.util.Optional;
  * @doPost: Добавление нового обменного курса в базу.
  */
 @WebServlet(name = "ExchangeRateListAndCreateServlet", urlPatterns = "/exchangeRates")
-public class ExchangeRateListAndCreateServlet extends BaseServlet {
+public class ExchangeRateListAndCreateServlet extends HttpErrorHandlingServlet {
     private JdbcExchangeRateDAO jdbcExchangeRateDAO;
     private JdbcCurrencyDAO jdbcCurrencyDAO;
 
