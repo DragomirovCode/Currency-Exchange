@@ -1,6 +1,0 @@
-CREATE TABLE Currency (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    code VARCHAR(3) UNIQUE,
-    full_name VARCHAR(100) UNIQUE,
-    sign VARCHAR(5)
-);
