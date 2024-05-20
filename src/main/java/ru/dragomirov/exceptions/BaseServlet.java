@@ -3,12 +3,11 @@ package ru.dragomirov.exceptions;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class BaseServlet extends HttpServlet {
-    private Map<Integer, ErrorHandler> errorHandlers = new HashMap();
+    private final Map<Integer, ErrorHandler> errorHandlers = new HashMap<>();
 
     {
         errorHandlers.put(400, new Http400ErrorHandler());
@@ -24,14 +23,5 @@ public abstract class BaseServlet extends HttpServlet {
         } else {
             System.err.println("Обработчик ошибок не найден для кода ошибки: " + errorCode);
         }
-    }
-    protected BigDecimal parseBigDecimal(String string) {
-        BigDecimal rate = null;
-        try {
-            rate = new BigDecimal(string);
-        } catch (NumberFormatException e) {
-            System.err.println("Произошла ошибка при выполнении метода 'parseBigDecimal': " + e.getMessage());
-        }
-        return rate;
     }
 }
