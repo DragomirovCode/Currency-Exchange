@@ -73,7 +73,8 @@ rate=0.32
 
 ### GetExchangeCalculationRequest | AB
 ### http200 - Успех
-GET http://localhost:8080/exchange?from=USD&to=EUR&amount=10
+### "rate": 0.85, "amount": 100, "convertedAmount": 85.00
+GET http://localhost:8080/exchange?from=USD&to=EUR&amount=100
 Accept: application/json
 
 ### GetExchangeCalculationRequest | AB
@@ -84,4 +85,20 @@ Accept: application/json
 ### GetExchangeCalculationRequest | AB
 ### http404Errors - Валютная пара отсутствует в базе данных
 GET http://localhost:8080/exchange?from=Errors&to=EUR&amount=100
+Accept: application/json
+
+### GetExchangeCalculationRequest | BA
+### http200 - Успех
+### "rate": 1.176471, "amount": 100, "convertedAmount": 117.647100
+GET http://localhost:8080/exchange?from=EUR&to=USD&amount=100
+Accept: application/json
+
+### GetExchangeCalculationRequest | BA
+### http400Errors - Отсутствует нужное поле формы
+GET http://localhost:8080/exchange?from=EUR&to=USD&amount=
+Accept: application/json
+
+### GetExchangeCalculationRequest | BA
+### http404Errors - Валютная пара отсутствует в базе данных
+GET http://localhost:8080/exchange?from=EUR&to=Errors&amount=100
 Accept: application/json
