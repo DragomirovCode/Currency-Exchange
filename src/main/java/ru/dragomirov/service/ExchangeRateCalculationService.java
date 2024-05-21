@@ -55,13 +55,15 @@ public class ExchangeRateCalculationService {
         if (exchangeRate.isPresent()) {
             return exchangeRate.get();
         } else {
-            Optional<ExchangeRate> reverseExchangeRate = jdbcExchangeRateDAO.findByCurrencyPair(toCurrency.getId(), fromCurrency.getId());
-            if (reverseExchangeRate.isPresent()) {
-                // Взять обратное значение обменного курса
-                BigDecimal reverseRate = BigDecimal.ONE.divide(reverseExchangeRate.get().getRate(), NUM_DECIMAL_PLACES, BigDecimal.ROUND_HALF_UP);
-                return new ExchangeRate(fromCurrency, toCurrency, reverseRate);
+           return currencyRateBA(toCurrency, fromCurrency);
+        }
+    }
 
-            }
+    private ExchangeRate currencyRateBA(Currency fromCurrency, Currency toCurrency) {
+        Optional<ExchangeRate> reverseExchangeRate = jdbcExchangeRateDAO.findByCurrencyPair(toCurrency.getId(), fromCurrency.getId());
+        if (reverseExchangeRate.isPresent()) {
+            BigDecimal reverseRate = BigDecimal.ONE.divide(reverseExchangeRate.get().getRate(), NUM_DECIMAL_PLACES, BigDecimal.ROUND_HALF_UP);
+            return new ExchangeRate(fromCurrency, toCurrency, reverseRate);
         }
         return null;
     }
