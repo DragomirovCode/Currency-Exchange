@@ -17,6 +17,7 @@ import java.util.Optional;
  * ExchangeRateCalculationService реализует бизнес-логику ExchangeRateCalculationServlet
  */
 public class ExchangeRateCalculationService {
+    private static final int NUM_DECIMAL_PLACES = 6;
     private JdbcCurrencyDAO jdbcCurrencyDAO;
     private JdbcExchangeRateDAO jdbcExchangeRateDAO;
     private CalculationDTOFactory calculationDTOFactory;
@@ -51,7 +52,18 @@ public class ExchangeRateCalculationService {
 
     private ExchangeRate findExchangeRate(Currency fromCurrency, Currency toCurrency) {
         Optional<ExchangeRate> exchangeRate = jdbcExchangeRateDAO.findByCurrencyPair(fromCurrency.getId(), toCurrency.getId());
-        return exchangeRate.orElse(null);
+        if (exchangeRate.isPresent()) {
+            return exchangeRate.get();
+        } else {
+            Optional<ExchangeRate> reverseExchangeRate = jdbcExchangeRateDAO.findByCurrencyPair(toCurrency.getId(), fromCurrency.getId());
+            if (reverseExchangeRate.isPresent()) {
+                // Взять обратное значение обменного курса
+                BigDecimal reverseRate = BigDecimal.ONE.divide(reverseExchangeRate.get().getRate(), NUM_DECIMAL_PLACES, BigDecimal.ROUND_HALF_UP);
+                return new ExchangeRate(fromCurrency, toCurrency, reverseRate);
+
+            }
+        }
+        return null;
     }
 
     private BigDecimal calculateConvertedAmount(BigDecimal amount, ExchangeRate exchangeRate) {
