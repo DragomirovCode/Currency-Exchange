@@ -55,7 +55,7 @@ public class ExchangeRateCalculationService {
         if (exchangeRate.isPresent()) {
             return exchangeRate.get();
         } else {
-           return currencyRateBA(toCurrency, fromCurrency);
+           return currencyRateBA(fromCurrency, toCurrency);
         }
     }
 
