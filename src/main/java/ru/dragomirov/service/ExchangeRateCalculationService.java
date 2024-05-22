@@ -54,8 +54,10 @@ public class ExchangeRateCalculationService {
         Optional<ExchangeRate> exchangeRate = jdbcExchangeRateDAO.findByCurrencyPair(fromCurrency.getId(), toCurrency.getId());
         if (exchangeRate.isPresent()) {
             return exchangeRate.get();
-        } else {
+        } if (currencyRateBA(fromCurrency, toCurrency) != null) {
            return currencyRateBA(fromCurrency, toCurrency);
+        } else {
+            return crossRate(fromCurrency, toCurrency);
         }
     }
 
@@ -64,6 +66,16 @@ public class ExchangeRateCalculationService {
         if (reverseExchangeRate.isPresent()) {
             BigDecimal reverseRate = BigDecimal.ONE.divide(reverseExchangeRate.get().getRate(), NUM_DECIMAL_PLACES, BigDecimal.ROUND_HALF_UP);
             return new ExchangeRate(fromCurrency, toCurrency, reverseRate);
+        }
+        return null;
+    }
+
+    private ExchangeRate crossRate(Currency fromCurrency, Currency toCurrency) {
+        Optional<ExchangeRate> baseCurrency = jdbcExchangeRateDAO.findByBaseCurrency(fromCurrency.getId());
+        Optional<ExchangeRate> targetCurrency = jdbcExchangeRateDAO.findByTargetCurrency(toCurrency.getId());
+        if (baseCurrency.isPresent() || targetCurrency.isPresent()) {
+            BigDecimal bigDecimal = calculateConvertedAmount(baseCurrency.get().getRate(), targetCurrency.get());
+            return new ExchangeRate(fromCurrency, toCurrency, bigDecimal);
         }
         return null;
     }
