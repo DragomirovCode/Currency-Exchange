@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import ru.dragomirov.utils.CurrencyUtils;
 import ru.dragomirov.utils.MappingUtils;
 
 import java.io.IOException;
@@ -21,10 +22,12 @@ import java.util.stream.Collectors;
 @WebServlet(name = "CurrencyListAndCreateServlet", urlPatterns = "/currencies")
 public class CurrencyListAndCreateServlet extends HttpErrorHandlingServlet {
     private JdbcCurrencyDAO jdbcCurrencyDAO;
+    private CurrencyUtils currencyUtils;
 
     @Override
     public void init() {
         this.jdbcCurrencyDAO = new JdbcCurrencyDAO();
+        this.currencyUtils = new CurrencyUtils();
     }
 
     @Override
@@ -54,6 +57,11 @@ public class CurrencyListAndCreateServlet extends HttpErrorHandlingServlet {
 
             if (name.isEmpty() || code.isEmpty() || sign.isEmpty()) {
                 handleError(400, resp, "Отсутствует нужное поле формы");
+                return;
+            }
+
+            if (!currencyUtils.searchCurrency(code, sign)) {
+                handleError(400, resp, "Валюта с кодом " + code + " и символом " + sign + " не существует");
                 return;
             }
 
