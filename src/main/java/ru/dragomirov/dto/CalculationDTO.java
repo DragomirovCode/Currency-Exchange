@@ -2,7 +2,6 @@ package ru.dragomirov.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import ru.dragomirov.entities.Currency;
 
 import java.math.BigDecimal;
 
