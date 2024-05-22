@@ -18,15 +18,6 @@ public class JdbcCurrencyDAO implements CurrencyDAO {
     private static final String SAVE_QUERY = "INSERT INTO Currency (code, full_name, sign) VALUES (?, ?, ?)";
     private static final String UPDATE_QUERY = "UPDATE Currency SET code=?, full_name=?, sign=? WHERE id=?";
     private static final String DELETE_QUERY = "DELETE FROM Currency WHERE id=?";
-    private final Connection connection;
-
-    public JdbcCurrencyDAO() {
-        try {
-            this.connection = ConnectionUtils.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     private Currency mapResultSetToCurrency(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
@@ -41,7 +32,8 @@ public class JdbcCurrencyDAO implements CurrencyDAO {
 
     @Override
     public void save(Currency entity) {
-        try (PreparedStatement statement = this.connection.prepareStatement(SAVE_QUERY)) {
+        try (Connection connection = ConnectionUtils.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SAVE_QUERY)) {
             statement.setString(1, entity.getCode());
             statement.setString(2, entity.getFullName());
             statement.setString(3, entity.getSign());
@@ -54,7 +46,8 @@ public class JdbcCurrencyDAO implements CurrencyDAO {
     @Override
     public Optional<Currency> findById(Integer id) {
         Currency currency = null;
-        try (PreparedStatement statement = this.connection.prepareStatement(FIND_BY_ID_QUERY)) {
+        try (Connection connection = ConnectionUtils.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_BY_ID_QUERY)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -71,7 +64,8 @@ public class JdbcCurrencyDAO implements CurrencyDAO {
     @Override
     public List<Currency> findAll() {
         List<Currency> currencies = new ArrayList<>();
-        try (PreparedStatement statement = this.connection.prepareStatement(FIND_ALL_QUERY);
+        try (Connection connection = ConnectionUtils.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 Currency currency = mapResultSetToCurrency(resultSet);
@@ -85,7 +79,8 @@ public class JdbcCurrencyDAO implements CurrencyDAO {
 
     @Override
     public Optional<Currency> update(Currency entity) {
-        try (PreparedStatement statement = this.connection.prepareStatement(UPDATE_QUERY)) {
+        try (Connection connection = ConnectionUtils.getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
             statement.setString(1, entity.getCode());
             statement.setString(2, entity.getFullName());
             statement.setString(3, entity.getSign());
@@ -100,7 +95,8 @@ public class JdbcCurrencyDAO implements CurrencyDAO {
 
     @Override
     public void delete(Integer id) {
-        try (PreparedStatement statement = this.connection.prepareStatement(DELETE_QUERY)) {
+        try (Connection connection = ConnectionUtils.getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -111,7 +107,8 @@ public class JdbcCurrencyDAO implements CurrencyDAO {
     @Override
     public Optional<Currency> findByCode(String code) {
         Currency currency = null;
-        try (PreparedStatement statement = this.connection.prepareStatement(FIND_BY_CODE_QUERY)) {
+        try (Connection connection = ConnectionUtils.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_BY_CODE_QUERY)) {
             statement.setString(1, code);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {

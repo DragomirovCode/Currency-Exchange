@@ -23,15 +23,9 @@ public class JdbcExchangeRateDAO implements ExchangeRateDAO {
     private static final String UPDATE_QUERY = "UPDATE ExchangeRates SET base_currency_id=?, target_currency_id=?, rate=? WHERE id=?";
     private static final String DELETE_QUERY = "DELETE FROM ExchangeRates WHERE id=?";
     private final JdbcCurrencyDAO jdbcCurrencyDAO;
-    private final Connection connection;
 
     public JdbcExchangeRateDAO() {
-        try {
-            this.connection = ConnectionUtils.getConnection();
-            this.jdbcCurrencyDAO = new JdbcCurrencyDAO();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        this.jdbcCurrencyDAO = new JdbcCurrencyDAO();
     }
 
     private ExchangeRate mapResultSetToExchangeRate(ResultSet resultSet) throws SQLException {
@@ -56,7 +50,8 @@ public class JdbcExchangeRateDAO implements ExchangeRateDAO {
 
     @Override
     public void save(ExchangeRate entity) {
-        try (PreparedStatement statement = this.connection.prepareStatement(SAVE_QUERY)) {
+        try (Connection connection = ConnectionUtils.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SAVE_QUERY)) {
             statement.setInt(1, entity.getBaseCurrency().getId());
             statement.setInt(2, entity.getTargetCurrency().getId());
             statement.setBigDecimal(3, entity.getRate());
@@ -69,7 +64,8 @@ public class JdbcExchangeRateDAO implements ExchangeRateDAO {
     @Override
     public Optional<ExchangeRate> findById(Integer id) {
         ExchangeRate exchangeRate = null;
-        try (PreparedStatement statement = this.connection.prepareStatement(FIND_BY_ID_QUERY)) {
+        try (Connection connection = ConnectionUtils.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_BY_ID_QUERY)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -86,7 +82,8 @@ public class JdbcExchangeRateDAO implements ExchangeRateDAO {
     @Override
     public List<ExchangeRate> findAll() {
         List<ExchangeRate> exchangeRates = new ArrayList<>();
-        try (PreparedStatement statement = this.connection.prepareStatement(FIND_ALL_QUERY);
+        try (Connection connection = ConnectionUtils.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL_QUERY);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 ExchangeRate exchangeRate = mapResultSetToExchangeRate(resultSet);
@@ -100,7 +97,8 @@ public class JdbcExchangeRateDAO implements ExchangeRateDAO {
 
     @Override
     public Optional<ExchangeRate> update(ExchangeRate entity) {
-        try (PreparedStatement statement = this.connection.prepareStatement(UPDATE_QUERY)) {
+        try (Connection connection = ConnectionUtils.getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
             statement.setInt(1, entity.getBaseCurrency().getId());
             statement.setInt(2, entity.getTargetCurrency().getId());
             statement.setBigDecimal(3, entity.getRate());
@@ -115,7 +113,8 @@ public class JdbcExchangeRateDAO implements ExchangeRateDAO {
 
     @Override
     public void delete(Integer id) {
-        try (PreparedStatement statement = this.connection.prepareStatement(DELETE_QUERY)) {
+        try (Connection connection = ConnectionUtils.getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -126,7 +125,8 @@ public class JdbcExchangeRateDAO implements ExchangeRateDAO {
     @Override
     public Optional<ExchangeRate> findByCurrencyPair(int baseCurrencyCode, int targetCurrencyCode) {
         ExchangeRate exchangeRate = null;
-        try (PreparedStatement statement = this.connection.prepareStatement(FIND_BY_CURRENCY_PAIR_QUERY)) {
+        try (Connection connection = ConnectionUtils.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_BY_CURRENCY_PAIR_QUERY)) {
             statement.setInt(1, baseCurrencyCode);
             statement.setInt(2, targetCurrencyCode);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -144,7 +144,8 @@ public class JdbcExchangeRateDAO implements ExchangeRateDAO {
     @Override
     public Optional<ExchangeRate> findByBaseCurrency(int baseCurrencyCode) {
         ExchangeRate exchangeRate = null;
-        try (PreparedStatement statement = this.connection.prepareStatement(FIND_BY_BASE_CURRENCY_QUERY)) {
+        try (Connection connection = ConnectionUtils.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_BY_BASE_CURRENCY_QUERY)) {
             statement.setInt(1, baseCurrencyCode);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -161,7 +162,8 @@ public class JdbcExchangeRateDAO implements ExchangeRateDAO {
     @Override
     public Optional<ExchangeRate> findByTargetCurrency(int targetCurrencyCode) {
         ExchangeRate exchangeRate = null;
-        try (PreparedStatement statement = this.connection.prepareStatement(FIND_BY_TARGET_CURRENCY_QUERY)) {
+        try (Connection connection = ConnectionUtils.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_BY_TARGET_CURRENCY_QUERY)) {
             statement.setInt(1, targetCurrencyCode);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
