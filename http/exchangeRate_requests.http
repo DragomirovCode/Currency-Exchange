@@ -102,3 +102,19 @@ Accept: application/json
 ### http404Errors - Валютная пара отсутствует в базе данных
 GET http://localhost:8080/exchange?from=EUR&to=Errors&amount=100
 Accept: application/json
+
+### GetExchangeCalculationRequest | crossRate
+### http200 - Успех
+### "rate": 110.7805, "amount": 100, "convertedAmount": 11078.0500
+GET http://localhost:8080/exchange?from=USD&to=JPY&amount=100
+Accept: application/json
+
+### GetExchangeCalculationRequest | crossRate
+### http400Errors - Отсутствует нужное поле формы
+GET http://localhost:8080/exchange?from=USD&to=JPY&amount=
+Accept: application/json
+
+### GetExchangeCalculationRequest | crossRate
+### http404Errors - Валютная пара отсутствует в базе данных
+GET http://localhost:8080/exchange?from=Errors&to=JPY&amount=100
+Accept: application/json
